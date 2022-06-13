@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "context": "^2.0.6",
+    "dotenv": "^16.0.1",
     "next": "12.1.6",
+    "plaid": "^10.5.0",
+    "plaid-threads": "^11.5.0",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "sass": "^1.52.3",
+    "sass-loader": "^13.0.0"
   },
   "devDependencies": {
     "@types/node": "17.0.42",
