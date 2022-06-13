@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "plaid-threads/Button";
 import Note from "plaid-threads/Note";
 
@@ -7,6 +7,7 @@ import Error from "../Error";
 import { DataItem, Categories, ErrorDataItem, Data } from "../../dataUtilities";
 
 import styles from "./index.module.scss";
+import Context from "../../Context";
 
 interface Props {
   endpoint: string;
@@ -24,12 +25,20 @@ const Endpoint = (props: Props) => {
   const [error, setError] = useState<ErrorDataItem | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { accessToken } = useContext(Context);
+console.log(accessToken)
   const getData = async () => {
-    setIsLoading(true); //TODO: 12. an endpoint requesting data 
-    const response = await fetch(`/api/Plaid/${props.endpoint}`, { method: "GET" });
+    setIsLoading(true); //TODO: 12. an endpoint requesting data
+    const response = await fetch(`/api/Plaid/${props.endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: `accessToken=${accessToken}`,
+    });
     const data = await response.json();
-    console.log(data)
-    console.log("12. an endpoint requesting data ")
+    console.log(data);
+    console.log("12. an endpoint requesting data ");
     if (data.error != null) {
       setError(data.error);
       setIsLoading(false);

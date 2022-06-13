@@ -10,7 +10,6 @@ console.log(linkToken)
     (public_token: string) => {
       //TODO: 9. taking public token to receive an access token through plaid api
       // send public_token to server
-      const token = `public_token=${public_token}`
       const setToken = async () => {
         //TODO: 10. api request for access token
         const response = await fetch("/api/Plaid/set_access_token", {

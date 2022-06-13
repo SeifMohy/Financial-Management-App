@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect } from "react";
-import Header from "../Components/Headers";
-import Items from "../Components/ProductTypes/Items";
-import Products from "../Components/ProductTypes/Products";
+import Header from "../PlaidComponents/Headers";
+import Items from "../PlaidComponents/ProductTypes/Items";
+import Products from "../PlaidComponents/ProductTypes/Products";
 import Context from "../Context";
 
 const AddingABank = () => {

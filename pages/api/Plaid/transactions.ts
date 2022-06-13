@@ -25,10 +25,6 @@ const configuration = new Configuration({
     },
   },
 });
-const {
-    accessToken,
-  } = useContext(Context);
-  console.log(accessToken)
 
 const client = new PlaidApi(configuration);
 
@@ -51,12 +47,15 @@ export default async function (
       let hasMore = true;
       // Iterate through each page of new transaction updates for item
       while (hasMore) {
-        const request: any = {
-          access_token: accessToken? accessToken: "",
+
+        const {accessToken} = request.body
+        console.log(accessToken)
+        const send: any = {
+          access_token: accessToken,
           cursor: cursor,
         };
 
-        const response = await client.transactionsSync(request);
+        const response = await client.transactionsSync(send);
         const data = response.data;
         // Add this page of results
         added = added.concat(data.added);
