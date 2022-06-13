@@ -16,19 +16,13 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { useRouter } from 'next/router';
 
 const navigation = [
-  { name: "Home", href: "#", icon: HomeIcon, current: true },
-  { name: "History", href: "#", icon: ClockIcon, current: false },
-  { name: "Balances", href: "#", icon: ScaleIcon, current: false },
-  { name: "Cards", href: "#", icon: CreditCardIcon, current: false },
-  { name: "Recipients", href: "#", icon: UserGroupIcon, current: false },
-  { name: "Reports", href: "#", icon: DocumentReportIcon, current: false },
-];
-const secondaryNavigation = [
-  { name: "Settings", href: "#", icon: CogIcon },
-  { name: "Help", href: "#", icon: QuestionMarkCircleIcon },
-  { name: "Privacy", href: "#", icon: ShieldCheckIcon },
+  { name: "Dashboard", href: "/Dashboard", icon: HomeIcon},
+  { name: "Transaction History", href: "/TransactionHistory", icon: ClockIcon},
+  { name: "Transfers", href: "/Transfer", icon: ScaleIcon},
+  { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon},
 ];
 
 function classNames(...classes: any) {
@@ -42,6 +36,7 @@ type Props = {
 
 const Layout: React.FC<Props>  = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div>
@@ -114,12 +109,11 @@ const Layout: React.FC<Props>  = ({ children }) => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                            router.pathname === `${item.href}`
                             ? "bg-cyan-800 text-white"
                             : "text-cyan-100 hover:text-white hover:bg-cyan-600",
                           "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                         )}
-                        aria-current={item.current ? "page" : undefined}
                       >
                         <item.icon
                           className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
@@ -130,21 +124,6 @@ const Layout: React.FC<Props>  = ({ children }) => {
                     ))}
                   </div>
                   <div className="mt-6 pt-6">
-                    <div className="px-2 space-y-1">
-                      {secondaryNavigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600"
-                        >
-                          <item.icon
-                            className="mr-4 h-6 w-6 text-cyan-200"
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      ))}
-                    </div>
                   </div>
                 </nav>
               </Dialog.Panel>
@@ -176,13 +155,11 @@ const Layout: React.FC<Props>  = ({ children }) => {
                   key={item.name}
                   href={item.href}
                   className={classNames(
-                    item.current
+                    router.pathname === `${item.href}`
                       ? "bg-cyan-800 text-white"
                       : "text-cyan-100 hover:text-white hover:bg-cyan-600",
                     "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
-                  )}
-                  aria-current={item.current ? "page" : undefined}
-                >
+                  )}                >
                   <item.icon
                     className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
                     aria-hidden="true"
@@ -192,21 +169,6 @@ const Layout: React.FC<Props>  = ({ children }) => {
               ))}
             </div>
             <div className="mt-6 pt-6">
-              <div className="px-2 space-y-1">
-                {secondaryNavigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-cyan-100 hover:text-white hover:bg-cyan-600"
-                  >
-                    <item.icon
-                      className="mr-4 h-6 w-6 text-cyan-200"
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
-              </div>
             </div>
           </nav>
         </div>
