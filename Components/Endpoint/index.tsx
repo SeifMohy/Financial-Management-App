@@ -26,8 +26,9 @@ const Endpoint = (props: Props) => {
 
   const getData = async () => {
     setIsLoading(true); //TODO: 12. an endpoint requesting data 
-    const response = await fetch(`/api/${props.endpoint}`, { method: "GET" });
+    const response = await fetch(`/api/Plaid/${props.endpoint}`, { method: "GET" });
     const data = await response.json();
+    console.log(data)
     console.log("12. an endpoint requesting data ")
     if (data.error != null) {
       setError(data.error);

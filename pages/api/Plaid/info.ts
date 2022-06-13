@@ -1,4 +1,3 @@
-import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 let ITEM_ID: null | any = null;

@@ -45,7 +45,7 @@ console.log(linkToken)
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/");
+      window.history.pushState("", "", "/AddingABank"); //TODO: send somewhere other than home page
     },
     [dispatch]
   );
