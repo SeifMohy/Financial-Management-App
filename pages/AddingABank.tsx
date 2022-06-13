@@ -3,6 +3,7 @@ import Header from "../PlaidComponents/Headers";
 import Items from "../PlaidComponents/ProductTypes/Items";
 import Products from "../PlaidComponents/ProductTypes/Products";
 import Context from "../Context";
+import Layout from "../Components/Layout";
 
 const AddingABank = () => {
   const { linkSuccess, isItemAccess, dispatch } = useContext(Context); //TODO: type error
@@ -66,6 +67,7 @@ const AddingABank = () => {
   }, [dispatch, generateToken, getInfo]);
 
   return (
+    <Layout>
     <div>
       <div>
         <Header />
@@ -77,6 +79,7 @@ const AddingABank = () => {
         )}
       </div>
     </div>
+    </Layout>
   );
 };
 
