@@ -1,11 +1,48 @@
-import React from 'react'
+import React from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-
+import { useUser } from "@supabase/supabase-auth-helpers/react";
+import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
+  const { user } = useUser();
+  const router = useRouter();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const signUpWithEmail = async () => {
+    const { user, session, error } = await supabase.auth.signUp(
+      {
+        email: "example@email.com",
+        password: "example-password",
+      },
+      {
+        data: {
+          name: "John",
+        },
+      }
+    );
+    router.push("/dashboard");
+    console.log({ user, session, error });
+  };
+  // const signUpWithGoogle = async () => {
+  //   const { user, session, error } = await supabase.auth.signUp(
+  //     {
+  //       provider: "google",
+  //     },
+  //     {
+  //       data: {
+  //         name: "John",
+  //       },
+  //     }
+  //   );
+  //   router.push("/dashboard");
+  //   console.log({ user, session, error });
+  // };
   return (
     <div>
-              <>
+      <>
         <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-md w-full space-y-8">
             <div>
@@ -30,7 +67,7 @@ const SignUp = () => {
             <form className="mt-8 space-y-6" action="#" method="POST">
               <input type="hidden" name="remember" defaultValue="true" />
               <div className="rounded-md shadow-sm -space-y-px">
-              <div>
+                <div>
                   <label htmlFor="email-address" className="sr-only">
                     Name
                   </label>
@@ -93,7 +130,7 @@ const SignUp = () => {
         </div>
       </>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
