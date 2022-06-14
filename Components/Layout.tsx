@@ -1,29 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   BellIcon,
   ClockIcon,
-  CogIcon,
   CreditCardIcon,
-  DocumentReportIcon,
   HomeIcon,
   MenuAlt1Icon,
-  QuestionMarkCircleIcon,
   ScaleIcon,
-  ShieldCheckIcon,
-  UserGroupIcon,
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
+import { createClient } from "@supabase/supabase-js";
 
 const navigation = [
-  { name: "Dashboard", href: "/Dashboard", icon: HomeIcon},
-  { name: "Transaction History", href: "/TransactionHistory", icon: ClockIcon},
-  { name: "Transfers", href: "/Transfer", icon: ScaleIcon},
-  { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon},
+  { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },
+  { name: "Transaction History", href: "/TransactionHistory", icon: ClockIcon },
+  { name: "Transfers", href: "/Transfer", icon: ScaleIcon },
+  { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon },
 ];
 
 function classNames(...classes: any) {
@@ -32,14 +28,32 @@ function classNames(...classes: any) {
 }
 
 type Props = {
-    children: React.ReactNode;
-  };
+  children: React.ReactNode;
+};
 
-
-const Layout: React.FC<Props>  = ({ children }) => {
+const Layout: React.FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
   const { user } = useUser();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || " "
+  );
+  const signOutNow = async () => {
+    await supabase.auth.signOut();
+    router.push("/SignIn");
+  };
+
+  // const getFullUser = useCallback(async () => {
+  //   if (!user) {
+  //     console.log(user)
+  //     router.push("/SignIn");
+  //   }
+  // }, [router, user]);
+
+  // useEffect(() => {
+  //   getFullUser();
+  // }, []);
 
   return (
     <div>
@@ -84,7 +98,7 @@ const Layout: React.FC<Props>  = ({ children }) => {
                   <div className="absolute top-0 right-0 -mr-12 pt-2">
                     <button
                       type="button"
-                      className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                      className="ml-1 relative flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                       onClick={() => setSidebarOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
@@ -112,7 +126,7 @@ const Layout: React.FC<Props>  = ({ children }) => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                            router.pathname === `${item.href}`
+                          router.pathname === `${item.href}`
                             ? "bg-cyan-800 text-white"
                             : "text-cyan-100 hover:text-white hover:bg-cyan-600",
                           "group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -126,8 +140,7 @@ const Layout: React.FC<Props>  = ({ children }) => {
                       </a>
                     ))}
                   </div>
-                  <div className="mt-6 pt-6">
-                  </div>
+                  <div className="mt-6 pt-6"></div>
                 </nav>
               </Dialog.Panel>
             </Transition.Child>
@@ -162,7 +175,8 @@ const Layout: React.FC<Props>  = ({ children }) => {
                       ? "bg-cyan-800 text-white"
                       : "text-cyan-100 hover:text-white hover:bg-cyan-600",
                     "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
-                  )}                >
+                  )}
+                >
                   <item.icon
                     className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
                     aria-hidden="true"
@@ -171,8 +185,7 @@ const Layout: React.FC<Props>  = ({ children }) => {
                 </a>
               ))}
             </div>
-            <div className="mt-6 pt-6">
-            </div>
+            <div className="mt-6 pt-6"></div>
           </nav>
         </div>
       </div>
@@ -225,55 +238,23 @@ const Layout: React.FC<Props>  = ({ children }) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Your Profile
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Settings
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
+                <Menu.Items className="origin-top-right z-50 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <button
+                        type="button"
+                        onClick={() => signOutNow()}
+                        className="px-4 py-2 text-sm text-gray-700 z-50"
                       >
                         Logout
-                      </a>
-                    )}
-                  </Menu.Item>
+                      </button>
                 </Menu.Items>
               </Transition>
             </Menu>
           </div>
         </div>
       </div>
-      <main className="lg:relative lg:left-60 p-5 lg:p-10 lg:w-4/5">
-          <div>{children}</div>
-        </main>
+      <main className="lg:absolute lg:z-0 lg:left-60 p-5 lg:px-10 lg:w-4/5">
+        <div>{children}</div>
+      </main>
     </div>
   );
 };
