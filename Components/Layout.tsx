@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from 'next/router';
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 
 const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon},
@@ -34,9 +35,11 @@ type Props = {
     children: React.ReactNode;
   };
 
+
 const Layout: React.FC<Props>  = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const { user } = useUser();
 
   return (
     <div>

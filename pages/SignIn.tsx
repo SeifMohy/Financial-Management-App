@@ -1,24 +1,30 @@
 import React from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useUser } from '@supabase/supabase-auth-helpers/react';
-import { createClient } from '@supabase/supabase-js';
+import { useUser } from "@supabase/supabase-auth-helpers/react";
+import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+import { useFormik } from "formik";
+
+export type SignInInfo= {
+  email: string,
+  password: string,
+}
 
 const SignIn = () => {
-  const { user } = useUser();
+  // const { user } = useUser();
   // const { fullUser } = useAppSelector(authState);
   // const dispatch = useAppDispatch();
   const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || " "
   );
   const router = useRouter();
-  const loginWithEmail = async () => {
+  const loginWithEmail = async (values: SignInInfo) => {
     const { user, session, error } = await supabase.auth.signIn({
-      email: 'example@email.com',
-      password: 'example-password',
+      email: values.email,
+      password: values.password,
     });
-    router.push('/dashboard');
+    router.push("/Dashboard");
     console.log({ user, session, error });
   };
   // const loginWithGoogle = async () => {
@@ -29,8 +35,20 @@ const SignIn = () => {
   //   console.log({ user, session, error });
   // };
 
-  console.log({ user });
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
+  const formik = useFormik({
+    initialValues: initialValues,
+    // enableReinitialize: true,
+    onSubmit: async (values: SignInInfo, resetForm: any) => {
+      console.log(values);
+      loginWithEmail(values)
+      resetForm();
+    },
+  });
   return (
     <div>
       <>
@@ -70,6 +88,7 @@ const SignIn = () => {
                     required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
+                    onChange={formik.handleChange}
                   />
                 </div>
                 <div>
@@ -84,6 +103,7 @@ const SignIn = () => {
                     required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
+                    onChange={formik.handleChange}
                   />
                 </div>
               </div>
@@ -118,6 +138,10 @@ const SignIn = () => {
                 <button
                   type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    formik.handleSubmit();
+                  }}
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     <LockClosedIcon
