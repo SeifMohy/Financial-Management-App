@@ -14,6 +14,7 @@ interface QuickstartState {
     error_code: string;
     error_type: string;
   };
+  supabaseAccessToken: string;
 }
 
 const initialState: QuickstartState = {
@@ -30,6 +31,7 @@ const initialState: QuickstartState = {
     error_code: "",
     error_message: "",
   },
+  supabaseAccessToken: "",
 };
 
 type QuickstartAction = {

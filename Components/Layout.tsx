@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
@@ -12,7 +12,6 @@ import {
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
 import { createClient } from "@supabase/supabase-js";
 
 const navigation = [
@@ -34,7 +33,6 @@ type Props = {
 const Layout: React.FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
-  const { user } = useUser();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || " "
@@ -44,16 +42,14 @@ const Layout: React.FC<Props> = ({ children }) => {
     router.push("/SignIn");
   };
 
-  // const getFullUser = useCallback(async () => {
-  //   if (!user) {
-  //     console.log(user)
-  //     router.push("/SignIn");
-  //   }
-  // }, [router, user]);
-
-  // useEffect(() => {
-  //   getFullUser();
-  // }, []);
+  useEffect(() => {
+    const userAuth: string | null = JSON.parse(
+      localStorage.getItem("supabase.auth.token")
+    ); //TODO: fix type
+    if (!userAuth) {
+      router.push("/SignIn");
+    }
+  }, []);
 
   return (
     <div>
@@ -239,13 +235,13 @@ const Layout: React.FC<Props> = ({ children }) => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="origin-top-right z-50 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <button
-                        type="button"
-                        onClick={() => signOutNow()}
-                        className="px-4 py-2 text-sm text-gray-700 z-50"
-                      >
-                        Logout
-                      </button>
+                  <button
+                    type="button"
+                    onClick={() => signOutNow()}
+                    className="px-4 py-2 text-sm text-gray-700 z-50"
+                  >
+                    Logout
+                  </button>
                 </Menu.Items>
               </Transition>
             </Menu>

@@ -32,6 +32,7 @@ const SignUp = () => {
     );
     router.push("/Dashboard");
     console.log({ user, session, error });
+    
   };
   // const signUpWithGoogle = async () => {
   //   const { user, session, error } = await supabase.auth.signUp(
