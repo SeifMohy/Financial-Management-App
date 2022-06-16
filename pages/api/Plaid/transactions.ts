@@ -49,7 +49,7 @@ export default async function (
       while (hasMore) {
 
         const {accessToken} = request.body
-        console.log(accessToken)
+        // console.log(accessToken)
         const send: any = {
           access_token: accessToken,
           cursor: cursor,

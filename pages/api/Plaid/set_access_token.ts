@@ -34,14 +34,14 @@ export default async function (
   //TODO: 11. the api call that creates access_token
 
   const { public_token } = request.body;
-  console.log(public_token);
+  // console.log(public_token);
 
   Promise.resolve()
     .then(async function () {
       const tokenResponse = await client.itemPublicTokenExchange({
         public_token,
       });
-      console.log(tokenResponse);
+      // console.log(tokenResponse);
       ACCESS_TOKEN = tokenResponse.data.access_token;
       ITEM_ID = tokenResponse.data.item_id;
 

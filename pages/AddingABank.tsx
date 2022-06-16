@@ -35,7 +35,7 @@ const AddingABank = () => {
         return;
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (data) {
         //TODO: 6. this is the link sent from plaid
         dispatch({ type: "SET_STATE", state: { linkToken: data.link_token } });
@@ -51,7 +51,7 @@ const AddingABank = () => {
       const { paymentInitiation } = await getInfo(); // used to determine which path to take when generating token
       // do not generate a new token for OAuth redirect; instead
       // setLinkToken from localStorage
-      console.log(paymentInitiation);
+      // console.log(paymentInitiation);
       if (window.location.href.includes("?oauth_state_id=")) {
         dispatch({
           type: "SET_STATE",

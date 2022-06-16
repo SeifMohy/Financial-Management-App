@@ -32,22 +32,8 @@ const SignUp = () => {
     );
     router.push("/Dashboard");
     console.log({ user, session, error });
-    
+
   };
-  // const signUpWithGoogle = async () => {
-  //   const { user, session, error } = await supabase.auth.signUp(
-  //     {
-  //       provider: "google",
-  //     },
-  //     {
-  //       data: {
-  //         name: "John",
-  //       },
-  //     }
-  //   );
-  //   router.push("/dashboard");
-  //   console.log({ user, session, error });
-  // };
 
   const initialValues = {
     email: "",

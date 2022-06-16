@@ -5,7 +5,7 @@ import Context from "../Context";
 
 const Link = () => {
   const { linkToken, dispatch } = useContext(Context);
-console.log(linkToken)
+// console.log(linkToken)
   const onSuccess = React.useCallback(
     (public_token: string) => {
       //TODO: 9. taking public token to receive an access token through plaid api
@@ -19,7 +19,7 @@ console.log(linkToken)
           },
           body: `public_token=${public_token}`,
         });
-        console.log(response);
+        // console.log(response);
         if (!response.ok) {
           dispatch({
             type: "SET_STATE",
@@ -32,7 +32,7 @@ console.log(linkToken)
           return;
         }
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         dispatch({
           type: "SET_STATE",
           state: {

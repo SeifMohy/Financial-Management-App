@@ -43,7 +43,7 @@ export default async function (request: NextApiRequest, response:NextApiResponse
         language: 'en',
       };
       const createTokenResponse = await client.linkTokenCreate(configs); //TODO: type error
-      console.log(createTokenResponse.data)
+      // console.log(createTokenResponse.data)
       response.json(createTokenResponse.data); //this works
     })
     .catch(next);

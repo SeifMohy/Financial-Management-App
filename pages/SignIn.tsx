@@ -1,39 +1,27 @@
 import React from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 
-export type SignInInfo= {
-  email: string,
-  password: string,
-}
+export type SignInInfo = {
+  email: string;
+  password: string;
+};
 
 const SignIn = () => {
-  // const { user } = useUser();
-  // const { fullUser } = useAppSelector(authState);
-  // const dispatch = useAppDispatch();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || " "
   );
   const router = useRouter();
   const loginWithEmail = async (values: SignInInfo) => {
-    const { user, session, error } = await supabase.auth.signIn({
+    await supabase.auth.signIn({
       email: values.email,
       password: values.password,
     });
     router.push("/Dashboard");
-    console.log({ user, session, error });
   };
-  // const loginWithGoogle = async () => {
-  //   const { user, session, error } = await supabase.auth.signIn({
-  //     provider: 'google'
-  //   });
-  //   router.push('/dashboard');
-  //   console.log({ user, session, error });
-  // };
 
   const initialValues = {
     email: "",
@@ -42,10 +30,8 @@ const SignIn = () => {
 
   const formik = useFormik({
     initialValues: initialValues,
-    // enableReinitialize: true,
     onSubmit: async (values: SignInInfo, resetForm: any) => {
-      console.log(values);
-      loginWithEmail(values)
+      loginWithEmail(values);
       resetForm();
     },
   });

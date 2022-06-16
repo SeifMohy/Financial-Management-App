@@ -57,10 +57,10 @@ export const QuickstartProvider: React.FC<{ children: ReactNode }> = (
   ): QuickstartState => {
     switch (action.type) {
       case "SET_STATE":
-        console.log(state);
+        // console.log(state); //Checking State
         return { ...state, ...action.state };
       default:
-        console.log(state);
+        // console.log(state);
         return { ...state };
     }
   };

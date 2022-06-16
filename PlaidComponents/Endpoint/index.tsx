@@ -26,7 +26,7 @@ const Endpoint = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { accessToken } = useContext(Context);
-console.log(accessToken)
+  // console.log(accessToken)
   const getData = async () => {
     setIsLoading(true); //TODO: 12. an endpoint requesting data
     const response = await fetch(`/api/Plaid/${props.endpoint}`, {
@@ -37,8 +37,8 @@ console.log(accessToken)
       body: `accessToken=${accessToken}`,
     });
     const data = await response.json();
-    console.log(data);
-    console.log("12. an endpoint requesting data ");
+    // console.log(data);
+    // console.log("12. an endpoint requesting data ");
     if (data.error != null) {
       setError(data.error);
       setIsLoading(false);
