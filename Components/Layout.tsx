@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
@@ -13,6 +13,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
+import Context from "../Context";
 
 const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },
@@ -32,6 +33,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { dispatch, userInfo } = useContext(Context);
   const router = useRouter();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
@@ -48,6 +50,11 @@ const Layout: React.FC<Props> = ({ children }) => {
     );
     if (!userAuth) {
       router.push("/SignIn");
+    } else {
+      dispatch({
+        type: "SET_STATE",
+        state: { userInfo: userAuth },
+      });
     }
   }, []);
 
@@ -217,7 +224,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                   />
                   <span className="hidden ml-3 text-gray-700 text-sm font-medium lg:block">
                     <span className="sr-only">Open user menu for </span>
-                    Emilia Birch
+                    {userInfo.currentSession?.user.user_metadata.name}
                   </span>
                   <ChevronDownIcon
                     className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"

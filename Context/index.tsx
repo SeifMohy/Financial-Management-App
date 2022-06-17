@@ -14,7 +14,7 @@ interface QuickstartState {
     error_code: string;
     error_type: string;
   };
-  supabaseAccessToken: string;
+  userInfo: any; //TODO: This type complicated (token session and everything else)
 }
 
 const initialState: QuickstartState = {
@@ -31,7 +31,7 @@ const initialState: QuickstartState = {
     error_code: "",
     error_message: "",
   },
-  supabaseAccessToken: "",
+  userInfo: {},
 };
 
 type QuickstartAction = {
