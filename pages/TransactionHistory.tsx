@@ -5,7 +5,7 @@ const transactions = [
   {
     id: "oapfjpaodijfpoaijsdf",
     date: "30/12/2020",
-    amount: "$3,509.00",
+    amount: "3,509.00",
     description: "Ahmed ",
     category: "Sales",
     bank: "Chase",
@@ -17,7 +17,7 @@ const TransactionHistory = () => {
   return (
     <Layout>
       <div>
-        <div className="mt-8 flex flex-col">
+        <div className="mt-1 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -59,11 +59,11 @@ const TransactionHistory = () => {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {transactions.map((transaction) => (
                       <tr key={transaction.id}>
-                        <td className="whitespace-nowrap py-2 text-sm text-gray-500 sm:pl-6">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 sm:pl-6">
                           {transaction.date}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                          {transaction.amount}
+                          EGP {transaction.amount}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.description}
