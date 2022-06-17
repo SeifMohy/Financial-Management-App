@@ -1,9 +1,9 @@
 import React from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { useUser } from "@supabase/supabase-auth-helpers/react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
+import axios from "axios";
 
 export type SignUpInfo = {
   email: string;
@@ -12,7 +12,6 @@ export type SignUpInfo = {
 };
 
 const SignUp = () => {
-  // const { user } = useUser();
   const router = useRouter();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL! || " ",
@@ -30,9 +29,13 @@ const SignUp = () => {
         },
       }
     );
-    router.push("/Dashboard");
-    console.log({ user, session, error });
-
+    // console.log({ user, session, error });
+    if(user){
+      // console.log(user);
+      const res = await axios.put('/api/Auth/user', user); 
+      // console.log('userCreated?', res);
+      router.push("/Dashboard");
+    }
   };
 
   const initialValues = {

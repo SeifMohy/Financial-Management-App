@@ -43,9 +43,9 @@ const Layout: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    const userAuth: string | null = JSON.parse(
-      localStorage.getItem("supabase.auth.token")
-    ); //TODO: fix type
+    const userAuth = JSON.parse(
+      localStorage.getItem("supabase.auth.token") as string
+    );
     if (!userAuth) {
       router.push("/SignIn");
     }

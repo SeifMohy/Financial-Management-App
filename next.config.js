@@ -3,6 +3,6 @@ const nextConfig = {
   reactStrictMode: true,
 };
 module.exports = {
-  basePath: "./",
+  basePath: ".",
 };
 module.exports = nextConfig;

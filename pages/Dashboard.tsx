@@ -1,10 +1,7 @@
 import React from "react";
 import Layout from "../Components/Layout";
 import {
-  CashIcon,
   CheckCircleIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
   OfficeBuildingIcon,
   SearchIcon,
 } from "@heroicons/react/solid";

@@ -14,16 +14,16 @@ datasource db {
 
 model User {
   id             String  @id @default(cuid())
-  name           String?
-  email          String? @unique
-  image          String?
+  name           String
+  email          String @unique
+  image          String
   currentBalance Int?
   //relations
   banks          Bank[]
 }
 
 model Bank {
-  id           String        @id @default(cuid())
+  id           String        @id
   bankName     String?
   //relations
   user         User?         @relation(fields: [userId], references: [id])
@@ -32,7 +32,7 @@ model Bank {
 }
 
 model Transaction {
-  id         String     @id @default(cuid())
+  id         String     @id
   date       String?
   amount     Int
   //relations
