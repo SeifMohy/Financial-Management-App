@@ -68,10 +68,10 @@ const TransactionHistory = () => {
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.description}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.category}
                         </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.bank}
                         </td>
                       </tr>
@@ -81,6 +81,11 @@ const TransactionHistory = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="m-3">
+          <p>Total Debit:</p>
+          <p>Total Credit:</p>
+          <p>Net Movements:</p>
         </div>
       </div>
     </Layout>
