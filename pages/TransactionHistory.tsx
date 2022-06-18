@@ -17,6 +17,14 @@ const TransactionHistory = () => {
   return (
     <Layout>
       <div>
+        <div className="mb-3 flex justify-end">
+          <button
+            type="button"
+            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+          >
+            Add Transaction
+          </button>
+        </div>
         <div className="mt-1 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
