@@ -1,4 +1,5 @@
 import React from "react";
+import DropDownMenu from "../Components/DropDownMenu";
 import Layout from "../Components/Layout";
 
 const transactions = [
@@ -77,7 +78,7 @@ const TransactionHistory = () => {
                           {transaction.description}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          {transaction.category}
+                          <DropDownMenu/>
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.bank}

@@ -16,6 +16,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import DropDownMenu from "../Components/DropDownMenu";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
@@ -309,7 +310,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
       </div>
       <main className="lg:relative lg:left-60">
-          <div>children</div>
+      <DropDownMenu/>
         </main>
     </div>
   );
