@@ -1,3 +1,4 @@
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   Configuration,
@@ -5,6 +6,9 @@ import {
   PlaidEnvironments,
   TransactionsSyncResponse,
 } from "plaid";
+import prisma from "../../../prismaClient";
+
+prisma;
 
 //TODO: 3. setting .env variables to consts
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
@@ -31,7 +35,6 @@ export default async function (
   response: NextApiResponse,
   next: ((reason: any) => PromiseLike<never>) | null | undefined
 ) {
-  //TODO: 13. transactions api call
   Promise.resolve()
     .then(async function () {
       // Set cursor to empty to receive all historical updates
@@ -45,22 +48,31 @@ export default async function (
       let hasMore = true;
       // Iterate through each page of new transaction updates for item
       while (hasMore) {
-        const { accessToken } = request.body;
-        // console.log(accessToken)
-        const send: any = {
-          access_token: accessToken,
-          cursor: cursor,
-        };
+        const userId = request.body;
+        if (!Object.keys(userId)) {
+          //TODO: need a better condition
+          console.log("loading");
+        } else {
+          const id = Object.keys(userId)[0];
+          const user = await prisma.user.findUnique({
+            where: { id: id },
+          });
+          console.log(user);
+          const send: any = {
+            access_token: user?.accessToken,
+            cursor: cursor,
+          };
 
-        const response = await client.transactionsSync(send);
-        const data = response.data;
-        // Add this page of results
-        added = added.concat(data.added);
-        modified = modified.concat(data.modified);
-        removed = removed.concat(data.removed);
-        hasMore = data.has_more;
-        // Update cursor to the next cursor
-        cursor = data.next_cursor;
+          const response = await client.transactionsSync(send);
+          const data = response.data;
+          // Add this page of results
+          added = added.concat(data.added);
+          modified = modified.concat(data.modified);
+          removed = removed.concat(data.removed);
+          hasMore = data.has_more;
+          // Update cursor to the next cursor
+          cursor = data.next_cursor;
+        }
       }
 
       const compareTxnsByDateAscending = (a: any, b: any) =>

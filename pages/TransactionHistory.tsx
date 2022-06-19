@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import DropDownMenu from "../Components/DropDownMenu";
 import Layout from "../Components/Layout";
 import Context from "../Context";
-import { Data, ErrorDataItem } from "../dataUtilities";
 
 const transactions = [
   {
@@ -19,22 +18,26 @@ const transactions = [
 const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { accessToken, userInfo } = useContext(Context);
-  console.log(accessToken, userInfo);
-  const getTransactionData = async () => {
+  const { userInfo } = useContext(Context);
+  const userId = userInfo.currentSession?.user.id
+console.log(userId)
+  const getTransactionData = async (send: any) => {
     setIsLoading(true);
     const response = await fetch(`/api/Plaid/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
-      body: `accessToken=${accessToken}`,
+      body: send,
     });
     const data = await response.json();
     console.log(data);
   };
   useEffect(() => {
-    getTransactionData(), [];
+    if(!userId){
+      console.log("no user")
+    }
+    getTransactionData(userId), []; //for this to work i need to wait for user to be created
   });
   return (
     <Layout>
@@ -112,7 +115,7 @@ const TransactionHistory = () => {
             </div>
           </div>
         </div>
-        <div className="m-3">
+        <div className="m-3 z-0">
           <p>Total Debit:</p>
           <p>Total Credit:</p>
           <p>Net Movements:</p>

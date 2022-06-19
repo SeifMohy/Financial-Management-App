@@ -31,7 +31,7 @@ const Header = () => {
   }
 
   useEffect(() => {
-    saveAccessToken(sendToSaveToken), [];
+    saveAccessToken(sendToSaveToken), [isItemAccess];
   });
 
   return (
