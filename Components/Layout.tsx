@@ -22,8 +22,7 @@ const navigation = [
   { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon },
 ];
 
-function classNames(...classes: any) {
-  //TODO: Amend Type
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 

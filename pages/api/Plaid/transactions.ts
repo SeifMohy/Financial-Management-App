@@ -63,7 +63,7 @@ export default async function (
             cursor: cursor,
           };
 
-          const response = await client.transactionsSync(send);
+          const response = await client.transactionsSync(send); //TODO: make it for a month
           const data = response.data;
           // Add this page of results
           added = added.concat(data.added);

@@ -6,7 +6,7 @@ import Context from "../Context";
 import Layout from "../Components/Layout";
 
 const AddingABank = () => {
-  const { linkSuccess, isItemAccess, dispatch } = useContext(Context); //TODO: type error
+  const { linkSuccess, isItemAccess, dispatch } = useContext(Context);
 
   const getInfo = useCallback(async () => {
     const response = await fetch("/api/Plaid/info");

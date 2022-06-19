@@ -32,8 +32,7 @@ const secondaryNavigation = [
   { name: "Privacy", href: "#", icon: ShieldCheckIcon },
 ];
 
-function classNames(...classes: any) {
-  //TODO: Amend Type
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
