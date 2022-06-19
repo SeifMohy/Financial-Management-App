@@ -26,7 +26,7 @@ const Endpoint = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { accessToken } = useContext(Context);
-  // console.log(accessToken)
+  console.log(accessToken);
   const getData = async () => {
     setIsLoading(true); //TODO: 12. an endpoint requesting data
     const response = await fetch(`/api/Plaid/${props.endpoint}`, {
@@ -107,3 +107,6 @@ const Endpoint = (props: Props) => {
 Endpoint.displayName = "Endpoint";
 
 export default Endpoint;
+function dispatch(arg0: { type: string; state: { linkToken: null } }) {
+  throw new Error("Function not implemented.");
+}

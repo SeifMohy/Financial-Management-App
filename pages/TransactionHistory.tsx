@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DropDownMenu from "../Components/DropDownMenu";
 import Layout from "../Components/Layout";
+import Context from "../Context";
+import { Data, ErrorDataItem } from "../dataUtilities";
 
 const transactions = [
   {
@@ -15,6 +17,25 @@ const transactions = [
 ];
 
 const TransactionHistory = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { accessToken, userInfo } = useContext(Context);
+  console.log(accessToken, userInfo);
+  const getTransactionData = async () => {
+    setIsLoading(true);
+    const response = await fetch(`/api/Plaid/transactions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: `accessToken=${accessToken}`,
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+  useEffect(() => {
+    getTransactionData(), [];
+  });
   return (
     <Layout>
       <div>
@@ -78,7 +99,7 @@ const TransactionHistory = () => {
                           {transaction.description}
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          <DropDownMenu/>
+                          <DropDownMenu />
                         </td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                           {transaction.bank}

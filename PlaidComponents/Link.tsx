@@ -1,11 +1,11 @@
+import axios from "axios";
 import React, { useEffect, useContext } from "react";
 import { usePlaidLink } from "react-plaid-link";
 
 import Context from "../Context";
 
 const Link = () => {
-  const { linkToken, dispatch } = useContext(Context);
-// console.log(linkToken)
+  const { linkToken, dispatch, userInfo } = useContext(Context);
   const onSuccess = React.useCallback(
     (public_token: string) => {
       //TODO: 9. taking public token to receive an access token through plaid api
@@ -44,7 +44,7 @@ const Link = () => {
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/AddingABank"); //TODO: send somewhere other than home page
+      window.history.pushState("", "", "/AddingABank"); //TODO: Should send to transaction page?
     },
     [dispatch]
   );
@@ -71,7 +71,12 @@ const Link = () => {
     }
   }, [ready, open, isOauth]);
   return (
-    <button type="button" onClick={() => open()} disabled={!ready}>
+    <button
+      className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 m-3"
+      type="button"
+      onClick={() => open()}
+      disabled={!ready}
+    >
       Launch Link
     </button>
   );

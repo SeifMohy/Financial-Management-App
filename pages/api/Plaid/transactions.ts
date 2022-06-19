@@ -5,8 +5,6 @@ import {
   PlaidEnvironments,
   TransactionsSyncResponse,
 } from "plaid";
-import { useContext } from "react";
-import Context from "../../../Context";
 
 //TODO: 3. setting .env variables to consts
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
@@ -47,8 +45,7 @@ export default async function (
       let hasMore = true;
       // Iterate through each page of new transaction updates for item
       while (hasMore) {
-
-        const {accessToken} = request.body
+        const { accessToken } = request.body;
         // console.log(accessToken)
         const send: any = {
           access_token: accessToken,
@@ -66,8 +63,9 @@ export default async function (
         cursor = data.next_cursor;
       }
 
-      const compareTxnsByDateAscending = (a: any, b: any) => (a.date > b.date) - (a.date < b.date); //TODO: Amend Type
-      // Return the 8 most recent transactions
+      const compareTxnsByDateAscending = (a: any, b: any) =>
+        (a.date > b.date) - (a.date < b.date); //TODO: Amend Type
+      // Return the 30 most recent transactions
       const recently_added = [...added]
         .sort(compareTxnsByDateAscending)
         .slice(-30);
