@@ -47,6 +47,13 @@ export default async function (
       let removed: any = [];
       let hasMore = true;
       // Iterate through each page of new transaction updates for item
+      function initialCategory(amount: number) {
+        if (amount < 0) {
+          return "2";
+        } else {
+          return "1";
+        }
+      }
       while (hasMore) {
         const userId = request.body;
         if (Object.keys(userId).length > 2) {
@@ -91,6 +98,7 @@ export default async function (
             amount: transaction.amount,
             userId: id,
             description: transaction.name,
+            categoryId: initialCategory(transaction.amount),
           };
         });
 

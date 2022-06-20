@@ -34,21 +34,23 @@ model Bank {
 }
 
 model Transaction {
-  id          String     @id
+  id          String    @id
   date        String?
   amount      Float
   description String?
   //relations
-  banks       Bank?      @relation(fields: [bankId], references: [id]) //might not have a current use case
+  banks       Bank?     @relation(fields: [bankId], references: [id]) //might not have a current use case
   bankId      String?
-  users       User?      @relation(fields: [userId], references: [id]) //might not have a current use case
+  users       User?     @relation(fields: [userId], references: [id]) //might not have a current use case
   userId      String?
-  categories  Category[] @relation("transaction-category")
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
 }
 
 model Category {
   id           String        @id @default(cuid())
   category     String?
+  type         String?
   //relations
-  transactions Transaction[] @relation("transaction-category")
+  transactions Transaction[]
 }
