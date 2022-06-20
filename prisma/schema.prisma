@@ -13,14 +13,15 @@ datasource db {
 }
 
 model User {
-  id             String  @id @default(cuid())
+  id             String        @id @default(cuid())
   name           String
-  email          String  @unique
+  email          String        @unique
   image          String
   currentBalance Int?
   accessToken    String?
   //relations
   banks          Bank[]
+  transactions   Transaction[]
 }
 
 model Bank {
@@ -33,13 +34,16 @@ model Bank {
 }
 
 model Transaction {
-  id         String     @id
-  date       String?
-  amount     Int
+  id          String     @id
+  date        String?
+  amount      Float
+  description String?
   //relations
-  banks      Bank?      @relation(fields: [bankId], references: [id])
-  bankId     String?
-  categories Category[] @relation("transaction-category")
+  banks       Bank?      @relation(fields: [bankId], references: [id]) //might not have a current use case
+  bankId      String?
+  users       User?      @relation(fields: [userId], references: [id]) //might not have a current use case
+  userId      String?
+  categories  Category[] @relation("transaction-category")
 }
 
 model Category {

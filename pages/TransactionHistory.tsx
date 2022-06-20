@@ -1,26 +1,24 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import DropDownMenu from "../Components/DropDownMenu";
 import Layout from "../Components/Layout";
 import Context from "../Context";
+import useSWR from "swr";
+import { Transaction } from "@prisma/client";
+import { DBTransactions } from "../Types/index";
 
-const transactions = [
-  {
-    id: "oapfjpaodijfpoaijsdf",
-    date: "30/12/2020",
-    amount: "3,509.00",
-    description: "Ahmed ",
-    category: "Sales",
-    bank: "Chase",
-  },
-  // More transactions...
-];
+const fetchDBTransactions = (url: string) =>
+  axios.get(url).then((res) => res.data);
 
 const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const { userInfo } = useContext(Context);
-  const userId = userInfo.currentSession?.user.id
-console.log(userId)
+  const userId = userInfo.currentSession?.user.id;
+  console.log(userId);
+  const { data: transactions } = useSWR<DBTransactions>(
+    `/api/transactions/${userId}`,
+    fetchDBTransactions
+  );
   const getTransactionData = async (send: any) => {
     setIsLoading(true);
     const response = await fetch(`/api/Plaid/transactions`, {
@@ -34,11 +32,12 @@ console.log(userId)
     console.log(data);
   };
   useEffect(() => {
-    if(!userId){
-      console.log("no user")
+    if (!userId) {
+      console.log("no user");
     }
-    getTransactionData(userId), []; //for this to work i need to wait for user to be created
+    getTransactionData(userId), [];
   });
+
   return (
     <Layout>
       <div>
@@ -90,25 +89,28 @@ console.log(userId)
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {transactions.map((transaction) => (
-                      <tr key={transaction.id}>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 sm:pl-6">
-                          {transaction.date}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                          EGP {transaction.amount}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          {transaction.description}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          <DropDownMenu />
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                          {transaction.bank}
-                        </td>
-                      </tr>
-                    ))}
+                    {transactions?.transactions.map(
+                      (transaction: Transaction) => (
+                        <tr key={transaction.id}>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 sm:pl-6">
+                            {transaction.date}
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                            EGP {transaction.amount}
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                            {transaction.description}
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                            <DropDownMenu transaction={transaction}/>
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                            chase
+                            {/* need to add bank somehow */}
+                          </td>
+                        </tr>
+                      )
+                    )}
                   </tbody>
                 </table>
               </div>

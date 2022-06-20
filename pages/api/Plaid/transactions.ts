@@ -49,8 +49,7 @@ export default async function (
       // Iterate through each page of new transaction updates for item
       while (hasMore) {
         const userId = request.body;
-        if (!Object.keys(userId)) {
-          //TODO: need a better condition
+        if (Object.keys(userId).length > 2) {
           console.log("loading");
         } else {
           const id = Object.keys(userId)[0];
@@ -73,15 +72,34 @@ export default async function (
           // Update cursor to the next cursor
           cursor = data.next_cursor;
         }
-      }
 
-      const compareTxnsByDateAscending = (a: any, b: any) =>
-        (a.date > b.date) - (a.date < b.date); //TODO: Amend Type
-      // Return the 30 most recent transactions
-      const recently_added = [...added]
-        .sort(compareTxnsByDateAscending)
-        .slice(-30);
-      response.json({ latest_transactions: recently_added });
+        //TODO: this should stop duplicates
+        const compareTxnsByDateAscending = (a: any, b: any) =>
+          (a.date > b.date) - (a.date < b.date); //TODO: Amend Type
+        // Return the 8 most recent transactions
+        const recently_added = [...added]
+          .sort(compareTxnsByDateAscending)
+          .slice(-8);
+        response.json({ latest_transactions: recently_added });
+
+        const id = Object.keys(userId)[0];
+        //TODO: Need to add bankID
+        const transactionsToAdd = recently_added.map((transaction) => {
+          return {
+            id: transaction.transaction_id,
+            date: transaction.date,
+            amount: transaction.amount,
+            userId: id,
+            description: transaction.name,
+          };
+        });
+
+        //adding the data created
+        const addTransactions = await prisma.transaction.createMany({
+          data: transactionsToAdd,
+        });
+        response.json({ addTransactions });
+      }
     })
     .catch(next);
 }

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { Transaction } from "@prisma/client";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+
+type Props = {
+  transaction: Transaction;
+};
 
 const categories = [
   { name: "Revenue", type: "credit" },
@@ -17,16 +22,35 @@ const categories = [
   { name: "Other Costs", type: "debit" },
 ];
 
-const type = "credit"; //TODO: get type from value of transaction
-const initialCat = "Revnue"; //TODO get type from transaction Table
+// const initialCat = "Revenue"; //TODO get type from transaction Table
 
-const options = categories.filter((category) => {
-  return category.type === type;
-});
+function determineType(amount: number) {
+  if (amount < 0) {
+    return "debit";
+  } else {
+    return "credit";
+  }
+}
 
-const DropDownMenu = () => {
+const DropDownMenu = ({ transaction }: Props) => {
+  const [initialCat, setInitialCat] = useState("Revenue");
+  
+  useEffect(() => {
+    const category = determineType(transaction.amount);
+    setType(category);
+    if (category === "debit") {
+      return setInitialCat("Cost");
+    }
+  }, []);
+
   const [displayedCategory, setdisplayedCategory] =
     useState<string>(initialCat);
+
+  const [type, setType] = useState("credit");
+
+  const options = categories.filter((category) => {
+    return category.type === type;
+  });
 
   return (
     <div>
