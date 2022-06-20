@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import DropDownMenu from "../Components/DropDownMenu";
+import CategoryDropDown from "../Components/CategoryDropDown";
 import Layout from "../Components/Layout";
 import Context from "../Context";
 import useSWR from "swr";
-import { Transaction } from "@prisma/client";
+import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
 
 const fetchDBTransactions = (url: string) =>
@@ -14,11 +14,11 @@ const TransactionHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
-  console.log(userId);
   const { data: transactions } = useSWR<DBTransactions>(
     `/api/transactions/${userId}`,
     fetchDBTransactions
   );
+  console.log(transactions);
   const getTransactionData = async (send: any) => {
     setIsLoading(true);
     const response = await fetch(`/api/Plaid/transactions`, {
@@ -90,7 +90,11 @@ const TransactionHistory = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {transactions?.transactions.map(
-                      (transaction: Transaction) => (
+                      (
+                        transaction: Transaction & {
+                          category: Category | null;
+                        }
+                      ) => (
                         <tr key={transaction.id}>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 sm:pl-6">
                             {transaction.date}
@@ -102,7 +106,7 @@ const TransactionHistory = () => {
                             {transaction.description}
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                            <DropDownMenu transaction={transaction}/>
+                            <CategoryDropDown transaction={transaction} />
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                             chase

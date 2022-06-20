@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { Transaction } from "@prisma/client";
+import { Category, Transaction } from "@prisma/client";
+import { transactionWCategory } from "../Types/index";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 type Props = {
-  transaction: Transaction;
+  transaction: Transaction & {
+    category: Category | null;
+  };
 };
 
 const categories = [
@@ -30,7 +33,7 @@ function determineType(amount: number) {
   }
 }
 
-const DropDownMenu = ({ transaction }: Props) => {
+const CategoryDropDown = ({ transaction }: transactionWCategory) => {
   useEffect(() => {
     const category = determineType(transaction.amount);
     setType(category);
@@ -42,7 +45,9 @@ const DropDownMenu = ({ transaction }: Props) => {
   }, []);
   const [type, setType] = useState("credit");
 
-  const [displayedCategory, setdisplayedCategory] = useState<string>(" ");
+  const [displayedCategory, setdisplayedCategory] = useState<string>(
+    transaction?.category?.category as string
+  );
 
   const options = categories.filter((category) => {
     return category.type === type;
@@ -99,4 +104,4 @@ const DropDownMenu = ({ transaction }: Props) => {
   );
 };
 
-export default DropDownMenu;
+export default CategoryDropDown;

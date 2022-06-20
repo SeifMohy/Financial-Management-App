@@ -21,6 +21,9 @@ export default async function handler(
     console.log(id);
     const dbTransactions = await prisma.transaction.findMany({
       where: { userId: id as string },
+      include: {
+        category: true,
+      },
     });
 
     res.status(200).json({ transactions: dbTransactions });

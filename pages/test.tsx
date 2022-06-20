@@ -16,7 +16,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import DropDownMenu from "../Components/DropDownMenu";
+import DropDownMenu from "../Components/CategoryDropDown";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },

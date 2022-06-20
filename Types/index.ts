@@ -1,6 +1,13 @@
-import { Transaction } from "@prisma/client";
-
+import { Category, Transaction } from "@prisma/client";
 
 export type DBTransactions = {
-    transactions: Transaction[];
+  transactions: (Transaction & {
+    category: Category | null;
+  })[];
+};
+
+export type transactionWCategory ={
+  transaction: Transaction & {
+    category: Category | null;
   };
+}
