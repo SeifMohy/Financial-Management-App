@@ -3,7 +3,9 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Category, Transaction } from "@prisma/client";
-import { transactionWCategory } from "../Types/index";
+import { Categories, transactionWCategory } from "../Types/index";
+import axios from "axios";
+import useSWR from "swr";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -14,16 +16,7 @@ type Props = {
     category: Category | null;
   };
 };
-
-const categories = [
-  { name: "Revenue", type: "credit" },
-  { name: "Fees", type: "credit" },
-  { name: "Other Revenue", type: "credit" },
-  { name: "Materials", type: "debit" },
-  { name: "Salaries", type: "debit" },
-  { name: "Advertising", type: "debit" },
-  { name: "Other Costs", type: "debit" },
-];
+const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
 function determineType(amount: number) {
   if (amount < 0) {
@@ -34,14 +27,14 @@ function determineType(amount: number) {
 }
 
 const CategoryDropDown = ({ transaction }: transactionWCategory) => {
+  const { data: categories } = useSWR<Categories>(
+    `/api/categories`,
+    fetchCategories
+  );
+  console.log(categories);
   useEffect(() => {
     const category = determineType(transaction.amount);
     setType(category);
-    if (transaction.amount < 0) {
-      setdisplayedCategory("Cost");
-    } else {
-      setdisplayedCategory("Revenue");
-    }
   }, []);
   const [type, setType] = useState("credit");
 
@@ -49,7 +42,7 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
     transaction?.category?.category as string
   );
 
-  const options = categories.filter((category) => {
+  const options = categories?.data.filter((category) => {
     return category.type === type;
   });
 
@@ -77,12 +70,14 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
         >
           <Menu.Items className="origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
-              {options.map((category) => {
+              {options?.map((category) => {
                 return (
-                  <Menu.Item key={category.name}>
+                  <Menu.Item key={category.category}>
                     {({ active }) => (
                       <a
-                        onClick={() => setdisplayedCategory(category.name)}
+                        onClick={() =>
+                          setdisplayedCategory(category?.category as string)
+                        }
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -90,7 +85,7 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        {category.name}
+                        {category.category}
                       </a>
                     )}
                   </Menu.Item>

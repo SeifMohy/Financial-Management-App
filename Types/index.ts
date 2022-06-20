@@ -11,3 +11,7 @@ export type transactionWCategory ={
     category: Category | null;
   };
 }
+
+export type Categories ={
+  data: Category[]
+}
