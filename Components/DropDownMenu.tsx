@@ -22,8 +22,6 @@ const categories = [
   { name: "Other Costs", type: "debit" },
 ];
 
-// const initialCat = "Revenue"; //TODO get type from transaction Table
-
 function determineType(amount: number) {
   if (amount < 0) {
     return "debit";
@@ -33,20 +31,18 @@ function determineType(amount: number) {
 }
 
 const DropDownMenu = ({ transaction }: Props) => {
-  const [initialCat, setInitialCat] = useState("Revenue");
-  
   useEffect(() => {
     const category = determineType(transaction.amount);
     setType(category);
-    if (category === "debit") {
-      return setInitialCat("Cost");
+    if (transaction.amount < 0) {
+      setdisplayedCategory("Cost");
+    } else {
+      setdisplayedCategory("Revenue");
     }
   }, []);
-
-  const [displayedCategory, setdisplayedCategory] =
-    useState<string>(initialCat);
-
   const [type, setType] = useState("credit");
+
+  const [displayedCategory, setdisplayedCategory] = useState<string>(" ");
 
   const options = categories.filter((category) => {
     return category.type === type;
