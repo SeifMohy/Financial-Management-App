@@ -1,7 +1,5 @@
 import React, { useCallback, useContext, useEffect } from "react";
 import Header from "../PlaidComponents/Headers";
-import Items from "../PlaidComponents/ProductTypes/Items";
-import Products from "../PlaidComponents/ProductTypes/Products";
 import Context from "../Context";
 import Layout from "../Components/Layout";
 
@@ -68,17 +66,12 @@ const AddingABank = () => {
 
   return (
     <Layout>
-    <div>
       <div>
-        <Header />
-        {linkSuccess && isItemAccess && (
-          <>
-            <Products />
-            <Items />
-          </>
-        )}
+        <div>
+          <Header />
+          {linkSuccess && isItemAccess}
+        </div>
       </div>
-    </div>
     </Layout>
   );
 };
