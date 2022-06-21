@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import useSWR from "swr";
+import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
 import Context from "../Context";
 import { KeyFigures } from "../Types/index";
@@ -73,6 +74,9 @@ const Dashboard = () => {
             )}
           </dl>
         </div>
+      </div>
+      <div>
+        <DoughnutChart />
       </div>
     </Layout>
   );
