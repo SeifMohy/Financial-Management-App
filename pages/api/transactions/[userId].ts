@@ -13,7 +13,7 @@ export default async function handler(
 ) {
   try {
     const userId = req.query;
-    console.log(userId);
+    // console.log(userId);
     if (Object.values(userId).length > 2) {
       console.log("loading");
     }

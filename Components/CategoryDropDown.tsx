@@ -11,11 +11,6 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-type Props = {
-  transaction: Transaction & {
-    category: Category | null;
-  };
-};
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
 function determineType(amount: number) {
@@ -45,6 +40,12 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
   const options = categories?.data.filter((category) => {
     return category.type === type;
   });
+
+  async function updateCategory(category: string, categoryId: string) {
+    setdisplayedCategory(category);
+    const res = await axios.put(`api/categories/${transaction.id}`, categoryId);
+    console.log(res);
+  }
 
   return (
     <div>
@@ -76,7 +77,10 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
                     {({ active }) => (
                       <a
                         onClick={() =>
-                          setdisplayedCategory(category?.category as string)
+                          updateCategory(
+                            category.category as string,
+                            category.id
+                          )
                         }
                         className={classNames(
                           active

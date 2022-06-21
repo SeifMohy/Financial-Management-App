@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Category } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import transactions from "./Plaid/transactions";
+import transactions from "../Plaid/transactions";
 
 type Data = {
   data: Category[];
