@@ -19,7 +19,7 @@ const TransactionHistory = () => {
     fetchDBTransactions
   );
   const sortedTransactions = transactions?.transactions.sort(
-    (a: Transaction, b: Transaction) => new Date(a.date) - new Date(b.date) //TODO: Amend type
+    (a: any, b: any) => new Date(a.date) - new Date(b.date) //TODO: Amend type
   );
   console.log(sortedTransactions);
   const getTransactionData = async (send: any) => {

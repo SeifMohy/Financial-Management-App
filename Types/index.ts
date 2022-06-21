@@ -6,12 +6,21 @@ export type DBTransactions = {
   })[];
 };
 
-export type transactionWCategory ={
+export type transactionWCategory = {
   transaction: Transaction & {
     category: Category | null;
   };
-}
+};
 
-export type Categories ={
-  data: Category[]
-}
+export type Categories = {
+  data: Category[];
+};
+
+export type KeyFigures = {
+  keyFigures: {
+    name: string;
+    pre: string;
+    pos: string;
+    stat: number;
+  }[];
+};
