@@ -18,7 +18,10 @@ const TransactionHistory = () => {
     `/api/transactions/${userId}`,
     fetchDBTransactions
   );
-  console.log(transactions);
+  const sortedTransactions = transactions?.transactions.sort(
+    (a: Transaction, b: Transaction) => new Date(a.date) - new Date(b.date) //TODO: Amend type
+  );
+  console.log(sortedTransactions);
   const getTransactionData = async (send: any) => {
     setIsLoading(true);
     const response = await fetch(`/api/Plaid/transactions`, {
@@ -89,7 +92,7 @@ const TransactionHistory = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {transactions?.transactions.map(
+                    {sortedTransactions?.map(
                       (
                         transaction: Transaction & {
                           category: Category | null;
