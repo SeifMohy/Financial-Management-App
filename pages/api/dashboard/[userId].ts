@@ -28,10 +28,10 @@ export default async function handler(
     });
     const revenueTransactions = dbTransactions.filter((transaction) => {
       return transaction.amount > 0;
-    }); //could be done according to category
+    });
     const costTransactions = dbTransactions.filter((transaction) => {
       return transaction.amount < 0;
-    }); //could be done according to category
+    });
     const totalRevenue = calculateTransactions(revenueTransactions);
     const totalCost = calculateTransactions(costTransactions);
     const data = [

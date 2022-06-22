@@ -12,13 +12,13 @@ const stats = [
   { name: "Gross Margin", stat: "4.57%" },
 ];
 
-const fetchKeyFigures = (url: string) => axios.get(url).then((res) => res.data);
+const fetchKeyFigures = (url: string, token: any) => axios.get(url, token).then((res) => res.data);
 
 const Dashboard = () => {
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: keyFigures } = useSWR<KeyFigures>(
-    `/api/dashboard/${userId}`,
+    [`/api/dashboard/${userId}`, "heyy"],
     fetchKeyFigures
   );
   if (!keyFigures) return <div>loading...</div>;

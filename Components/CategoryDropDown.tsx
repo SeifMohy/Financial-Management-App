@@ -26,7 +26,6 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
     `/api/categories`,
     fetchCategories
   );
-  console.log(categories);
   useEffect(() => {
     const category = determineType(transaction.amount);
     setType(category);
@@ -44,7 +43,6 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
   async function updateCategory(category: string, categoryId: string) {
     setdisplayedCategory(category);
     const res = await axios.put(`api/categories/${transaction.id}`, categoryId);
-    console.log(res);
   }
 
   return (

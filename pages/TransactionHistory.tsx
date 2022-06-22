@@ -19,12 +19,18 @@ const TransactionHistory = () => {
     fetchDBTransactions
   );
   const sortedTransactions = transactions?.transactions.sort(
-    (a: any, b: any) => new Date(a.date) - new Date(b.date) //TODO: Amend type
+    (a: any, b: any) => new Date(b.date) - new Date(a.date) //TODO: Amend type
   );
-  console.log(sortedTransactions);
+  var sixMonthsFromNow = new Date();
+  sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
+  const startDate = sortedTransactions?.length
+    ? sortedTransactions[0].date
+    : sixMonthsFromNow.toLocaleDateString("en-CA");
+  console.log(startDate);
   const getTransactionData = async (send: any) => {
+    //TODO: need to find a better place to place this
     setIsLoading(true);
-    const response = await fetch(`/api/Plaid/transactions`, {
+    const response = await fetch(`/api/Plaid/transactionsStartDate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -35,10 +41,14 @@ const TransactionHistory = () => {
     console.log(data);
   };
   useEffect(() => {
-    if (!userId) {
+    if (!userId) { //need to find condition where transactions should not be sent till a response from transactions is received
       console.log("no user");
     }
-    getTransactionData(userId), [];
+    const data = [
+      userId,
+      startDate,
+    ];
+    getTransactionData(data), [];
   });
 
   return (

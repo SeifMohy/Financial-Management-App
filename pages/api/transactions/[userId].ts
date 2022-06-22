@@ -18,7 +18,7 @@ export default async function handler(
       console.log("loading");
     }
     const id = Object.values(userId)[0];
-    console.log(id);
+    // console.log(id);
     const dbTransactions = await prisma.transaction.findMany({
       where: { userId: id as string },
       include: {
@@ -28,6 +28,6 @@ export default async function handler(
 
     res.status(200).json({ transactions: dbTransactions });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
