@@ -19,7 +19,7 @@ const TransactionHistory = () => {
     fetchDBTransactions
   );
   const sortedTransactions = transactions?.transactions.sort(
-    (a: any, b: any) => new Date(b.date) - new Date(a.date) //TODO: Amend type
+    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf() 
   );
   var sixMonthsFromNow = new Date();
   sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
@@ -41,13 +41,11 @@ const TransactionHistory = () => {
     console.log(data);
   };
   useEffect(() => {
-    if (!userId) { //need to find condition where transactions should not be sent till a response from transactions is received
+    if (!userId) {
+      //TODO: need to find condition where transactions should not be sent till a response from transactions is received
       console.log("no user");
     }
-    const data = [
-      userId,
-      startDate,
-    ];
+    const data = [userId, startDate];
     getTransactionData(data), [];
   });
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { Category, Transaction } from "@prisma/client";
 import { Categories, transactionWCategory } from "../Types/index";
 import axios from "axios";
 import useSWR from "swr";

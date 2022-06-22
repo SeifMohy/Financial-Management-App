@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";
@@ -6,7 +7,11 @@ import prisma from "../../../prismaClient";
 prisma;
 
 type Data = {
-  transactions: any;
+  transactions: Prisma.BatchPayload;
+};
+
+type Message = {
+  transactions: string;
 };
 
 //TODO: 3. setting .env variables to consts
@@ -30,7 +35,7 @@ const client = new PlaidApi(configuration);
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data | Message>
 ) {
   function initialCategory(amount: number) {
     if (amount < 0) {
@@ -80,32 +85,3 @@ export default async function handler(
     console.log(error);
   }
 }
-
-// const request: TransactionsGetRequest = {
-//     access_token: accessToken,
-//     start_date: '2018-01-01',
-//     end_date: '2020-02-01'
-//   };
-//   try {
-//     const response = await client.transactionsGet(request);
-//     let transactions = response.data.transactions;
-//     const total_transactions = response.data.total_transactions;
-//     // Manipulate the offset parameter to paginate
-//     // transactions and retrieve all available data
-//     while (transactions.length < total_transactions) {
-//       const paginatedRequest: TransactionsGetRequest = {
-//         access_token: accessToken,
-//         start_date: '2018-01-01',
-//         end_date: '2020-02-01',
-//         options: {
-//           offset: transactions.length,
-//         },
-//       };
-//       const paginatedResponse = await client.transactionsGet(paginatedRequest);
-//       transactions = transactions.concat(
-//         paginatedResponse.data.transactions,
-//       );
-//     }
-//   } catch((err) => {
-//     // handle error
-//   }

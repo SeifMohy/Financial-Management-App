@@ -1,28 +1,31 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
+import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { KeyFigures } from "../Types/index";
 
-const stats = [
-  { name: "Total Revenue", stat: "450,632" },
-  { name: "Sales Growth", stat: "15.16%" },
-  { name: "Gross Margin", stat: "4.57%" },
-];
-
-const fetchKeyFigures = (url: string, token: any) => axios.get(url, token).then((res) => res.data);
+const fetchKeyFigures = (url: string, period: any) =>
+  axios.get(url, period).then((res) => res.data);
 
 const Dashboard = () => {
+  const periodOptions = [
+    { period: "1 week", days: 7 },
+    { period: "1 month", days: 30 },
+    { period: "3 months", days: 90 },
+  ];
+  const [period, setPeriod] = useState("1 week");
+
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: keyFigures } = useSWR<KeyFigures>(
-    [`/api/dashboard/${userId}`, "heyy"],
+    [`/api/dashboard/${userId}`, period],
     fetchKeyFigures
   );
+
   if (!keyFigures) return <div>loading...</div>;
-  console.log(Object.values(keyFigures)[0]);
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>
@@ -49,7 +52,11 @@ const Dashboard = () => {
         </div>
         <div>
           <h3 className="text-lg mt-5 leading-6 font-medium text-gray-900">
-            Last 30 days
+            <PeriodDropDown
+              periodOptions={periodOptions}
+              period={period}
+              setPeriod={setPeriod}
+            />
           </h3>
           <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             {figures.map(
