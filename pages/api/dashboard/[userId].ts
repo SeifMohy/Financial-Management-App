@@ -16,7 +16,10 @@ export default async function handler(
   }
   try {
     const userId = req.query;
-    if (Object.values(userId).length > 2) {
+    const period = req.body
+    console.log(Object.keys(period)[0]);
+    console.log(Object.values(userId)[0])
+    if (Object.values(userId)[0].length < 10) {
       console.log("loading");
     }
     const id = Object.values(userId)[0];

@@ -49,7 +49,7 @@ const DoughnutChart = () => {
       {chartsData?.data.map((chartData: any) => {
         const data = createChartData(chartData.data, chartData.labels);
         return (
-          <div>
+          <div key={chartData.title}>
             <p className="text-center text-xl">{chartData.title}</p>
             <Doughnut data={data} />
           </div>

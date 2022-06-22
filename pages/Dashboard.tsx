@@ -8,7 +8,7 @@ import Context from "../Context";
 import { KeyFigures } from "../Types/index";
 
 const fetchKeyFigures = (url: string, period: any) =>
-  axios.get(url, period).then((res) => res.data);
+  axios.put(url, period).then((res) => res.data);
 
 const Dashboard = () => {
   const periodOptions = [
