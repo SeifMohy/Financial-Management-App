@@ -24,3 +24,11 @@ export type KeyFigures = {
     stat: number;
   }[];
 };
+
+export type DoughnutChart = {
+  data: {
+    labels: _.Collection<string>;
+    data: _.Collection<number>;
+    title: string;
+  }[];
+};

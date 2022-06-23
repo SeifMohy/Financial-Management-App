@@ -7,15 +7,9 @@ import useSWR from "swr";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// const chartsData = [
-//   {
-//     labels: ["Revenue", "Fees", "Other Revenue"],
-//     data: [50, 70, 80],
-//     title: "Revenue Breakdown"
-//   },
-//   { labels: ["Costs", "Materials", "Salaries"], data: [50, 70, 80], title: "Cost Breakdown"},
-// ];
-
+type Props = {
+  period: string;
+};
 function createChartData(data: number[], labels: string[]) {
   return {
     labels: labels,
@@ -34,13 +28,14 @@ function createChartData(data: number[], labels: string[]) {
   };
 }
 
-const fetchChartData = (url: string) => axios.get(url).then((res) => res.data);
+const fetchChartData = (url: string, period: any) =>
+  axios.put(url, period).then((res) => res.data);
 
-const DoughnutChart = () => {
+const DoughnutChart = ({ period }: Props) => {
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: chartsData } = useSWR<any>(
-    `/api/doughnut/${userId}`,
+    [`/api/doughnut/${userId}`, period],
     fetchChartData
   );
   console.log(chartsData);

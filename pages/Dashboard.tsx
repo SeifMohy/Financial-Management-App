@@ -83,7 +83,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div>
-        <DoughnutChart />
+        <DoughnutChart period={period}/>
       </div>
     </Layout>
   );

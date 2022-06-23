@@ -2,34 +2,29 @@
 import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import _ from "lodash";
-
-type DoughnutChart = {
-  data: {
-    labels: _.Collection<string>;
-    data: _.Collection<number>;
-    title: string;
-  }[];
-};
+import { calculateTransactions, transactionStartDate } from "../../../Utils";
+import { DoughnutChart } from "../../../Types/index";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DoughnutChart>
 ) {
-  function calculateTransactions(transactions: Transaction[]) {
-    let totalRevenue = 0;
-    for (const transaction of transactions) {
-      totalRevenue += transaction.amount;
-    }
-    return totalRevenue;
-  }
   try {
     const userId = req.query;
+    const period = req.body;
     if (Object.values(userId).length > 2) {
       console.log("loading");
     }
     const id = Object.values(userId)[0];
+    const requestedPeriod = Object.keys(period)[0];
     const dbTransactions = await prisma.transaction.findMany({
-      where: { userId: id as string },
+      where: {
+        userId: id as string,
+        date: {
+          lte: new Date().toLocaleDateString("en-CA"),
+          gte: transactionStartDate(requestedPeriod, 1),
+        },
+      },
       include: {
         category: true,
       },
