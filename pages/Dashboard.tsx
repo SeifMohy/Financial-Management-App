@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
+import LineChart from "../Components/LineChart";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { KeyFigures } from "../Types/index";
@@ -80,6 +81,9 @@ const Dashboard = () => {
       </div>
       <div>
         <DoughnutChart period={period} />
+      </div>
+      <div>
+        <LineChart />
       </div>
     </Layout>
   );
