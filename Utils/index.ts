@@ -23,10 +23,17 @@ export function transactionStartDate(time: string, pp: number) {
   }
 }
 
-export   function calculateTransactions(transactions: Transaction[]) {
-    let totalRevenue = 0;
-    for (const transaction of transactions) {
-      totalRevenue += transaction.amount;
-    }
-    return totalRevenue;
+export function calculateTransactions(transactions: Transaction[]) {
+  let totalRevenue = 0;
+  for (const transaction of transactions) {
+    totalRevenue += transaction.amount;
   }
+  return totalRevenue;
+}
+
+export const periodOptions = [
+  { period: "1 week" },
+  { period: "1 month" },
+  { period: "3 months" },
+  { period: "All" },
+];

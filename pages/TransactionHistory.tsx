@@ -6,20 +6,23 @@ import Context from "../Context";
 import useSWR from "swr";
 import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
+import PeriodDropDown from "../Components/PeriodDropDown";
+import { periodOptions } from "../Utils";
 
-const fetchDBTransactions = (url: string) =>
-  axios.get(url).then((res) => res.data);
+const fetchDBTransactions = (url: string, period: any) =>
+  axios.put(url, period).then((res) => res.data);
 
 const TransactionHistory = () => {
+  const [period, setPeriod] = useState("3 months");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: transactions } = useSWR<DBTransactions>(
-    `/api/transactions/${userId}`,
+    [`/api/transactions/${userId}`, period],
     fetchDBTransactions
   );
   const sortedTransactions = transactions?.transactions.sort(
-    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf() 
+    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   );
   var sixMonthsFromNow = new Date();
   sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
@@ -52,7 +55,12 @@ const TransactionHistory = () => {
   return (
     <Layout>
       <div>
-        <div className="mb-3 flex justify-end">
+        <div className="mb-3 flex justify-between">
+          <PeriodDropDown
+            periodOptions={periodOptions}
+            period={period}
+            setPeriod={setPeriod}
+          />
           <button
             type="button"
             className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"

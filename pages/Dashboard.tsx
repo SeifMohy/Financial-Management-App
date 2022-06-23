@@ -6,17 +6,13 @@ import Layout from "../Components/Layout";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { KeyFigures } from "../Types/index";
+import { periodOptions } from "../Utils";
 
 const fetchKeyFigures = (url: string, period: any) =>
   axios.put(url, period).then((res) => res.data);
 
 const Dashboard = () => {
-  const periodOptions = [
-    { period: "1 week", days: 7 },
-    { period: "1 month", days: 30 },
-    { period: "3 months", days: 90 },
-  ];
-  const [period, setPeriod] = useState("1 week");
+  const [period, setPeriod] = useState("3 months");
 
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
@@ -83,7 +79,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div>
-        <DoughnutChart period={period}/>
+        <DoughnutChart period={period} />
       </div>
     </Layout>
   );

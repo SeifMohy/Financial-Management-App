@@ -1,4 +1,3 @@
-import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { KeyFigures } from "../../../Types/index";
 import prisma from "../../../prismaClient";

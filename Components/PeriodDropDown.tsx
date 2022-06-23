@@ -6,7 +6,6 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 type Props = {
   periodOptions: {
     period: string;
-    days: number;
   }[];
   period: string;
   setPeriod: React.Dispatch<React.SetStateAction<string>>;
@@ -41,7 +40,9 @@ const PeriodDropDown = ({ periodOptions, period, setPeriod }: Props) => {
                 <Menu.Item>
                   {({ active }) => (
                     <button
-                    onClick={(()=>{setPeriod(option.period)})}
+                      onClick={() => {
+                        setPeriod(option.period);
+                      }}
                       type="submit"
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
