@@ -4,6 +4,16 @@ export type DBTransactions = {
   transactions: (Transaction & {
     category: Category | null;
   })[];
+  movements: (
+    | {
+        totalDebit: number;
+        totalCredit?: undefined;
+      }
+    | {
+        totalCredit: number;
+        totalDebit?: undefined;
+      }
+  )[];
 };
 
 export type transactionWCategory = {

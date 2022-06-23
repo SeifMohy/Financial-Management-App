@@ -141,9 +141,17 @@ const TransactionHistory = () => {
           </div>
         </div>
         <div className="m-3 z-0">
-          <p>Total Debit:</p>
-          <p>Total Credit:</p>
-          <p>Net Movements:</p>
+          <p>Total Debit: {transactions?.movements[0].totalDebit}</p>
+          <p>Total Credit: {transactions?.movements[1].totalCredit}</p>
+          <p>
+            Net Movements:{" "}
+            {Math.round(
+              ((transactions?.movements[1].totalCredit || 0) +
+                (transactions?.movements[0].totalDebit || 0) +
+                Number.EPSILON) *
+                100
+            ) / 100}
+          </p>
         </div>
       </div>
     </Layout>

@@ -28,7 +28,7 @@ export function calculateTransactions(transactions: Transaction[]) {
   for (const transaction of transactions) {
     totalRevenue += transaction.amount;
   }
-  return totalRevenue;
+  return Math.round((totalRevenue + Number.EPSILON) * 100) / 100;
 }
 
 export const periodOptions = [

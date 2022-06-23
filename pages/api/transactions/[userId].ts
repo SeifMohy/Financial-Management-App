@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DBTransactions } from "../../../Types/index";
-import { transactionStartDate } from "../../../Utils";
+import { calculateTransactions, transactionStartDate } from "../../../Utils";
 
 type Message = {
   msg: string;
@@ -18,7 +18,7 @@ export default async function handler(
     }
     const id = Object.values(userId)[0];
     const requestedPeriod = Object.keys(period)[0];
-    console.log(requestedPeriod)
+    console.log(requestedPeriod);
     const dbTransactions = await prisma.transaction.findMany({
       where: {
         userId: id as string,
@@ -31,8 +31,18 @@ export default async function handler(
         category: true,
       },
     });
+    const revenueTransactions = dbTransactions.filter((transaction) => {
+      return transaction.amount > 0;
+    });
+    const costTransactions = dbTransactions.filter((transaction) => {
+      return transaction.amount < 0;
+    });
+    const totalRevenue = calculateTransactions(revenueTransactions);
+    const totalCost = calculateTransactions(costTransactions);
 
-    res.status(200).json({ transactions: dbTransactions });
+    const data = [{ totalDebit: totalCost }, { totalCredit: totalRevenue }];
+
+    res.status(200).json({ transactions: dbTransactions, movements: data });
   } catch (error) {
     // console.log(error);
   }
