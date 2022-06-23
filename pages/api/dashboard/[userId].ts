@@ -17,34 +17,31 @@ export default async function handler(
     }
     return totalRevenue;
   }
-  function transactionStartDate(time: string) {
+  function transactionStartDate(time: string, pp: number) {
     switch (time) {
       case "1 week":
         var today = new Date();
         var oneWeekFromNow = new Date(
-          today.getTime() - 7 * 24 * 60 * 60 * 1000
+          today.getTime() - 7 * 24 * 60 * 60 * 1000 * pp
         );
         return oneWeekFromNow.toLocaleDateString("en-CA");
       case "1 month":
         var oneMonthsFromNow = new Date();
-        oneMonthsFromNow.setMonth(oneMonthsFromNow.getMonth() - 1);
+        oneMonthsFromNow.setMonth(oneMonthsFromNow.getMonth() - 1 * pp);
         return oneMonthsFromNow.toLocaleDateString("en-CA");
       case "3 months":
         var threeMonthsFromNow = new Date();
-        threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() - 3);
+        threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() - 3 * pp);
         return threeMonthsFromNow.toLocaleDateString("en-CA");
       default:
         var sixMonthsFromNow = new Date();
-        sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
+        sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6 * pp);
         return sixMonthsFromNow.toLocaleDateString("en-CA");
     }
   }
   try {
     const userId = req.query;
     const period = req.body;
-    console.log(transactionStartDate("1 week"));
-    // console.log(Object.keys(period)[0]);
-    // console.log(Object.values(userId)[0])
     if (Object.values(userId)[0].length < 10) {
       console.log("loading");
     }
@@ -55,7 +52,19 @@ export default async function handler(
         userId: id as string,
         date: {
           lte: new Date().toLocaleDateString("en-CA"),
-          gte: transactionStartDate(requestedPeriod),
+          gte: transactionStartDate(requestedPeriod, 1),
+        },
+      },
+      include: {
+        category: true,
+      },
+    });
+    const dbTransactionsPP = await prisma.transaction.findMany({
+      where: {
+        userId: id as string,
+        date: {
+          lte: transactionStartDate(requestedPeriod, 1), //the start
+          gte: transactionStartDate(requestedPeriod, 2), //the end
         },
       },
       include: {
@@ -65,10 +74,16 @@ export default async function handler(
     const revenueTransactions = dbTransactions.filter((transaction) => {
       return transaction.amount > 0;
     });
+    const revenueTransactionsPP = dbTransactionsPP.filter((transaction) => {
+      return transaction.amount > 0;
+    });
     const costTransactions = dbTransactions.filter((transaction) => {
       return transaction.amount < 0;
     });
     const totalRevenue = calculateTransactions(revenueTransactions);
+    console.log(totalRevenue);
+    const totalRevenuePP = calculateTransactions(revenueTransactionsPP);
+    console.log(totalRevenuePP);
     const totalCost = calculateTransactions(costTransactions);
     const data = [
       {
@@ -77,7 +92,17 @@ export default async function handler(
         pos: "",
         stat: Math.round(totalRevenue),
       },
-      { name: "Sales Growth", pre: "", pos: "%", stat: 0 },
+      {
+        name: "Sales Growth",
+        pre: "",
+        pos: "%",
+        stat:
+          Math.round(
+            ((totalRevenue - totalRevenuePP) / totalRevenuePP +
+              Number.EPSILON) *
+              100
+          ) / 100,
+      },
       {
         name: "Gross Margin",
         pre: "",
