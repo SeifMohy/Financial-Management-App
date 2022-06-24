@@ -68,6 +68,28 @@ const TransactionHistory = () => {
             Add Transaction
           </button>
         </div>
+        <dl className="m-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {transactions?.movements.map(
+            (item: {
+              name: string;
+              pre: string;
+              stat: number;
+              pos: string;
+            }) => (
+              <div
+                key={item.name}
+                className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+              >
+                <dt className="text-sm font-medium text-gray-500 truncate">
+                  {item.name}
+                </dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                  {item.pre} {item.stat} {item.pos}
+                </dd>
+              </div>
+            )
+          )}
+        </dl>
         <div className="mt-1 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -139,19 +161,6 @@ const TransactionHistory = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="m-3 z-0">
-          <p>Total Debit: {transactions?.movements[0].totalDebit}</p>
-          <p>Total Credit: {transactions?.movements[1].totalCredit}</p>
-          <p>
-            Net Movements:{" "}
-            {Math.round(
-              ((transactions?.movements[1].totalCredit || 0) +
-                (transactions?.movements[0].totalDebit || 0) +
-                Number.EPSILON) *
-                100
-            ) / 100}
-          </p>
         </div>
       </div>
     </Layout>

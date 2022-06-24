@@ -40,7 +40,22 @@ export default async function handler(
     const totalRevenue = calculateTransactions(revenueTransactions);
     const totalCost = calculateTransactions(costTransactions);
 
-    const data = [{ totalDebit: totalCost }, { totalCredit: totalRevenue }];
+    const data = [
+      {
+        name: "Net Movements",
+        pre: "EGP",
+        pos: "",
+        stat:
+          Math.round((totalCost + totalRevenue + Number.EPSILON) * 100) / 100,
+      },
+      {
+        name: "Total Credit Movements",
+        pre: "EGP",
+        pos: "",
+        stat: totalRevenue,
+      },
+      { name: "Total Debit Movements", pre: "EGP", pos: "", stat: totalCost },
+    ];
 
     res.status(200).json({ transactions: dbTransactions, movements: data });
   } catch (error) {

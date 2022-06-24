@@ -55,7 +55,7 @@ const Dashboard = () => {
               setPeriod={setPeriod}
             />
           </h3>
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <dl className="m-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
             {figures.map(
               (item: {
                 name: string;

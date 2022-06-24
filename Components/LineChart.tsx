@@ -23,12 +23,6 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
-  plugins: {
-    title: {
-      display: true,
-      text: "Sales Growth",
-    },
-  },
 };
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
