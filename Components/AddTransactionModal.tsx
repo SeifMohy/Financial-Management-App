@@ -1,27 +1,31 @@
 import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import AddTransactionCategoryDropdown from "./AddTransactionCategoryDropdown";
 import { useFormik } from "formik";
+import axios from "axios";
+import useSWR from "swr";
+import { Categories } from "../Types/index";
+
+const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
 const AddTransactionModal = () => {
+  const { data: categories } = useSWR<Categories>(
+    `/api/categories`,
+    fetchCategories
+  );
   const [open, setOpen] = useState(true);
-  const [categoryId, setCategoryId] = useState<string>(""); //should be used for formik
   const initialValues = {
     date: " ",
     amount: " ",
     description: " ",
-    category: categoryId,
+    category: " ",
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      // formik.resetForm();
       console.log(values);
-      //   const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
-      //   console.log('userLogs', res);
     },
   });
   return (
@@ -116,9 +120,16 @@ const AddTransactionModal = () => {
                       Category
                     </label>
                     <div className="mt-1">
-                      <AddTransactionCategoryDropdown
-                        setCategoryId={setCategoryId}
-                      />
+                      <select
+                        className="inline-flex justify-center z-15 w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-cyan-500"
+                        id="grid-state"
+                        name="category"
+                        onChange={formik.handleChange}
+                      >
+                        {categories?.data.map((category) => {
+                          return <option>{category.category}</option>;
+                        })}
+                      </select>
                     </div>
                   </div>
                 </div>
