@@ -1,11 +1,29 @@
 import React from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/outline";
 import AddTransactionCategoryDropdown from "./AddTransactionCategoryDropdown";
+import { useFormik } from "formik";
 
 const AddTransactionModal = () => {
   const [open, setOpen] = useState(true);
+  const [categoryId, setCategoryId] = useState<string>(""); //should be used for formik
+  const initialValues = {
+    date: " ",
+    amount: " ",
+    description: " ",
+    category: categoryId,
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    enableReinitialize: true,
+    onSubmit: async (values: any, resetForm: any) => {
+      // formik.resetForm();
+      console.log(values);
+      //   const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
+      //   console.log('userLogs', res);
+    },
+  });
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -36,7 +54,7 @@ const AddTransactionModal = () => {
                 <div className="lg:flex">
                   <div className="m-2">
                     <label
-                      htmlFor="city"
+                      htmlFor="date"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Date
@@ -44,9 +62,10 @@ const AddTransactionModal = () => {
                     <div className="mt-1">
                       <input
                         type="text"
-                        name="city"
-                        id="city"
-                        autoComplete="address-level2"
+                        name="date"
+                        id="date"
+                        placeholder="DD/MM/YYYY"
+                        onChange={formik.handleChange}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -54,7 +73,7 @@ const AddTransactionModal = () => {
 
                   <div className="m-2">
                     <label
-                      htmlFor="region"
+                      htmlFor="amount"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Amount
@@ -62,9 +81,10 @@ const AddTransactionModal = () => {
                     <div className="mt-1">
                       <input
                         type="text"
-                        name="region"
-                        id="region"
-                        autoComplete="address-level1"
+                        name="amount"
+                        id="amount"
+                        placeholder="EGP"
+                        onChange={formik.handleChange}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
@@ -72,7 +92,7 @@ const AddTransactionModal = () => {
 
                   <div className="m-2">
                     <label
-                      htmlFor="postal-code"
+                      htmlFor="description"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Description
@@ -80,24 +100,33 @@ const AddTransactionModal = () => {
                     <div className="mt-1">
                       <input
                         type="text"
-                        name="postal-code"
-                        id="postal-code"
-                        autoComplete="postal-code"
+                        name="description"
+                        id="description"
+                        placeholder="Name or Reason"
+                        onChange={formik.handleChange}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
                     </div>
                   </div>
                   <div className="m-2">
+                    <label
+                      htmlFor="postal-code"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Category
+                    </label>
                     <div className="mt-1">
-                      <AddTransactionCategoryDropdown />
+                      <AddTransactionCategoryDropdown
+                        setCategoryId={setCategoryId}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6">
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-600 text-base font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={() => formik.handleSubmit()}
                   >
                     Add Transaction
                   </button>

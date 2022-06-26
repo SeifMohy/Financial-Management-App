@@ -2,6 +2,9 @@
 import { Category } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import transactions from "../Plaid/transactions";
+import prisma from "../../../prismaClient"
+
+prisma;
 
 type Data = {
   data: Category[];
