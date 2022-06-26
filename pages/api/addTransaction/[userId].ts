@@ -1,5 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Prisma } from "@prisma/client";
+import { Prisma, Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";
@@ -7,61 +6,42 @@ import prisma from "../../../prismaClient";
 prisma;
 
 type Data = {
-  transactions: Prisma.BatchPayload;
+  transaction: Transaction;
 };
 
 type Message = {
-  transactions: string;
+  transaction: string;
 };
-
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any>
+  res: NextApiResponse<Data | Message>
 ) {
-//   function initialCategory(amount: number) {
-//     if (amount < 0) {
-//       return "2";
-//     } else {
-//       return "1";
-//     }
-//   }
   try {
     const userId = req.query;
+    const transaction = req.body;
     console.log(userId);
+    console.log(transaction);
     if (Object.values(userId)[0].length < 10) {
       console.log("loading");
     } else {
       const id = Object.values(userId)[0];
-      const user = await prisma.user.findUnique({
-        where: { id: id },
+      const category = await prisma.category.findFirst({
+        where: { category: transaction.category },
       });
-      // console.log(user);
-      const send: any = {
-        access_token: user?.accessToken,
-        start_date: startDate,
-        end_date: new Date().toLocaleDateString("en-CA"),
-      };
-      const response = await client.transactionsGet(send);
-      const resTransactions = response.data.transactions;
-      //TODO: Need to add bankID
-      const transactionsToAdd = resTransactions.map((transaction) => {
-        return {
-          id: transaction.transaction_id,
+      const addTransaction = await prisma.transaction.create({
+        data: {
           date: transaction.date,
           amount: transaction.amount,
-          userId: id,
+          userId: id as string,
           description: transaction.name,
-          categoryId: initialCategory(transaction.amount),
-        };
+          categoryId: category?.id,
+        },
       });
-      const addTransactions = await prisma.transaction.createMany({
-        data: transactionsToAdd,
-      });
-      res.json({ transactions: addTransactions });
+      res.json({ transaction: addTransaction });
     }
   } catch (error) {
-    res.json({ transactions: "error" });
+    res.json({ transaction: "error" });
     console.log(error);
   }
 }

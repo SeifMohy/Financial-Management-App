@@ -34,7 +34,7 @@ model Bank {
 }
 
 model Transaction {
-  id          String    @id
+  id          String    @id @default(cuid())
   date        String?
   amount      Float
   description String?

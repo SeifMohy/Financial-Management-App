@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import axios from "axios";
 import useSWR from "swr";
 import { Categories } from "../Types/index";
+import Context from "../Context";
 
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
 const AddTransactionModal = () => {
+  const [open, setOpen] = useState(true);
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
   );
-  const [open, setOpen] = useState(true);
+  const { userInfo } = useContext(Context);
+  const userId = userInfo.currentSession?.user.id;
+  console.log(userId)
   const initialValues = {
     date: " ",
     amount: " ",
@@ -26,6 +30,7 @@ const AddTransactionModal = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
+      const res = await axios.put(`/api/addTransaction/${userId}`, values);
     },
   });
   return (
@@ -127,7 +132,11 @@ const AddTransactionModal = () => {
                         onChange={formik.handleChange}
                       >
                         {categories?.data.map((category) => {
-                          return <option>{category.category}</option>;
+                          return (
+                            <option key={category.id}>
+                              {category.category}
+                            </option>
+                          );
                         })}
                       </select>
                     </div>
