@@ -8,11 +8,13 @@ import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import { periodOptions } from "../Utils";
+import AddTransactionModal from "../Components/AddTransactionModal";
 
 const fetchDBTransactions = (url: string, period: any) =>
   axios.put(url, period).then((res) => res.data);
 
 const TransactionHistory = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [period, setPeriod] = useState("3 months");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(Context);
@@ -55,6 +57,11 @@ const TransactionHistory = () => {
   return (
     <Layout>
       <div>
+        <AddTransactionModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          userId={userId}
+        />
         <div className="mb-3 flex justify-between">
           <PeriodDropDown
             periodOptions={periodOptions}
@@ -64,6 +71,7 @@ const TransactionHistory = () => {
           <button
             type="button"
             className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+            onClick={() => setOpenModal(true)}
           >
             Add Transaction
           </button>

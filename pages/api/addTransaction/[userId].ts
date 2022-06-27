@@ -31,10 +31,10 @@ export default async function handler(
       });
       const addTransaction = await prisma.transaction.create({
         data: {
-          date: transaction.date,
-          amount: transaction.amount,
+          date: transaction.date.split("/").reverse().join("-"),
+          amount: parseFloat(transaction.amount),
           userId: id as string,
-          description: transaction.name,
+          description: transaction.description,
           categoryId: category?.id,
         },
       });

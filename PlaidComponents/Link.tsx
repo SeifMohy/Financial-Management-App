@@ -1,10 +1,12 @@
 import axios from "axios";
+import Router from "next/router";
 import React, { useEffect, useContext } from "react";
 import { usePlaidLink } from "react-plaid-link";
-
+import { useRouter } from "next/router";
 import Context from "../Context";
 
 const Link = () => {
+  const router = useRouter();
   const { linkToken, dispatch, userInfo } = useContext(Context);
   const onSuccess = React.useCallback(
     (public_token: string) => {
@@ -44,7 +46,8 @@ const Link = () => {
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/AddingABank"); //TODO: Should send to transaction page?
+      window.history.pushState("", "", ""); //TODO: Should send to transaction page?
+      router.push("/Dashboard");
     },
     [dispatch]
   );

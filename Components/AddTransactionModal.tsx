@@ -7,22 +7,26 @@ import useSWR from "swr";
 import { Categories } from "../Types/index";
 import Context from "../Context";
 
+type Props = {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  userId: string;
+};
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
-const AddTransactionModal = () => {
-  const [open, setOpen] = useState(true);
+const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
   );
-  const { userInfo } = useContext(Context);
-  const userId = userInfo.currentSession?.user.id;
-  console.log(userId)
+  // const { userInfo } = useContext(Context);
+  // const userId = userInfo.currentSession?.user.id;
+  console.log(userId);
   const initialValues = {
     date: " ",
     amount: " ",
     description: " ",
-    category: " ",
+    category: "Revenue",
   };
 
   const formik = useFormik({
@@ -31,11 +35,12 @@ const AddTransactionModal = () => {
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
       const res = await axios.put(`/api/addTransaction/${userId}`, values);
+      setOpenModal(false);
     },
   });
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+    <Transition.Root show={openModal} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setOpenModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
