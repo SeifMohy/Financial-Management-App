@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { KeyFigures } from "../../../Types/index";
 import prisma from "../../../prismaClient";
-import { calculateTransactions, transactionStartDate } from "../../../Utils";
+import {
+  calculateTransactions,
+  numberWithCommas,
+  transactionStartDate,
+} from "../../../Utils";
 
 prisma;
 
@@ -58,7 +62,7 @@ export default async function handler(
         name: "Total Revenue",
         pre: "EGP",
         pos: "",
-        stat: Math.round(totalRevenue),
+        stat: numberWithCommas(Math.round(totalRevenue)),
       },
       {
         name: "Sales Growth",

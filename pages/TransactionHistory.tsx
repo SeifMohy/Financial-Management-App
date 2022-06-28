@@ -7,7 +7,7 @@ import useSWR from "swr";
 import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
 import PeriodDropDown from "../Components/PeriodDropDown";
-import { periodOptions } from "../Utils";
+import { numberWithCommas, periodOptions } from "../Utils";
 import AddTransactionModal from "../Components/AddTransactionModal";
 
 const fetchDBTransactions = (url: string, period: any) =>
@@ -33,7 +33,7 @@ const TransactionHistory = () => {
     : sixMonthsFromNow.toLocaleDateString("en-CA");
   console.log(startDate);
   const getTransactionData = async (send: any) => {
-    //TODO: need to find a better place to place this
+    //TODO: need to find a better place to place this (could be after success)
     setIsLoading(true);
     const response = await fetch(`/api/Plaid/transactionsStartDate`, {
       method: "POST",
@@ -143,7 +143,7 @@ const TransactionHistory = () => {
                             {transaction.date}
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                            EGP {transaction.amount}
+                            EGP {numberWithCommas(transaction.amount)}
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                             {transaction.description}

@@ -37,3 +37,7 @@ export const periodOptions = [
   { period: "3 months" },
   { period: "All" },
 ];
+
+export function numberWithCommas(x: any) {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -31,7 +31,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-// const fetchUser = (url: string) => axios.put(url).then((res) => res.data);
 const Layout: React.FC<Props> = ({ children }) => {
   async function checkAccessToken(userAuth: any) {
     const userId = userAuth?.currentSession.user.id;

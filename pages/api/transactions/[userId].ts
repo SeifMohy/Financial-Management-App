@@ -1,6 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { DBTransactions } from "../../../Types/index";
-import { calculateTransactions, transactionStartDate } from "../../../Utils";
+import {
+  calculateTransactions,
+  numberWithCommas,
+  transactionStartDate,
+} from "../../../Utils";
 
 type Message = {
   msg: string;
@@ -45,16 +49,22 @@ export default async function handler(
         name: "Net Movements",
         pre: "EGP",
         pos: "",
-        stat:
-          Math.round((totalCost + totalRevenue + Number.EPSILON) * 100) / 100,
+        stat: numberWithCommas(
+          Math.round((totalCost + totalRevenue + Number.EPSILON) * 100) / 100
+        ),
       },
       {
         name: "Total Credit Movements",
         pre: "EGP",
         pos: "",
-        stat: totalRevenue,
+        stat: numberWithCommas(totalRevenue),
       },
-      { name: "Total Debit Movements", pre: "EGP", pos: "", stat: totalCost },
+      {
+        name: "Total Debit Movements",
+        pre: "EGP",
+        pos: "",
+        stat: numberWithCommas(totalCost),
+      },
     ];
 
     res.status(200).json({ transactions: dbTransactions, movements: data });

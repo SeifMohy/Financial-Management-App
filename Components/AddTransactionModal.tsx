@@ -19,8 +19,6 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
     `/api/categories`,
     fetchCategories
   );
-  // const { userInfo } = useContext(Context);
-  // const userId = userInfo.currentSession?.user.id;
   console.log(userId);
   const initialValues = {
     date: " ",
@@ -33,9 +31,8 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
-      const res = await axios.put(`/api/addTransaction/${userId}`, values);
       setOpenModal(false);
+      const res = await axios.put(`/api/addTransaction/${userId}`, values);
     },
   });
   return (
