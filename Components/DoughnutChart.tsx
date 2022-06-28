@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import axios from "axios";
-import Context from "../Context";
 import useSWR from "swr";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type Props = {
   period: string;
+  userId: string;
 };
 function createChartData(data: number[], labels: string[]) {
   return {
@@ -31,9 +31,7 @@ function createChartData(data: number[], labels: string[]) {
 const fetchChartData = (url: string, period: any) =>
   axios.put(url, period).then((res) => res.data);
 
-const DoughnutChart = ({ period }: Props) => {
-  const { userInfo } = useContext(Context);
-  const userId = userInfo.currentSession?.user.id;
+const DoughnutChart = ({ period, userId }: Props) => {
   const { data: chartsData } = useSWR<any>(
     [`/api/doughnut/${userId}`, period],
     fetchChartData

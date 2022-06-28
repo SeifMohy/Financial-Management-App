@@ -14,7 +14,6 @@ const fetchKeyFigures = (url: string, period: any) =>
 
 const Dashboard = () => {
   const [period, setPeriod] = useState("3 months");
-
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: keyFigures } = useSWR<KeyFigures>(
@@ -80,10 +79,10 @@ const Dashboard = () => {
         </div>
       </div>
       <div>
-        <DoughnutChart period={period} />
+        <DoughnutChart period={period} userId={userId} />
       </div>
       <div>
-        <LineChart />
+        <LineChart userId={userId} />
       </div>
     </Layout>
   );
