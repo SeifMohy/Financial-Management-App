@@ -14,6 +14,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import Context from "../Context";
+import axios from "axios";
 
 const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },
@@ -30,7 +31,16 @@ type Props = {
   children: React.ReactNode;
 };
 
+// const fetchUser = (url: string) => axios.put(url).then((res) => res.data);
 const Layout: React.FC<Props> = ({ children }) => {
+  async function checkAccessToken(userAuth: any) {
+    const userId = userAuth?.currentSession.user.id;
+    const dbUser = await axios.get(`/api/user/${userId}`);
+    const accessToken = dbUser.data.accessToken;
+    if (!accessToken) {
+      router.push("/AddingABank");
+    }
+  }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { dispatch, userInfo } = useContext(Context);
   const router = useRouter();
@@ -54,6 +64,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         type: "SET_STATE",
         state: { userInfo: userAuth },
       });
+      checkAccessToken(userAuth);
     }
   }, []);
 
