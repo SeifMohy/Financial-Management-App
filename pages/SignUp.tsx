@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
 
 export type SignUpInfo = {
   email: string;
@@ -29,11 +30,8 @@ const SignUp = () => {
         },
       }
     );
-    // console.log({ user, session, error });
-    if(user){
-      // console.log(user);
-      const res = await axios.put('/api/Auth/user', user); 
-      // console.log('userCreated?', res);
+    if (user) {
+      const res = await axios.put("/api/Auth/user", user);
       router.push("/Dashboard");
     }
   };
@@ -49,8 +47,13 @@ const SignUp = () => {
     onSubmit: async (values: SignUpInfo, resetForm: any) => {
       console.log(values);
       signUpWithEmail(values);
-      resetForm()
+      resetForm();
     },
+    validationSchema: Yup.object({
+      email: Yup.string().email().required("*Required"),
+      password: Yup.string().required("*Required"),
+      name: Yup.string().required("*Required"),
+    }),
   });
 
   return (
@@ -93,7 +96,13 @@ const SignUp = () => {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Name"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  {formik.touched.name && formik.errors.name ? (
+                    <p className="text-xs italic text-red-300">
+                      {formik.errors.name}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <label htmlFor="email-address" className="sr-only">
@@ -108,9 +117,15 @@ const SignUp = () => {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  {formik.touched.email && formik.errors.email ? (
+                    <p className="text-xs italic text-red-300">
+                      {formik.errors.email}
+                    </p>
+                  ) : null}
                 </div>
-                <div>
+                <div className="">
                   <label htmlFor="password" className="sr-only">
                     Password
                   </label>
@@ -123,10 +138,15 @@ const SignUp = () => {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
                 </div>
+                {formik.touched.password && formik.errors.password ? (
+                  <p className="text-xs italic text-red-300">
+                    {formik.errors.password}
+                  </p>
+                ) : null}
               </div>
-
               <div>
                 <button
                   type="submit"

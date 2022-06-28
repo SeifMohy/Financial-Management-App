@@ -3,6 +3,7 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 
 export type SignInInfo = {
   email: string;
@@ -22,18 +23,21 @@ const SignIn = () => {
     });
     router.push("/Dashboard");
   };
-
   const initialValues = {
     email: "",
     password: "",
   };
-
+  //TODO: display message if incorrect password
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: async (values: SignInInfo, resetForm: any) => {
       loginWithEmail(values);
       resetForm();
     },
+    validationSchema: Yup.object({
+      email: Yup.string().email().required("*Required"),
+      password: Yup.string().required("*Required"),
+    }),
   });
   return (
     <div>
@@ -75,7 +79,13 @@ const SignIn = () => {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  {formik.touched.email && formik.errors.email ? (
+                    <p className="text-xs italic text-red-300">
+                      {formik.errors.email}
+                    </p>
+                  ) : null}
                 </div>
                 <div>
                   <label htmlFor="password" className="sr-only">
@@ -90,7 +100,13 @@ const SignIn = () => {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                   />
+                  {formik.touched.password && formik.errors.password ? (
+                    <p className="text-xs italic text-red-300">
+                      {formik.errors.password}
+                    </p>
+                  ) : null}
                 </div>
               </div>
 

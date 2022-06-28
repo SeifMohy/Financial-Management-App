@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Fragment, useState } from "react";
+import React from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -44,9 +44,8 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
           const result = parse(originalValue, "dd/MM/yyyy", new Date());
           return result;
         })
-        .typeError("please enter a valid date")
+        .typeError("*Enter a valid date")
         .required(),
-      // Yup.date().required("*Required"),
       amount: Yup.string().required("*Required"),
       description: Yup.string().required("*Required"),
     }),
