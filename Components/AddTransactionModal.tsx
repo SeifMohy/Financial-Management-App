@@ -5,7 +5,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import useSWR from "swr";
 import { Categories } from "../Types/index";
-import Context from "../Context";
+import * as Yup from "yup";
+import parse from "date-fns/parse";
 
 type Props = {
   openModal: boolean;
@@ -21,9 +22,9 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
   );
   console.log(userId);
   const initialValues = {
-    date: " ",
-    amount: " ",
-    description: " ",
+    date: "",
+    amount: "",
+    description: "",
     category: "Revenue",
   };
 
@@ -34,6 +35,21 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
       setOpenModal(false);
       const res = await axios.put(`/api/addTransaction/${userId}`, values);
     },
+    validationSchema: Yup.object({
+      date: Yup.date()
+        .transform(function (value, originalValue) {
+          if (this.isType(value)) {
+            return value;
+          }
+          const result = parse(originalValue, "dd/MM/yyyy", new Date());
+          return result;
+        })
+        .typeError("please enter a valid date")
+        .required(),
+      // Yup.date().required("*Required"),
+      amount: Yup.string().required("*Required"),
+      description: Yup.string().required("*Required"),
+    }),
   });
   return (
     <Transition.Root show={openModal} as={Fragment}>
@@ -75,10 +91,17 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
                         type="text"
                         name="date"
                         id="date"
-                        placeholder="DD/MM/YYYY"
+                        placeholder={"DD/MM/YYYY"}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.date}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
+                      {formik.touched.date && formik.errors.date ? (
+                        <p className="text-xs italic text-red-300">
+                          {formik.errors.date}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
 
@@ -96,8 +119,14 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
                         id="amount"
                         placeholder="EGP"
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
+                      {formik.touched.amount && formik.errors.amount ? (
+                        <p className="text-xs italic text-red-300">
+                          {formik.errors.amount}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
 
@@ -115,8 +144,15 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
                         id="description"
                         placeholder="Name or Reason"
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         className="shadow-sm focus:ring-cyan-500 focus:border-cyan-500 block w-full sm:text-sm border-gray-300 rounded-md"
                       />
+                      {formik.touched.description &&
+                      formik.errors.description ? (
+                        <p className="text-xs italic text-red-300">
+                          {formik.errors.description}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                   <div className="m-2">
