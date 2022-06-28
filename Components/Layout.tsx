@@ -191,7 +191,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           </nav>
         </div>
       </div>
-      <div className=" z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
+      <div className=" shadow-sm z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
         <button
           type="button"
           className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
@@ -200,7 +200,6 @@ const Layout: React.FC<Props> = ({ children }) => {
           <span className="sr-only">Open sidebar</span>
           <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
         </button>
-        {/* Search bar */}
         <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-10xl lg:mx-auto">
           <div className="flex-1 flex"></div>
           <div className="ml-4 flex items-center md:ml-6">

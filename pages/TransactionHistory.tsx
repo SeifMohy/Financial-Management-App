@@ -129,12 +129,6 @@ const TransactionHistory = () => {
                       >
                         Category
                       </th>
-                      <th
-                        scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                      >
-                        Bank
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
@@ -156,10 +150,6 @@ const TransactionHistory = () => {
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
                             <CategoryDropDown transaction={transaction} />
-                          </td>
-                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                            chase
-                            {/* need to add bank somehow */}
                           </td>
                         </tr>
                       )

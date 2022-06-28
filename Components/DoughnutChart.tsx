@@ -15,7 +15,7 @@ function createChartData(data: number[], labels: string[]) {
     labels: labels,
     datasets: [
       {
-        label: "need to dynamically add a title",
+        label: " ",
         data: data,
         backgroundColor: [
           "rgb(255, 99, 132)",
@@ -38,11 +38,11 @@ const DoughnutChart = ({ period, userId }: Props) => {
   );
   console.log(chartsData);
   return (
-    <div className="lg:grid lg:grid-cols-2 gap-3 m-5">
+    <div className="lg:grid lg:grid-cols-2 gap-3 m-5 p-5">
       {chartsData?.data.map((chartData: any) => {
         const data = createChartData(chartData.data, chartData.labels);
         return (
-          <div key={chartData.title}>
+          <div className="p-10" key={chartData.title}>
             <p className="text-center text-xl">{chartData.title}</p>
             <Doughnut data={data} />
           </div>
