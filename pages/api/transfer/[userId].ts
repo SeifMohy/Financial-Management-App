@@ -33,7 +33,7 @@ export default async function handler(
         where: { id: senderId as string },
       });
       if (!receiver || !sender) {
-        return res.json({ msg: "incorect user" });
+        return res.status(404).json({ msg: "incorect user" });
       }
       const receiverId = receiver?.id;
       const senderCategory = await prisma.category.findFirst({
@@ -63,8 +63,9 @@ export default async function handler(
           id: senderId as string,
         },
         data: {
-          currentBalance: (sender?.currentBalance -
-            ++transaction.amount) as number,
+          currentBalance: sender?.currentBalance
+            ? sender?.currentBalance - parseFloat(transaction.amount)
+            : -parseFloat(transaction.amount),
         },
       });
       const updateReceiver = await prisma.user.update({
@@ -72,8 +73,9 @@ export default async function handler(
           id: receiverId as string,
         },
         data: {
-          currentBalance: (receiver?.currentBalance +
-            ++transaction.amount) as number,
+          currentBalance: receiver?.currentBalance
+            ? receiver?.currentBalance + parseFloat(transaction.amount)
+            : parseFloat(transaction.amount),
         },
       });
       res.json({

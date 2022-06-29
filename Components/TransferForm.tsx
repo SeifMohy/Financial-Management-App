@@ -33,7 +33,7 @@ const TransferForm = ({ userId }: Props) => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
-      amount: Yup.number()
+      amount: Yup.number().max()
         .typeError("*Enter a valid number")
         .required("*Required"),
       description: Yup.string().required("*Required"),
