@@ -5,9 +5,13 @@ import useSWR from "swr";
 import * as Yup from "yup";
 import { Categories } from "../Types/index";
 
+type Props = {
+  userId: string;
+};
+
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
-const TransferForm = () => {
+const TransferForm = ({ userId }: Props) => {
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
@@ -24,11 +28,14 @@ const TransferForm = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      // const res = await axios.put(`/api/addTransaction/${userId}`, values);
+      const res = await axios.put(`/api/transfer/${userId}`, values);
+      console.log(res);
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
-      amount: Yup.number().typeError("*Enter a valid number").required("*Required"),
+      amount: Yup.number()
+        .typeError("*Enter a valid number")
+        .required("*Required"),
       description: Yup.string().required("*Required"),
     }),
   });
@@ -113,6 +120,7 @@ const TransferForm = () => {
                     id="grid-state"
                     name="category"
                     onChange={formik.handleChange}
+                    value={formik.values.category}
                   >
                     {categories?.data.map((category) => {
                       return (

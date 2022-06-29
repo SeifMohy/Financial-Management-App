@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "currentBalance" SET DATA TYPE DOUBLE PRECISION;
