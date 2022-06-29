@@ -1,4 +1,4 @@
-import { Category, Transaction } from "@prisma/client";
+import { Category, Transaction, User } from "@prisma/client";
 
 export type DBTransactions = {
   transactions: (Transaction & {
@@ -37,4 +37,8 @@ export type DoughnutChart = {
     data: _.Collection<number>;
     title: string;
   }[];
+};
+
+export type APIUser = {
+  user: User | null;
 };

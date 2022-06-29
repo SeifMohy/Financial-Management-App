@@ -1,9 +1,6 @@
 import { User } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type APIUser = {
-    accessToken: string | null | undefined;
-};
+import { APIUser } from "../../../Types/index";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +17,7 @@ export default async function handler(
         id: id as string,
       },
     });
-    res.status(200).json({ accessToken: user?.accessToken });
+    res.status(200).json({ user: user });
   } catch (error) {
     console.log(error);
   }

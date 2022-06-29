@@ -35,7 +35,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   async function checkAccessToken(userAuth: any) {
     const userId = userAuth?.currentSession.user.id;
     const dbUser = await axios.get(`/api/user/${userId}`);
-    const accessToken = dbUser.data.accessToken;
+    const accessToken = dbUser.data.user.accessToken;
     if (!accessToken) {
       router.push("/AddingABank");
     }
