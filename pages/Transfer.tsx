@@ -1,10 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import {
-  ScaleIcon,
-} from "@heroicons/react/outline";
-
+import { ScaleIcon } from "@heroicons/react/outline";
 import Layout from "../Components/Layout";
+import TransferForm from "../Components/TransferForm";
 
 const cards = [
   { name: "Current balance", href: "#", icon: ScaleIcon, amount: "$30,659.45" },
@@ -14,10 +12,10 @@ const cards = [
 const Transfer = () => {
   return (
     <Layout>
-      <div className="mt-8">
+      <div className="mt-3">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-lg leading-6 font-medium text-gray-900">
-            Overview
+            Process A Payment
           </h2>
           <div className="m-5">
             {/* Card */}
@@ -45,6 +43,7 @@ const Transfer = () => {
               </div>
             ))}
           </div>
+          <TransferForm />
         </div>
       </div>
     </Layout>

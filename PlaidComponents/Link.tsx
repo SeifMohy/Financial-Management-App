@@ -43,11 +43,12 @@ const Link = () => {
             isItemAccess: true,
           },
         });
+        //TODO: add Transactions to db
         router.push("/Dashboard");
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/Dashboard"); //TODO: Should send to transaction page?
+      window.history.pushState("", "", "/Dashboard"); 
     },
     [dispatch]
   );

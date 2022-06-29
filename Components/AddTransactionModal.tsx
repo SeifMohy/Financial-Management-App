@@ -46,7 +46,7 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
         })
         .typeError("*Enter a valid date")
         .required(),
-      amount: Yup.string().required("*Required"),
+      amount: Yup.number().typeError("*Enter a valid number").required("*Required"),
       description: Yup.string().required("*Required"),
     }),
   });
@@ -90,7 +90,7 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
                         type="text"
                         name="date"
                         id="date"
-                        placeholder={"DD/MM/YYYY"}
+                        placeholder="DD/MM/YYYY"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.date}
