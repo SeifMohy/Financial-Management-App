@@ -43,11 +43,11 @@ const Link = () => {
             isItemAccess: true,
           },
         });
+        router.push("/Dashboard");
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", ""); //TODO: Should send to transaction page?
-      router.push("/Dashboard");
+      window.history.pushState("", "", "/Dashboard"); //TODO: Should send to transaction page?
     },
     [dispatch]
   );

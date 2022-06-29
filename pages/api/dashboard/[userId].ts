@@ -70,17 +70,20 @@ export default async function handler(
         pos: "%",
         stat:
           Math.round(
-            ((totalRevenue - totalRevenuePP) / totalRevenuePP +
+            (((totalRevenue - totalRevenuePP) / totalRevenuePP) * 100 +
               Number.EPSILON) *
               100
           ) / 100,
       },
       {
-        name: "Gross Margin",
+        name: "Gross Profit Margin",
         pre: "",
         pos: "%",
         stat:
-          Math.round((totalCost / totalRevenue + Number.EPSILON) * 100) / 100,
+          Math.round(
+            (((totalRevenue - totalCost) / totalRevenue) * 100 + Number.EPSILON) *
+              100
+          ) / 100,
       },
     ];
     res.status(200).json({ keyFigures: data });
