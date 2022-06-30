@@ -1,8 +1,8 @@
 import React from "react";
-import AddTransactionModal from "../Components/AddTransactionModal";
+import LoadingPage from "../Components/LoadingPage";
 
 const Layout: React.FC = () => {
-  return <AddTransactionModal />;
+  return <LoadingPage />;
 };
 
 export default Layout;

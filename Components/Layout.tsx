@@ -19,7 +19,7 @@ const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },
   { name: "Transaction History", href: "/TransactionHistory", icon: ClockIcon },
   { name: "Transfers", href: "/Transfer", icon: ScaleIcon },
-  { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon },
+  // { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon },
 ];
 
 function classNames(...classes: string[]) {
