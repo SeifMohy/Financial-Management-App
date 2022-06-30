@@ -9,6 +9,7 @@ import useSWR from "swr";
 import Context from "../Context";
 import { APIUser } from "../Types/index";
 import { numberWithCommas } from "../Utils";
+import LoadingPage from "../Components/LoadingPage";
 
 const fetchUser = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -16,7 +17,9 @@ const Transfer = () => {
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: user } = useSWR<APIUser>([`/api/user/${userId}`], fetchUser);
-  const currentBalance = user? user.user?.currentBalance: 0
+  const currentBalance = user ? user.user?.currentBalance : 0;
+
+  if (!user) return <LoadingPage />;
   return (
     <Layout>
       <div className="mt-3">
@@ -49,7 +52,7 @@ const Transfer = () => {
               </div>
             </div>
           </div>
-          <TransferForm userId={userId} currentBalance={currentBalance}/>
+          <TransferForm userId={userId} currentBalance={currentBalance} />
         </div>
       </div>
     </Layout>

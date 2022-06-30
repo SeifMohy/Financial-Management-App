@@ -9,6 +9,7 @@ import { DBTransactions } from "../Types/index";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import { numberWithCommas, periodOptions } from "../Utils";
 import AddTransactionModal from "../Components/AddTransactionModal";
+import LoadingPage from "../Components/LoadingPage";
 
 const fetchDBTransactions = (url: string, period: any) =>
   axios.put(url, period).then((res) => res.data);
@@ -54,6 +55,7 @@ const TransactionHistory = () => {
     getTransactionData(data), [];
   });
 
+  if (!transactions) return <LoadingPage />;
   return (
     <Layout>
       <div>

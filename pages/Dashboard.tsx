@@ -4,6 +4,7 @@ import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
 import LineChart from "../Components/LineChart";
+import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { KeyFigures } from "../Types/index";
@@ -21,7 +22,7 @@ const Dashboard = () => {
     fetchKeyFigures
   );
 
-  if (!keyFigures) return <div>loading...</div>;
+  if (!keyFigures) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>
