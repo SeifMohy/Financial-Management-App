@@ -28,9 +28,8 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
-    onSubmit: async (values: any, resetForm: any) => {
-      // console.log(values);
-      formik.resetForm()
+    onSubmit: async (values: any) => {
+      formik.resetForm();
       const res = await axios.put(`/api/transfer/${userId}`, values);
     },
     validationSchema: Yup.object({
