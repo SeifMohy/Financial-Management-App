@@ -33,6 +33,7 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       setOpenModal(false);
+      formik.resetForm()
       const res = await axios.put(`/api/addTransaction/${userId}`, values);
     },
     validationSchema: Yup.object({

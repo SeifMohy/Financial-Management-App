@@ -32,7 +32,7 @@ const SignIn = () => {
     initialValues: initialValues,
     onSubmit: async (values: SignInInfo, resetForm: any) => {
       loginWithEmail(values);
-      resetForm();
+      formik.resetForm()
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),

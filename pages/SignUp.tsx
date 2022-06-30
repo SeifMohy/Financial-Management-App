@@ -44,10 +44,10 @@ const SignUp = () => {
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: async (values: SignUpInfo, resetForm: any) => {
+    onSubmit: async (values: SignUpInfo) => {
       console.log(values);
       signUpWithEmail(values);
-      resetForm();
+      formik.resetForm()
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),

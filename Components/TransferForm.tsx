@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import * as Yup from "yup";
 import { Categories } from "../Types/index";
@@ -17,6 +17,7 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
     `/api/categories`,
     fetchCategories
   );
+  const [userErrorMessage, setUserErrorMessage] = useState(false);
   const initialValues = {
     email: "",
     amount: "",
@@ -28,9 +29,9 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
+      // console.log(values);
+      formik.resetForm()
       const res = await axios.put(`/api/transfer/${userId}`, values);
-      console.log(res);
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
@@ -69,6 +70,11 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
                   {formik.touched.email && formik.errors.email ? (
                     <p className="text-xs italic text-red-300">
                       {formik.errors.email}
+                    </p>
+                  ) : null}
+                  {userErrorMessage ? (
+                    <p className="text-xs italic text-red-300">
+                      Email does not exist
                     </p>
                   ) : null}
                 </div>
