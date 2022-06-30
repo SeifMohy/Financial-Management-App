@@ -7,11 +7,12 @@ import { Categories } from "../Types/index";
 
 type Props = {
   userId: string;
+  currentBalance: number | null | undefined;
 };
 
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
-const TransferForm = ({ userId }: Props) => {
+const TransferForm = ({ userId, currentBalance }: Props) => {
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
@@ -33,7 +34,11 @@ const TransferForm = ({ userId }: Props) => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
-      amount: Yup.number().max()
+      amount: Yup.number()
+        .max(
+          currentBalance ? currentBalance : 0,
+          "Cannot Exceed Avaiable Balance"
+        )
         .typeError("*Enter a valid number")
         .required("*Required"),
       description: Yup.string().required("*Required"),
