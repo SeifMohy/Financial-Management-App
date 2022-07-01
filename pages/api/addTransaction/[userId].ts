@@ -2,6 +2,7 @@ import { Prisma, Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";
+import { checkAmountType } from "../../../Utils";
 
 prisma;
 
@@ -32,7 +33,7 @@ export default async function handler(
       const addTransaction = await prisma.transaction.create({
         data: {
           date: transaction.date.split("/").reverse().join("-"),
-          amount: parseFloat(transaction.amount),
+          amount: checkAmountType(transaction, category),
           userId: id as string,
           description: transaction.description,
           categoryId: category?.id,

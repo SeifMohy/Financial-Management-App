@@ -41,3 +41,11 @@ export const periodOptions = [
 export function numberWithCommas(x: any) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export function checkAmountType(transaction: any, category: any) {
+  if (category.type === "debit") {
+    return -Math.abs(parseFloat(transaction.amount));
+  } else {
+    return Math.abs(parseFloat(transaction.amount));
+  }
+}
