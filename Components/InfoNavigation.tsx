@@ -1,18 +1,13 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
-import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const InfoNavigation = () => {
   const router = useRouter();
   return (
     <div>
       <Disclosure as="nav" className="bg-cyan-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="-ml-2 mr-2 flex items-center md:hidden"></div>
