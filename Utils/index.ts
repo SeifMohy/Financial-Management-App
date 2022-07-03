@@ -1,5 +1,25 @@
 import { Transaction } from "@prisma/client";
 
+export const getTransactionData = async (send: any) => {
+  const response = await fetch(`/api/Plaid/transactionsStartDate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+    body: send,
+  });
+  const data = await response.json();
+};
+
+export function startDate(transactions: any) {
+  var sixMonthsFromNow = new Date();
+  sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
+  const startDate = transactions?.length
+    ? transactions[0].date
+    : sixMonthsFromNow.toLocaleDateString("en-CA");
+  return startDate;
+}
+
 export function transactionStartDate(time: string, pp: number) {
   switch (time) {
     case "1 week":

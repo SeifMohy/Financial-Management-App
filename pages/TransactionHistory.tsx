@@ -7,7 +7,12 @@ import useSWR from "swr";
 import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
 import PeriodDropDown from "../Components/PeriodDropDown";
-import { numberWithCommas, periodOptions } from "../Utils";
+import {
+  numberWithCommas,
+  periodOptions,
+  getTransactionData,
+  startDate,
+} from "../Utils";
 import AddTransactionModal from "../Components/AddTransactionModal";
 import LoadingPage from "../Components/LoadingPage";
 
@@ -17,7 +22,6 @@ const fetchDBTransactions = (url: string, period: any) =>
 const TransactionHistory = () => {
   const [openModal, setOpenModal] = useState(false);
   const [period, setPeriod] = useState("3 months");
-  const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: transactions } = useSWR<DBTransactions>(
@@ -27,31 +31,12 @@ const TransactionHistory = () => {
   const sortedTransactions = transactions?.transactions.sort(
     (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   );
-  var sixMonthsFromNow = new Date();
-  sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6);
-  const startDate = sortedTransactions?.length
-    ? sortedTransactions[0].date
-    : sixMonthsFromNow.toLocaleDateString("en-CA");
-  console.log(startDate);
-  const getTransactionData = async (send: any) => {
-    //TODO: need to find a better place to place this (could be after success)
-    setIsLoading(true);
-    const response = await fetch(`/api/Plaid/transactionsStartDate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      },
-      body: send,
-    });
-    const data = await response.json();
-    console.log(data);
-  };
+
   useEffect(() => {
     if (!userId) {
-      //TODO: need to find condition where transactions should not be sent till a response from transactions is received
       console.log("no user");
     }
-    const data = [userId, startDate];
+    const data = [userId, startDate(sortedTransactions)];
     getTransactionData(data), [];
   });
 

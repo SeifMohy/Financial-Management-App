@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
@@ -7,20 +7,36 @@ import LineChart from "../Components/LineChart";
 import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
-import { KeyFigures } from "../Types/index";
-import { periodOptions } from "../Utils";
+import { DBTransactions, KeyFigures } from "../Types/index";
+import { getTransactionData, periodOptions, startDate } from "../Utils";
 
 const fetchKeyFigures = (url: string, period: any) =>
+  axios.put(url, period).then((res) => res.data);
+const fetchDBTransactions = (url: string, period: any) =>
   axios.put(url, period).then((res) => res.data);
 
 const Dashboard = () => {
   const [period, setPeriod] = useState("3 months");
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
+  const { data: transactions } = useSWR<DBTransactions>(
+    [`/api/transactions/${userId}`, period],
+    fetchDBTransactions
+  );
   const { data: keyFigures } = useSWR<KeyFigures>(
     [`/api/dashboard/${userId}`, period],
     fetchKeyFigures
   );
+  const sortedTransactions = transactions?.transactions.sort(
+    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+  );
+  useEffect(() => {
+    if (!userId) {
+      console.log("no user");
+    }
+    const data = [userId, startDate(sortedTransactions)];
+    getTransactionData(data), [];
+  });
 
   if (!keyFigures) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
