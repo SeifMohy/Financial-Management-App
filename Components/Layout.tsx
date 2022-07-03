@@ -3,7 +3,6 @@ import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   ClockIcon,
-  CreditCardIcon,
   HomeIcon,
   MenuAlt1Icon,
   ScaleIcon,
@@ -128,7 +127,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                   />
                 </div>
                 <nav
-                  className="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto"
+                  className="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto "
                   aria-label="Sidebar"
                 >
                   <div className="px-2 space-y-1">
@@ -155,51 +154,10 @@ const Layout: React.FC<Props> = ({ children }) => {
                 </nav>
               </Dialog.Panel>
             </Transition.Child>
-            <div className="flex-shrink-0 w-14" aria-hidden="true">
-              {/* Dummy element to force sidebar to shrink to fit close icon */}
-            </div>
+            <div className="flex-shrink-0 w-14" aria-hidden="true"></div>
           </div>
         </Dialog>
       </Transition.Root>
-      {/* Static sidebar for desktop */}
-      <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-        {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
-          <div className="flex items-center flex-shrink-0 px-4">
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
-              alt="Easywire logo"
-            />
-          </div>
-          <nav
-            className="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
-            aria-label="Sidebar"
-          >
-            <div className="px-2 space-y-1">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={classNames(
-                    router.pathname === `${item.href}`
-                      ? "bg-cyan-800 text-white"
-                      : "text-cyan-100 hover:text-white hover:bg-cyan-600",
-                    "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
-                  )}
-                >
-                  <item.icon
-                    className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
-                    aria-hidden="true"
-                  />
-                  {item.name}
-                </a>
-              ))}
-            </div>
-            <div className="mt-6 pt-6"></div>
-          </nav>
-        </div>
-      </div>
       <div className=" shadow-sm z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
         <button
           type="button"
@@ -249,9 +207,51 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </div>
       </div>
-      <main className="lg:absolute lg:z-0 lg:left-60 p-5 lg:px-10 lg:w-4/5">
-        <div>{children}</div>
-      </main>
+      <div className="lg:grid lg:grid-cols-6 w-full">
+        {/* Static sidebar for desktop */}
+        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:fixed">
+          {/* Sidebar component, swap this element with another sidebar if you like */}
+          <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
+            <div className="flex items-center flex-shrink-0 px-4">
+              <img
+                className="h-8 w-auto"
+                src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
+                alt="Easywire logo"
+              />
+            </div>
+            <nav
+              className="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
+              aria-label="Sidebar"
+            >
+              <div className="px-2 space-y-1">
+                {navigation.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      router.pathname === `${item.href}`
+                        ? "bg-cyan-800 text-white"
+                        : "text-cyan-100 hover:text-white hover:bg-cyan-600",
+                      "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
+                    )}
+                  >
+                    <item.icon
+                      className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+              <div className="mt-6 pt-6"></div>
+            </nav>
+          </div>
+        </div>
+
+        <main className="lg:z-0 lg:left-60 p-5 m-5 lg:px-10 lg:col-start-2 lg:col-end-7">
+          <div>{children}</div>
+        </main>
+      </div>
     </div>
   );
 };

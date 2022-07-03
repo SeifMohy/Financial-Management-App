@@ -38,12 +38,12 @@ const DoughnutChart = ({ period, userId }: Props) => {
   );
   console.log(chartsData);
   return (
-    <div className="lg:grid lg:grid-cols-2 gap-5 m-5 ">
+    <div className="lg:grid lg:grid-cols-2 gap-5 m-5">
       {chartsData?.data.map((chartData: any) => {
         const data = createChartData(chartData.data, chartData.labels);
         return (
           <div
-            className="p-10 bg-white shadow rounded-lg px-4 py-5"
+            className="p-10 bg-white shadow rounded-lg px-4 py-5 my-5"
             key={chartData.title}
           >
             <p className="text-center text-xl">{chartData.title}</p>
