@@ -16,7 +16,7 @@ export default async function handler(
   res: NextApiResponse<Data | Message>
 ) {
   try {
-    const { accessToken, userId } = req.body;
+    const { accessToken, userId, itemId } = req.body;
     if (!accessToken) {
       res.status(500).json({ msg: "no token" });
     }
@@ -28,7 +28,7 @@ export default async function handler(
     } else {
       const updatedUser = await prisma.user.update({
         where: { id: userId },
-        data: { accessToken: accessToken },
+        data: { accessToken: accessToken, itemId: itemId },
       });
       res.status(200).json({ msg: "accessToken Updated", user: updatedUser });
     }

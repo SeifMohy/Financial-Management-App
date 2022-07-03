@@ -19,6 +19,7 @@ model User {
   image          String
   currentBalance Float?
   accessToken    String?
+  itemId         String?
   //relations
   banks          Bank[]
   transactions   Transaction[]
