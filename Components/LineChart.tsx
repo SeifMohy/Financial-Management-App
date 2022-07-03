@@ -60,7 +60,7 @@ const LineChart = ({ userId }: Props) => {
     ],
   };
   return (
-    <div className="m-5 p-5">
+    <div className="m-5 p-5 bg-white shadow rounded-lg px-4 py-5">
       <p className="text-center text-xl">Sales Growth</p>
       <Line options={options} data={data} />
     </div>

@@ -42,11 +42,11 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
           if (this.isType(value)) {
             return value;
           }
-          const result = parse(originalValue, "dd/MM/yyyy", new Date());
+          const result = parse(originalValue, "dd/mm/yyyy", new Date());
           return result;
         })
         .typeError("*Enter a valid date")
-        .required(),
+        .required("*Required"),
       amount: Yup.number().typeError("*Enter a valid number").required("*Required"),
       description: Yup.string().required("*Required"),
     }),
