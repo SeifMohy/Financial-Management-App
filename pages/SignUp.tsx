@@ -51,7 +51,7 @@ const SignUp = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
-      password: Yup.string().required("*Required"),
+      password: Yup.string().min(6).required("*Required"),
       name: Yup.string().required("*Required"),
     }),
   });
