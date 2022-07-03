@@ -158,28 +158,35 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </Dialog>
       </Transition.Root>
-      <div className="shadow-sm z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
-        <button
-          type="button"
-          className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
-          onClick={() => setSidebarOpen(true)}
-        >
-          <span className="sr-only">Open sidebar</span>
-          <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
-        </button>
-        <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-10xl lg:mx-auto">
-          <div className="flex-1 flex"></div>
-          <div className="ml-4 flex items-center md:ml-6">
+
+      <div className="lg:grid lg:grid-cols-6 w-full">
+        <div className="shadow-sm z-0 w-full flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
+          <button
+            type="button"
+            className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <span className="sr-only">Open sidebar</span>
+            <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
+          </button>
+
+          <div className="hidden lg:w-full lg:flex lg:items-center lg:flex-shrink-0 p-2 lg:bg-cyan-700">
+            <img
+              className="h-8 w-auto"
+              src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
+              alt="Easywire logo"
+            />
+          </div>
+          <div className="ml-4 flex justify-between md:ml-6 w-auto">
             {/* Profile dropdown */}
-            <Menu as="div" className="ml-3 relative">
+            <Menu as="div">
               <div>
-                <Menu.Button className="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
-                  <span className="ml-3 text-gray-700 text-sm font-medium lg:block">
-                    <span className="sr-only">Open user menu for </span>
+                <Menu.Button className="bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
+                  <span className="flex text-gray-700 text-sm text-left font-medium">
                     {userInfo.currentSession?.user.user_metadata.name}
                   </span>
                   <ChevronDownIcon
-                    className="flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
+                    className="flex-shrink-0 ml-1 h-5 w-5 text-gray-400 "
                     aria-hidden="true"
                   />
                 </Menu.Button>
@@ -206,21 +213,12 @@ const Layout: React.FC<Props> = ({ children }) => {
             </Menu>
           </div>
         </div>
-      </div>
-      <div className="lg:grid lg:grid-cols-6 w-full">
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:fixed lg:w-fill">
+        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:w-fill">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
-            <div className="flex items-center flex-shrink-0 px-4">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
-                alt="Easywire logo"
-              />
-            </div>
+          <div className="flex flex-col w-full bg-cyan-700 pt-2 pb-4 overflow-y-auto">
             <nav
-              className="mt-5 flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
+              className="flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
               aria-label="Sidebar"
             >
               <div className="px-2 space-y-1">

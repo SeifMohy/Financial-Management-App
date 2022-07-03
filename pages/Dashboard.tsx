@@ -38,7 +38,7 @@ const Dashboard = () => {
     getTransactionData(data), [];
   });
 
-  if (!keyFigures) return <LoadingPage />;
+  if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>

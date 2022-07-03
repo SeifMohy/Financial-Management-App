@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
-import { useState } from "react";
-import { ScaleIcon } from "@heroicons/react/outline";
 import Layout from "../Components/Layout";
 import TransferForm from "../Components/TransferForm";
 import axios from "axios";
-import { User } from "@prisma/client";
 import useSWR from "swr";
 import Context from "../Context";
 import { APIUser } from "../Types/index";

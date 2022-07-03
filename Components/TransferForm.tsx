@@ -141,7 +141,7 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
                 </div>
                 <button
                   type="button"
-                  className="mt-1 col-span-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  className="mt-1 col-span-6 lg:col-span-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                   onClick={() => formik.handleSubmit()}
                 >
                   Transfer
