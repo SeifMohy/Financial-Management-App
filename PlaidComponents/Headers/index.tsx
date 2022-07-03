@@ -112,18 +112,6 @@ const Header = () => {
               </Callout>
             </h4>
           )}
-          {/* TODO: Save accessToken and item ID to user */}
-          {/* <div className={styles.itemAccessContainer}>
-            <p className={styles.itemAccessRow}>
-              <span className={styles.idName}>item_id</span>
-              <span className={styles.tokenText}>{itemId}</span>
-            </p>
-
-            <p className={styles.itemAccessRow}>
-              <span className={styles.idName}>access_token</span>
-              <span className={styles.tokenText}>{accessToken}</span>
-            </p>
-          </div> */}
           {isItemAccess && (
             <p className={styles.requests}>
               You successfully linked your bank account. Visit your{" "}

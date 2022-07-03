@@ -10,9 +10,9 @@ import Context from "../Context";
 import { DBTransactions, KeyFigures } from "../Types/index";
 import { getTransactionData, periodOptions, startDate } from "../Utils";
 
-const fetchKeyFigures = (url: string, period: any) =>
+const fetchKeyFigures = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
-const fetchDBTransactions = (url: string, period: any) =>
+const fetchDBTransactions = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
 
 const Dashboard = () => {

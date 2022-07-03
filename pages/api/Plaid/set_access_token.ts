@@ -1,7 +1,7 @@
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const APP_PORT = process.env.APP_PORT || 8000; //TODO: 3. setting .env variables to consts
+const APP_PORT = process.env.APP_PORT || 8000; //step: 3. setting .env variables to consts
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
@@ -13,7 +13,7 @@ let PUBLIC_TOKEN: null | string = null;
 let ITEM_ID = null;
 
 const configuration = new Configuration({
-  //TODO: 4. setting up header for sending data to plaid api
+  //step: 4. setting up header for sending data to plaid api
   basePath: PlaidEnvironments[PLAID_ENV],
   baseOptions: {
     headers: {
@@ -31,7 +31,7 @@ export default async function (
   response: NextApiResponse,
   next: ((reason: any) => PromiseLike<never>) | null | undefined
 ) {
-  //TODO: 11. the api call that creates access_token
+  //step: 11. the api call that creates access_token
 
   const { public_token } = request.body;
   // console.log(public_token);

@@ -1,5 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import _ from "lodash";
 import { calculateTransactions, transactionStartDate } from "../../../Utils";

@@ -9,7 +9,7 @@ export type DBTransactions = {
     pre: string;
     pos: string;
     stat: number;
-}[]
+  }[];
 };
 
 export type transactionWCategory = {
@@ -41,4 +41,25 @@ export type DoughnutChart = {
 
 export type APIUser = {
   user: User | null;
+};
+
+export type AddTransactionModal = {
+  date: string;
+  amount: string;
+  description: string;
+  category: string;
+};
+
+export type LineChart = {
+  data: {
+    labels: _.Collection<string>;
+    data: _.Collection<number>;
+  };
+};
+
+export type TransferForm = {
+  email: string;
+  amount: string;
+  description: string;
+  category: string;
 };

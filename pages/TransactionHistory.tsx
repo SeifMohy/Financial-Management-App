@@ -16,7 +16,7 @@ import {
 import AddTransactionModal from "../Components/AddTransactionModal";
 import LoadingPage from "../Components/LoadingPage";
 
-const fetchDBTransactions = (url: string, period: any) =>
+const fetchDBTransactions = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
 
 const TransactionHistory = () => {

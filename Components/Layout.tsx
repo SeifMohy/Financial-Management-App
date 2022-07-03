@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import Context from "../Context";
 import axios from "axios";
+import { ItemImportRequestUserAuth } from "plaid";
 
 const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },

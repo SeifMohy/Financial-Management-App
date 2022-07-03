@@ -14,7 +14,7 @@ interface QuickstartState {
     error_code: string;
     error_type: string;
   };
-  userInfo: any; //TODO: This type complicated (token session and everything else)
+  userInfo: any; //TODO:(token session and everything else)
 }
 
 const initialState: QuickstartState = {

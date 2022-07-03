@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import axios from "axios";
 import useSWR from "swr";
-import { Categories } from "../Types/index";
+import { Categories, AddTransactionModal } from "../Types/index";
 import * as Yup from "yup";
 import parse from "date-fns/parse";
 
@@ -31,9 +31,9 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
-    onSubmit: async (values: any, resetForm: any) => {
+    onSubmit: async (values: AddTransactionModal) => {
       setOpenModal(false);
-      formik.resetForm()
+      formik.resetForm();
       const res = await axios.put(`/api/addTransaction/${userId}`, values);
     },
     validationSchema: Yup.object({
@@ -47,7 +47,9 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId }: Props) => {
         })
         .typeError("*Enter a valid date")
         .required("*Required"),
-      amount: Yup.number().typeError("*Enter a valid number").required("*Required"),
+      amount: Yup.number()
+        .typeError("*Enter a valid number")
+        .required("*Required"),
       description: Yup.string().required("*Required"),
     }),
   });

@@ -27,10 +27,9 @@ const SignIn = () => {
     email: "",
     password: "",
   };
-  //TODO: display message if incorrect password
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: async (values: SignInInfo, resetForm: any) => {
+    onSubmit: async (values: SignInInfo) => {
       loginWithEmail(values);
       formik.resetForm();
     },

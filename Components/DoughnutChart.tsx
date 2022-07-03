@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import axios from "axios";
 import useSWR from "swr";
+import { DoughnutChart } from "../Types/index";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,11 +29,11 @@ function createChartData(data: number[], labels: string[]) {
   };
 }
 
-const fetchChartData = (url: string, period: any) =>
+const fetchChartData = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
 
 const DoughnutChart = ({ period, userId }: Props) => {
-  const { data: chartsData } = useSWR<any>(
+  const { data: chartsData } = useSWR<DoughnutChart>(
     [`/api/doughnut/${userId}`, period],
     fetchChartData
   );

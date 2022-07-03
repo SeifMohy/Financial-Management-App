@@ -12,6 +12,7 @@ import {
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import useSWR from "swr";
+import { LineChart } from "../Types/index";
 
 ChartJS.register(
   CategoryScale,
@@ -48,7 +49,7 @@ const LineChart = ({ userId }: Props) => {
     [`/api/lineChart/${userId}`],
     fetchLineFigures
   );
-  console.log(lineFigures);
+
   const data = {
     labels: lineFigures?.data.labels,
     datasets: [

@@ -1,15 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import _, { map } from "lodash";
-import { calculateTransactions, transactionStartDate } from "../../../Utils";
+import { calculateTransactions, months, transactionStartDate } from "../../../Utils";
 import prisma from "../../../prismaClient";
+import { LineChart } from "../../../Types/index";
 
 prisma;
 
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-type LineChart = {
-  data: any;
-};
 
 export default async function handler(
   req: NextApiRequest,
@@ -32,15 +28,20 @@ export default async function handler(
       return transaction.amount > 0;
     });
 
-    const sortedTransactions = revenueTransactions.sort((a: any, b: any) => new Date(a.date).valueOf() - new Date(b.date).valueOf())
+    const sortedTransactions = revenueTransactions.sort(
+      (a: any, b: any) =>
+        new Date(a.date).valueOf() - new Date(b.date).valueOf()
+    );
     const groupedRevenueByMonth = _(sortedTransactions)
       .groupBy((transactions) => transactions.date?.split("-")[1])
       .entries();
 
     const graphData = {
-      labels: groupedRevenueByMonth.map((month)=> months[+month[0] -1]),
-      data: groupedRevenueByMonth.map((month)=> calculateTransactions(month[1]))
-    }
+      labels: groupedRevenueByMonth.map((month) => months[+month[0] - 1]),
+      data: groupedRevenueByMonth.map((month) =>
+        calculateTransactions(month[1])
+      ),
+    };
     res.status(200).json({ data: graphData });
   } catch (error) {
     console.log(error);

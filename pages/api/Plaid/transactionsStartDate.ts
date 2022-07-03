@@ -14,13 +14,13 @@ type Message = {
   transactions: string;
 };
 
-//TODO: 3. setting .env variables to consts
+//step: 3. setting .env variables to consts
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
 
 const configuration = new Configuration({
-  //TODO: 4. setting up header for sending data to plaid api
+  //step: 4. setting up header for sending data to plaid api
   basePath: PlaidEnvironments[PLAID_ENV],
   baseOptions: {
     headers: {
@@ -56,7 +56,6 @@ export default async function handler(
       const user = await prisma.user.findUnique({
         where: { id: id },
       });
-      // console.log(user);
       const send: any = {
         access_token: user?.accessToken,
         start_date: startDate,
@@ -64,7 +63,6 @@ export default async function handler(
       };
       const response = await client.transactionsGet(send);
       const resTransactions = response.data.transactions;
-      //TODO: Need to add bankID
       const transactionsToAdd = resTransactions.map((transaction) => {
         return {
           id: transaction.transaction_id,

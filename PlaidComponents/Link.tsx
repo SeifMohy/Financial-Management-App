@@ -10,10 +10,10 @@ const Link = () => {
   const { linkToken, dispatch, userInfo } = useContext(Context);
   const onSuccess = React.useCallback(
     (public_token: string) => {
-      //TODO: 9. taking public token to receive an access token through plaid api
+      //step: 9. taking public token to receive an access token through plaid api
       // send public_token to server
       const setToken = async () => {
-        //TODO: 10. api request for access token
+        //step: 10. api request for access token
         const response = await fetch("/api/Plaid/set_access_token", {
           method: "POST",
           headers: {
@@ -55,19 +55,17 @@ const Link = () => {
 
   let isOauth = false;
   const config: Parameters<typeof usePlaidLink>[0] = {
-    //TODO: 7. this is used to send the previously received link with successful user login
+    //step: 7. this is used to send the previously received link with successful user login
     token: linkToken!,
     onSuccess,
   };
 
   if (window.location.href.includes("?oauth_state_id=")) {
-    // TODO: figure out how to delete this ts-ignore
-    // @ts-ignore
     config.receivedRedirectUri = window.location.href;
     isOauth = true;
   }
 
-  const { open, ready } = usePlaidLink(config); //TODO: 8. an object received for user after linking plaid with their institution
+  const { open, ready } = usePlaidLink(config); //step: 8. an object received for user after linking plaid with their institution
 
   useEffect(() => {
     if (isOauth && ready) {

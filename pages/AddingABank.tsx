@@ -25,8 +25,8 @@ const AddingABank = () => {
   }, [dispatch]);
 
   const generateToken = useCallback(
-    //TODO: 1. asks server to get a link from plaid
-    async (paymentInitiation: any) => {
+    //step: 1. asks server to get a link from plaid
+    async (paymentInitiation: boolean) => {
       const response = await fetch("api/Plaid/create_link_token");
       if (!response) {
         dispatch({ type: "SET_STATE", state: { linkToken: null } });
@@ -35,7 +35,7 @@ const AddingABank = () => {
       const data = await response.json();
       // console.log(data);
       if (data) {
-        //TODO: 6. this is the link sent from plaid
+        //step: 6. this is the link sent from plaid
         dispatch({ type: "SET_STATE", state: { linkToken: data.link_token } });
       }
       localStorage.setItem("link_token", data.link_token); //to use later for Oauth
@@ -44,7 +44,7 @@ const AddingABank = () => {
   );
 
   useEffect(() => {
-    //TODO: 2. on app start calls generating the link (will be used when oboarding new banks)
+    //step: 2. on app start calls generating the link (will be used when oboarding new banks)
     const init = async () => {
       const { paymentInitiation } = await getInfo(); // used to determine which path to take when generating token
       // do not generate a new token for OAuth redirect; instead

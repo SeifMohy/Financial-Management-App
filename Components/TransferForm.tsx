@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import useSWR from "swr";
 import * as Yup from "yup";
-import { Categories } from "../Types/index";
+import { Categories, TransferForm } from "../Types/index";
 
 type Props = {
   userId: string;
@@ -28,7 +28,7 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
-    onSubmit: async (values: any) => {
+    onSubmit: async (values: TransferForm) => {
       formik.resetForm();
       const res = await axios.put(`/api/transfer/${userId}`, values);
     },
