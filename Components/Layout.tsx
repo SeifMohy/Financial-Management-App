@@ -158,7 +158,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </Dialog>
       </Transition.Root>
-      <div className=" shadow-sm z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
+      <div className="shadow-sm z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
         <button
           type="button"
           className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
@@ -209,7 +209,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       </div>
       <div className="lg:grid lg:grid-cols-6 w-full">
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:fixed">
+        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:inset-y-0 lg:fixed lg:w-fill">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
@@ -232,7 +232,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                       router.pathname === `${item.href}`
                         ? "bg-cyan-800 text-white"
                         : "text-cyan-100 hover:text-white hover:bg-cyan-600",
-                      "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
+                      "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md m-2"
                     )}
                   >
                     <item.icon
@@ -248,8 +248,8 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </div>
 
-        <main className="lg:z-0 lg:left-60 p-5 m-5 lg:px-10 lg:col-start-2 lg:col-end-7">
-          <div>{children}</div>
+        <main className="lg:z-0 p-5 bg-gray-50 lg:col-start-2 lg:col-end-7">
+          <div className="">{children}</div>
         </main>
       </div>
     </div>
