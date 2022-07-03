@@ -23,6 +23,7 @@ const Header = () => {
 
   const sendToSaveToken = {
     accessToken: accessToken,
+    itemId: itemId,
     userId: userInfo.currentSession?.user.id,
   };
 
@@ -36,13 +37,13 @@ const Header = () => {
 
   return (
     <div className={styles.grid}>
-      <h3 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+      <h2 className="text-lg leading-6 font-medium text-gray-900">
         Add A Bank!
-      </h3>
+      </h2>
 
       {!linkSuccess ? (
         <>
-          <h4 className="m-3 text-xl font-light leading-7 text-gray-900 sm:leading-9 sm:truncate">
+          <h4 className="m-3 text-md font-light leading-7 text-gray-900 sm:leading-9 sm:truncate">
             Use below button to add your bank
           </h4>
           {/* message if backend is not running and there is no link token */}
@@ -112,7 +113,7 @@ const Header = () => {
             </h4>
           )}
           {/* TODO: Save accessToken and item ID to user */}
-          <div className={styles.itemAccessContainer}>
+          {/* <div className={styles.itemAccessContainer}>
             <p className={styles.itemAccessRow}>
               <span className={styles.idName}>item_id</span>
               <span className={styles.tokenText}>{itemId}</span>
@@ -122,11 +123,11 @@ const Header = () => {
               <span className={styles.idName}>access_token</span>
               <span className={styles.tokenText}>{accessToken}</span>
             </p>
-          </div>
+          </div> */}
           {isItemAccess && (
             <p className={styles.requests}>
               You successfully linked your bank account. Visit your{" "}
-              <a href="/TransactionHistory">transactions</a>.
+              <a href="/TransactionHistory">Transactions</a>.
             </p>
           )}
         </>

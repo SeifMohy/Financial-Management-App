@@ -209,7 +209,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       </div>
       <div className="lg:grid lg:grid-cols-6 w-full">
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:inset-y-0 lg:fixed lg:w-fill">
+        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:fixed lg:w-fill">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col flex-grow bg-cyan-700 pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
@@ -248,7 +248,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
         </div>
 
-        <main className="lg:z-0 p-5 bg-gray-50 lg:col-start-2 lg:col-end-7">
+        <main className="lg:z-0 p-5 bg-gray-50 lg:col-start-2 lg:col-end-7 h-screen">
           <div className="">{children}</div>
         </main>
       </div>

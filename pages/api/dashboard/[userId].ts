@@ -62,7 +62,9 @@ export default async function handler(
         name: "Total Revenue",
         pre: "EGP",
         pos: "",
-        stat: numberWithCommas(Math.round(totalRevenue)),
+        stat: numberWithCommas(
+          Math.round((totalRevenue + Number.EPSILON) * 100) / 100
+        ),
       },
       {
         name: "Sales Growth",
@@ -81,7 +83,8 @@ export default async function handler(
         pos: "%",
         stat:
           Math.round(
-            (((totalRevenue + totalCost) / totalRevenue) * 100 + Number.EPSILON) *
+            (((totalRevenue + totalCost) / totalRevenue) * 100 +
+              Number.EPSILON) *
               100
           ) / 100,
       },
