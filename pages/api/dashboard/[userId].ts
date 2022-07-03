@@ -81,7 +81,7 @@ export default async function handler(
         pos: "%",
         stat:
           Math.round(
-            (((totalRevenue - totalCost) / totalRevenue) * 100 + Number.EPSILON) *
+            (((totalRevenue + totalCost) / totalRevenue) * 100 + Number.EPSILON) *
               100
           ) / 100,
       },

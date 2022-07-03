@@ -6,7 +6,7 @@ const InfoNavigation = () => {
   const router = useRouter();
   return (
     <div>
-      <Disclosure as="nav" className="bg-cyan-700">
+      <Disclosure as="nav" className="bg-cyan-700 shadow-lg">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
