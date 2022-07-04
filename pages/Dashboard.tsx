@@ -1,15 +1,14 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
-import BetterLayout from "../Components/BetterLayout";
 import DoughnutChart from "../Components/DoughnutChart";
-import Layout from "../Components/Layout";
 import LineChart from "../Components/LineChart";
 import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { DBTransactions, KeyFigures } from "../Types/index";
 import { getTransactionData, periodOptions, startDate } from "../Utils";
+import Layout from "../Components/Layout";
 
 const fetchKeyFigures = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
@@ -42,7 +41,7 @@ const Dashboard = () => {
   if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
-    <BetterLayout>
+    <Layout>
       <div>
         <div className="flex items-center">
           <div>
@@ -91,7 +90,7 @@ const Dashboard = () => {
       <div>
         <LineChart userId={userId} />
       </div>
-    </BetterLayout>
+    </Layout>
   );
 };
 
