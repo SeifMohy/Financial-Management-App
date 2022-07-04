@@ -18,6 +18,15 @@ model User {
   //relations
   banks          Bank[]
   transactions   Transaction[]
+  items          UserItems[]
+}
+
+model UserItems {
+  id          String @id @default(cuid())
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+  accessToken String
+  itemId      String
 }
 
 model Bank {

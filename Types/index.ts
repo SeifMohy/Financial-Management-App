@@ -50,7 +50,7 @@ export type AddTransactionModal = {
   category: string;
 };
 
-export type LineChart = {
+export type LineChartType = {
   data: {
     labels: _.Collection<string>;
     data: _.Collection<number>;

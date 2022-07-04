@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
+import BetterLayout from "../Components/BetterLayout";
 import DoughnutChart from "../Components/DoughnutChart";
 import Layout from "../Components/Layout";
 import LineChart from "../Components/LineChart";
@@ -35,15 +36,14 @@ const Dashboard = () => {
       console.log("no user");
     }
     const data = [userId, startDate(sortedTransactions)];
-    getTransactionData(data), [];
-  });
+    getTransactionData(data);
+  }, []);
 
   if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
-    <Layout>
+    <BetterLayout>
       <div>
-        {" "}
         <div className="flex items-center">
           <div>
             <div className="flex items-center">
@@ -91,7 +91,7 @@ const Dashboard = () => {
       <div>
         <LineChart userId={userId} />
       </div>
-    </Layout>
+    </BetterLayout>
   );
 };
 

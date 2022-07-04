@@ -12,7 +12,7 @@ import {
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import useSWR from "swr";
-import { LineChart } from "../Types/index";
+import { LineChartType } from "../Types/index";
 
 ChartJS.register(
   CategoryScale,
