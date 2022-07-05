@@ -4,7 +4,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useFormik } from "formik";
 import axios from "axios";
 import useSWR, { KeyedMutator } from "swr";
-import { Categories, AddTransactionModal,DBTransactions } from "../Types/index";
+import {
+  Categories,
+  AddTransactionModal,
+  DBTransactions,
+} from "../Types/index";
 import * as Yup from "yup";
 import parse from "date-fns/parse";
 
@@ -12,11 +16,16 @@ type Props = {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string;
-  mutate: KeyedMutator<DBTransactions>
+  mutate: KeyedMutator<DBTransactions>;
 };
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
-const AddTransactionModal = ({ openModal, setOpenModal, userId, mutate }: Props) => {
+const AddTransactionModal = ({
+  openModal,
+  setOpenModal,
+  userId,
+  mutate,
+}: Props) => {
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
@@ -34,11 +43,9 @@ const AddTransactionModal = ({ openModal, setOpenModal, userId, mutate }: Props)
     enableReinitialize: true,
     onSubmit: async (values: AddTransactionModal) => {
       setOpenModal(false);
-      formik.resetForm(); 
-      // setTr
       const res = await axios.put(`/api/addTransaction/${userId}`, values);
-      mutate()
-     
+      formik.resetForm();
+      mutate();
     },
     validationSchema: Yup.object({
       date: Yup.date()

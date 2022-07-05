@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
 import LineChart from "../Components/LineChart";
@@ -7,7 +7,7 @@ import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { DBTransactions, KeyFigures } from "../Types/index";
-import { getTransactionData, periodOptions, startDate } from "../Utils";
+import { periodOptions } from "../Utils";
 import Layout from "../Components/Layout";
 
 const fetchKeyFigures = (url: string, period: string) =>
@@ -19,20 +19,14 @@ const Dashboard = () => {
   const [period, setPeriod] = useState("3 months");
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
-  const { data: transactions } = useSWR<DBTransactions>(
-    [`/api/transactions/${userId}`, period],
-    fetchDBTransactions
-  );
+  
   const { data: keyFigures } = useSWR<KeyFigures>(
     [`/api/dashboard/${userId}`, period],
     fetchKeyFigures
   );
-  const sortedTransactions = transactions?.transactions.sort(
-    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
-  );
 
   console.log(keyFigures);
-  if (!keyFigures || !transactions) return <LoadingPage />;
+  if (!keyFigures) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import CategoryDropDown from "../Components/CategoryDropDown";
 import Layout from "../Components/Layout";
 import Context from "../Context";
@@ -10,8 +10,6 @@ import PeriodDropDown from "../Components/PeriodDropDown";
 import {
   numberWithCommas,
   periodOptions,
-  getTransactionData,
-  startDate,
 } from "../Utils";
 import AddTransactionModal from "../Components/AddTransactionModal";
 import LoadingPage from "../Components/LoadingPage";

@@ -37,13 +37,12 @@ const PeriodDropDown = ({ periodOptions, period, setPeriod }: Props) => {
           <div className="py-1">
             {periodOptions.map((option) => {
               return (
-                <Menu.Item>
+                <Menu.Item key={option.period}>
                   {({ active }) => (
                     <button
                       onClick={() => {
                         setPeriod(option.period);
                       }}
-                      key={option.period}
                       type="submit"
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",

@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
 import * as Yup from "yup";
-import { Categories, TransferForm } from "../Types/index";
+import { APIUser, Categories, TransferForm } from "../Types/index";
 
 type Props = {
   userId: string;
   currentBalance: number | null | undefined;
+  mutate: KeyedMutator<APIUser>;
 };
 
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
 
-const TransferForm = ({ userId, currentBalance }: Props) => {
+const TransferForm = ({ userId, currentBalance, mutate }: Props) => {
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
@@ -31,6 +32,7 @@ const TransferForm = ({ userId, currentBalance }: Props) => {
     onSubmit: async (values: TransferForm) => {
       formik.resetForm();
       const res = await axios.put(`/api/transfer/${userId}`, values);
+      mutate();
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),

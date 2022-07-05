@@ -13,7 +13,10 @@ const fetchUser = (url: string) => axios.get(url).then((res) => res.data);
 const Transfer = () => {
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
-  const { data: user } = useSWR<APIUser>([`/api/user/${userId}`], fetchUser);
+  const { data: user, mutate } = useSWR<APIUser>(
+    [`/api/user/${userId}`],
+    fetchUser
+  );
   const currentBalance = user ? user.user?.currentBalance : 0;
 
   if (!user) return <LoadingPage />;
@@ -49,7 +52,11 @@ const Transfer = () => {
               </div>
             </div>
           </div>
-          <TransferForm userId={userId} currentBalance={currentBalance} />
+          <TransferForm
+            userId={userId}
+            currentBalance={currentBalance}
+            mutate={mutate}
+          />
         </div>
       </div>
     </Layout>
