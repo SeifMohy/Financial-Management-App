@@ -17,6 +17,7 @@ export default async function handler(
 ) {
   try {
     const { accessToken, userId, itemId } = req.body;
+    console.log({ accessToken, userId, itemId });
     if (!accessToken) {
       res.status(500).json({ msg: "no token" });
     }
@@ -30,9 +31,20 @@ export default async function handler(
         where: { id: userId },
         data: { accessToken: accessToken, itemId: itemId },
       });
+      console.log("updated user successfully",updatedUser )
+
+      const items = await prisma.userItems.create({
+        data: {
+          itemId,
+          accessToken,
+          userId,
+        },
+      });
+      console.log({ items });
       res.status(200).json({ msg: "accessToken Updated", user: updatedUser });
     }
   } catch (error) {
-    console.log(error);
+    console.log({ error });
+    res.status(400).json({ msg: "there is an error" });
   }
 }

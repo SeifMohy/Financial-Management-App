@@ -1,8 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";
+import { initialCategory } from "../../../Utils";
 
 prisma;
 
@@ -37,13 +37,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | Message>
 ) {
-  function initialCategory(amount: number) {
-    if (amount < 0) {
-      return "2";
-    } else {
-      return "1";
-    }
-  }
+
   try {
     const data = req.body;
     const userId = Object.keys(data)[0].split(",")[0];

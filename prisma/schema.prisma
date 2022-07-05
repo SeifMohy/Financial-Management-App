@@ -18,6 +18,15 @@ model User {
   //relations
   banks          Bank[]
   transactions   Transaction[]
+  items          UserItems[]
+}
+
+model UserItems {
+  id          String @id @default(cuid())
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String
+  accessToken String
+  itemId      String
 }
 
 model Bank {
@@ -34,6 +43,7 @@ model Transaction {
   date        String?
   amount      Float
   description String?
+  itemId      String?
   //relations
   banks       Bank?     @relation(fields: [bankId], references: [id]) //might not have a current use case
   bankId      String?

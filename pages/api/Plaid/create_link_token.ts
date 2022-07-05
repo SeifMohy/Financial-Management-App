@@ -1,4 +1,11 @@
-import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import {
+  Configuration,
+  CountryCode,
+  LinkTokenCreateRequest,
+  PlaidApi,
+  PlaidEnvironments,
+  Products,
+} from "plaid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type PlaidConfig = {
@@ -17,11 +24,11 @@ const PLAID_ENV = process.env.PLAID_ENV || "sandbox";
 
 const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || "transactions").split(
   ","
-);
+) as Products[];
 
 const PLAID_COUNTRY_CODES = (
   process.env.PLAID_COUNTRY_CODES || "US , UK"
-).split(",");
+).split(",") as CountryCode[];
 
 const configuration = new Configuration({
   //step: 4. setting up header for sending data to plaid api
@@ -47,7 +54,7 @@ export default async function (
   //step: 5. creating link with plaid
   Promise.resolve()
     .then(async function () {
-      const configs = {
+      const configs: LinkTokenCreateRequest = {
         user: {
           // This should correspond to a unique id for the current user.
           client_user_id: "user-id",
@@ -56,10 +63,11 @@ export default async function (
         products: PLAID_PRODUCTS,
         country_codes: PLAID_COUNTRY_CODES,
         language: "en",
+        webhook:'http://3db5-82-129-239-66.ngrok.io/api/Plaid/webhook'
       };
       const createTokenResponse = await client.linkTokenCreate(configs); //TODO: type error
       // console.log(createTokenResponse.data)
-      response.json(createTokenResponse.data); 
+      response.json(createTokenResponse.data);
     })
     .catch(next);
 }

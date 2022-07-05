@@ -68,7 +68,7 @@ const AddingABank = () => {
     <Layout>
       <div>
         <div>
-          <Header />
+          <Header />    
           {linkSuccess && isItemAccess}
         </div>
       </div>

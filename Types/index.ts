@@ -50,7 +50,7 @@ export type AddTransactionModal = {
   category: string;
 };
 
-export type LineChart = {
+export type LineChartType = {
   data: {
     labels: _.Collection<string>;
     data: _.Collection<number>;
@@ -62,4 +62,10 @@ export type TransferForm = {
   amount: string;
   description: string;
   category: string;
+};
+
+export type PlaidGetTransactionWithDate = {
+  access_token: string;
+  start_date: string;
+  end_date: string;
 };

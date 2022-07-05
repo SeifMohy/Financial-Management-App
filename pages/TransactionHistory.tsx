@@ -24,21 +24,15 @@ const TransactionHistory = () => {
   const [period, setPeriod] = useState("3 months");
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
-  const { data: transactions } = useSWR<DBTransactions>(
+  const { data: transactions, mutate } = useSWR<DBTransactions>(
     [`/api/transactions/${userId}`, period],
     fetchDBTransactions
   );
   const sortedTransactions = transactions?.transactions.sort(
-    (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+    (a, b) =>
+      new Date(b.date!).getTime().valueOf() -
+      new Date(a.date!).getTime().valueOf()
   );
-
-  useEffect(() => {
-    if (!userId) {
-      console.log("no user");
-    }
-    const data = [userId, startDate(sortedTransactions)];
-    getTransactionData(data), [];
-  });
 
   if (!transactions) return <LoadingPage />;
   return (
@@ -48,6 +42,7 @@ const TransactionHistory = () => {
           openModal={openModal}
           setOpenModal={setOpenModal}
           userId={userId}
+          mutate={mutate}
         />
         <div className="mb-3 flex justify-between">
           <PeriodDropDown

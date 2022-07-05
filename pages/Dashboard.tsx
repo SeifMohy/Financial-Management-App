@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import DoughnutChart from "../Components/DoughnutChart";
-import Layout from "../Components/Layout";
 import LineChart from "../Components/LineChart";
 import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
 import { DBTransactions, KeyFigures } from "../Types/index";
 import { getTransactionData, periodOptions, startDate } from "../Utils";
+import Layout from "../Components/Layout";
 
 const fetchKeyFigures = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
@@ -30,20 +30,12 @@ const Dashboard = () => {
   const sortedTransactions = transactions?.transactions.sort(
     (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   );
-  useEffect(() => {
-    if (!userId) {
-      console.log("no user");
-    }
-    const data = [userId, startDate(sortedTransactions)];
-    getTransactionData(data), [];
-  });
 
   if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>
       <div>
-        {" "}
         <div className="flex items-center">
           <div>
             <div className="flex items-center">

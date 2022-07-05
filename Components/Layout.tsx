@@ -1,24 +1,27 @@
-import React, { useContext, useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
-  ClockIcon,
+  ChevronDownIcon,
   HomeIcon,
-  MenuAlt1Icon,
-  ScaleIcon,
+  MenuAlt2Icon,
   XIcon,
 } from "@heroicons/react/outline";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import React, { useContext, useEffect } from "react";
+import { ClockIcon, ScaleIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import Context from "../Context";
 import axios from "axios";
-import { ItemImportRequestUserAuth } from "plaid";
 
 const navigation = [
-  { name: "Dashboard", href: "/Dashboard", icon: HomeIcon },
-  { name: "Transaction History", href: "/TransactionHistory", icon: ClockIcon },
-  { name: "Transfers", href: "/Transfer", icon: ScaleIcon },
+  { name: "Dashboard", href: "/Dashboard", icon: HomeIcon, current: true },
+  {
+    name: "Transaction History",
+    href: "/TransactionHistory",
+    icon: ClockIcon,
+    current: false,
+  },
+  { name: "Transfers", href: "/Transfer", icon: ScaleIcon, current: false },
   // { name: "Add A Bank", href: "/AddingABank", icon: CreditCardIcon },
 ];
 
@@ -30,7 +33,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Layout: React.FC<Props> = ({ children }) => {
+const layout: React.FC<Props> = ({ children }) => {
   async function checkAccessToken(userAuth: any) {
     const userId = userAuth?.currentSession.user.id;
     const dbUser = await axios.get(`/api/user/${userId}`);
@@ -65,194 +68,203 @@ const Layout: React.FC<Props> = ({ children }) => {
       checkAccessToken(userAuth);
     }
   }, []);
-
   return (
-    <div>
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-40 lg:hidden"
-          onClose={setSidebarOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+    <>
+      <div>
+        <Transition.Root show={sidebarOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-40 lg:hidden"
+            onClose={setSidebarOpen}
           >
-            <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 flex z-40">
             <Transition.Child
               as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
+              enter="transition-opacity ease-linear duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <Dialog.Panel className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-cyan-700">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-in-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in-out duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <div className="absolute top-0 right-0 -mr-12 pt-2">
-                    <button
-                      type="button"
-                      className="ml-1 relative flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                      onClick={() => setSidebarOpen(false)}
-                    >
-                      <span className="sr-only">Close sidebar</span>
-                      <XIcon
-                        className="h-6 w-6 text-white"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </div>
-                </Transition.Child>
-                <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
-                    alt="Easywire logo"
-                  />
-                </div>
-                <nav
-                  className="mt-5 flex-shrink-0 h-full divide-y divide-cyan-800 overflow-y-auto "
-                  aria-label="Sidebar"
-                >
-                  <div className="px-2 space-y-1">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          router.pathname === `${item.href}`
-                            ? "bg-cyan-800 text-white"
-                            : "text-cyan-100 hover:text-white hover:bg-cyan-600",
-                          "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                        )}
+              <div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 flex z-40">
+              <Transition.Child
+                as={Fragment}
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="-translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="-translate-x-full"
+              >
+                <Dialog.Panel className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-white">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-in-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in-out duration-300"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <div className="absolute top-0 right-0 -mr-12 pt-2">
+                      <button
+                        type="button"
+                        className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                        onClick={() => setSidebarOpen(false)}
                       >
-                        <item.icon
-                          className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                        <span className="sr-only">Close sidebar</span>
+                        <XIcon
+                          className="h-6 w-6 text-white"
                           aria-hidden="true"
                         />
-                        {item.name}
-                      </a>
-                    ))}
+                      </button>
+                    </div>
+                  </Transition.Child>
+                  <div className="flex-shrink-0 flex items-center px-4">
+                    <img
+                      className="h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
+                      alt="Workflow"
+                    />
                   </div>
-                  <div className="mt-6 pt-6"></div>
-                </nav>
-              </Dialog.Panel>
-            </Transition.Child>
-            <div className="flex-shrink-0 w-14" aria-hidden="true"></div>
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-      <div className="lg:grid lg:grid-cols-6 w-full">
-        <div className="shadow-sm z-0 w-full flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
-          <button
-            type="button"
-            className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <span className="sr-only">Open sidebar</span>
-            <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
-
-          <div className="hidden lg:w-full lg:flex lg:items-center lg:flex-shrink-0 p-2 lg:bg-cyan-700">
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
-              alt="Easywire logo"
-            />
-          </div>
-          <div className="ml-4 flex justify-between md:ml-6 w-auto">
-            {/* Profile dropdown */}
-            <Menu as="div">
-              <div>
-                <Menu.Button className="bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
-                  <span className="flex text-gray-700 text-sm text-left font-medium">
-                    {userInfo.currentSession?.user.user_metadata.name}
-                  </span>
-                  <ChevronDownIcon
-                    className="flex-shrink-0 ml-1 h-5 w-5 text-gray-400 "
-                    aria-hidden="true"
-                  />
-                </Menu.Button>
+                  <div className="mt-5 flex-1 h-0 overflow-y-auto">
+                    <nav className="px-2 space-y-1">
+                      {navigation.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            router.pathname === `${item.href}`
+                              ? "bg-gray-100 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                          )}
+                        >
+                          <item.icon
+                            className={classNames(
+                              router.pathname === `${item.href}`
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500",
+                              "mr-4 flex-shrink-0 h-6 w-6"
+                            )}
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </a>
+                      ))}
+                    </nav>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+              <div className="flex-shrink-0 w-14" aria-hidden="true">
+                {/* Dummy element to force sidebar to shrink to fit close icon */}
               </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="origin-top-right z-50 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <button
-                    type="button"
-                    onClick={() => signOutNow()}
-                    className="px-4 py-2 text-sm text-gray-700 z-50"
-                  >
-                    Logout
-                  </button>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          </div>
-        </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:grid lg:col-start-1 lg:col-end-2 lg:inset-y-0 lg:w-fill">
+        <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col w-full bg-cyan-700 pt-2 pb-4 overflow-y-auto">
-            <nav
-              className="flex-1 flex flex-col divide-y divide-cyan-800 overflow-y-auto"
-              aria-label="Sidebar"
-            >
-              <div className="px-2 space-y-1">
+          <div className="flex flex-col flex-grow border-r border-gray-200 pt-5 bg-white overflow-y-auto">
+            <div className="flex items-center flex-shrink-0 px-4">
+              <img
+                className="h-8 w-auto"
+                src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
+                alt="Workflow"
+              />
+            </div>
+            <div className="mt-5 flex-grow flex flex-col">
+              <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={classNames(
                       router.pathname === `${item.href}`
-                        ? "bg-cyan-800 text-white"
-                        : "text-cyan-100 hover:text-white hover:bg-cyan-600",
-                      "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md m-2"
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
-                      className="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200"
+                      className={classNames(
+                        router.pathname === `${item.href}`
+                          ? "text-gray-500"
+                          : "text-gray-400 group-hover:text-gray-500",
+                        "mr-3 flex-shrink-0 h-6 w-6"
+                      )}
                       aria-hidden="true"
                     />
                     {item.name}
                   </a>
                 ))}
-              </div>
-              <div className="mt-6 pt-6"></div>
-            </nav>
+              </nav>
+            </div>
           </div>
         </div>
+        <div className="lg:pl-64 flex flex-col flex-1">
+          <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
+            <button
+              type="button"
+              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <span className="sr-only">Open sidebar</span>
+              <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+            <div className="flex-1 px-4 flex justify-between">
+              <div className="flex-1 flex"></div>
+              <div className="ml-4 flex items-center md:ml-6">
+                {/* Profile dropdown */}
+                <Menu as="div" className="ml-3 relative">
+                  <div>
+                    <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                      {userInfo.currentSession?.user.user_metadata.name}
+                      <ChevronDownIcon
+                        className="-mr-1 ml-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <button
+                        type="button"
+                        onClick={() => signOutNow()}
+                        className="px-4 py-2 text-sm text-gray-700 z-50"
+                      >
+                        Logout
+                      </button>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
+            </div>
+          </div>
 
-        <main className="lg:z-0 p-5 bg-gray-50 lg:col-start-2 lg:col-end-7 h-screen">
-          <div className="">{children}</div>
-        </main>
+          <main className="flex-1">
+            <div className="py-6">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {children}
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Layout;
+export default layout;

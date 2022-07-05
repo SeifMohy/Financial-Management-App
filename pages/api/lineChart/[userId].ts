@@ -2,14 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import _, { map } from "lodash";
 import { calculateTransactions, months, transactionStartDate } from "../../../Utils";
 import prisma from "../../../prismaClient";
-import { LineChart } from "../../../Types/index";
+import { LineChartType } from "../../../Types/index";
 
 prisma;
 
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<LineChart>
+  res: NextApiResponse<LineChartType>
 ) {
   try {
     const userId = req.query;
