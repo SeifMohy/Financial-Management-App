@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ export type SignUpInfo = {
 
 const SignUp = () => {
   const router = useRouter();
+  const [loginError, setLoginError] = useState("");
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL! || " ",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! || " "
@@ -30,6 +31,9 @@ const SignUp = () => {
         },
       }
     );
+    if (error) {
+      setLoginError(error.message);
+    }
     if (user) {
       const res = await axios.put("/api/Auth/user", user);
       router.push("/Dashboard");
@@ -81,6 +85,9 @@ const SignUp = () => {
               </p>
             </div>
             <form className="mt-8 space-y-6" action="#" method="POST">
+              {loginError ? (
+                <p className="text-red-300 text-center">{loginError}</p>
+              ) : null}
               <input type="hidden" name="remember" defaultValue="true" />
               <div className="-space-y-px">
                 <div>

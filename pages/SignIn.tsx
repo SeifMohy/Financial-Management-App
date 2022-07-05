@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
@@ -15,13 +15,19 @@ const SignIn = () => {
     process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || " "
   );
+  const [loginError, setLoginError] = useState("");
   const router = useRouter();
   const loginWithEmail = async (values: SignInInfo) => {
-    await supabase.auth.signIn({
+    const { error, user } = await supabase.auth.signIn({
       email: values.email,
       password: values.password,
     });
-    router.push("/Dashboard");
+    if (error) {
+      setLoginError(error.message);
+    }
+    if (user) {
+      router.push("/Dashboard");
+    }
   };
   const initialValues = {
     email: "",
@@ -63,6 +69,9 @@ const SignIn = () => {
               </p>
             </div>
             <form className="mt-8 space-y-6" action="#" method="POST">
+              {loginError ? (
+                <p className="text-red-300 text-center">{loginError}</p>
+              ) : null}
               <input type="hidden" name="remember" defaultValue="true" />
               <div className="-space-y-px">
                 <div>
