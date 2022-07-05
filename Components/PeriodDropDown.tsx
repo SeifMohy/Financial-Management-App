@@ -43,6 +43,7 @@ const PeriodDropDown = ({ periodOptions, period, setPeriod }: Props) => {
                       onClick={() => {
                         setPeriod(option.period);
                       }}
+                      key={option.period}
                       type="submit"
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",

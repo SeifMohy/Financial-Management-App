@@ -43,6 +43,7 @@ model Transaction {
   date        String?
   amount      Float
   description String?
+  itemId      String?
   //relations
   banks       Bank?     @relation(fields: [bankId], references: [id]) //might not have a current use case
   bankId      String?

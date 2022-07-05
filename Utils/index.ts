@@ -36,10 +36,14 @@ export function transactionStartDate(time: string, pp: number) {
       var threeMonthsFromNow = new Date();
       threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() - 3 * pp);
       return threeMonthsFromNow.toLocaleDateString("en-CA");
-    default:
+    case "6 months":
       var sixMonthsFromNow = new Date();
       sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() - 6 * pp);
       return sixMonthsFromNow.toLocaleDateString("en-CA");
+    default:
+      var oneYearFromNow = new Date();
+      oneYearFromNow.setMonth(oneYearFromNow.getMonth() - 12 * pp);
+      return oneYearFromNow.toLocaleDateString("en-CA");
   }
 }
 
@@ -55,6 +59,7 @@ export const periodOptions = [
   { period: "1 week" },
   { period: "1 month" },
   { period: "3 months" },
+  { period: "6 months" },
   { period: "All" },
 ];
 
@@ -84,3 +89,11 @@ export const months = [
   "November",
   "December",
 ];
+
+export function initialCategory(amount: number) {
+  if (amount < 0) {
+    return "2";
+  } else {
+    return "1";
+  }
+}

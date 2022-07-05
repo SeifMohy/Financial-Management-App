@@ -63,3 +63,9 @@ export type TransferForm = {
   description: string;
   category: string;
 };
+
+export type PlaidGetTransactionWithDate = {
+  access_token: string;
+  start_date: string;
+  end_date: string;
+};
