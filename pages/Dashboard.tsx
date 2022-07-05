@@ -31,6 +31,7 @@ const Dashboard = () => {
     (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   );
 
+  console.log(keyFigures);
   if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
   return (
@@ -69,7 +70,8 @@ const Dashboard = () => {
                     {item.name}
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    {item.pre} {item.stat} {item.pos}
+                    {item.pre} {item.stat !== null ? item.stat : "N/A"}{" "}
+                    {item.pos}
                   </dd>
                 </div>
               )
