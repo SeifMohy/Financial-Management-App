@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Link from "next/link";
 
 export type SignInInfo = {
   email: string;
@@ -60,12 +62,11 @@ const SignIn = () => {
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Or{" "}
-                <a
-                  href="/SignUp"
-                  className="font-medium text-cyan-600 hover:text-cyan-500"
-                >
-                  Sign Up
-                </a>
+                <Link href="/SignUp">
+                  <a className="font-medium text-cyan-600 hover:text-cyan-500">
+                    Sign Up
+                  </a>
+                </Link>
               </p>
             </div>
             <form className="mt-8 space-y-6" action="#" method="POST">
@@ -135,12 +136,11 @@ const SignIn = () => {
                 </div>
 
                 <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:text-cyan-500"
-                  >
-                    Forgot your password?
-                  </a>
+                  <Link href="#">
+                    <a className="font-medium text-cyan-600 hover:text-cyan-500">
+                      Forgot your password?
+                    </a>
+                  </Link>
                 </div>
               </div>
 

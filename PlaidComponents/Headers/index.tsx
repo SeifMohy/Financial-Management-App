@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Callout from "plaid-threads/Callout";
 import Button from "plaid-threads/Button";
 import InlineLink from "plaid-threads/InlineLink";
-
+import NextLink from "next/link";
 import Link from "../Link";
 import Context from "../../Context";
 
@@ -115,7 +115,10 @@ const Header = () => {
           {isItemAccess && (
             <p className={styles.requests}>
               You successfully linked your bank account. Visit your{" "}
-              <a href="/TransactionHistory">Transactions</a>.
+              <NextLink href="/TransactionHistory">
+                <a>Transactions</a>
+              </NextLink>
+              .
             </p>
           )}
         </>

@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";
 import { checkAmountType } from "../../../Utils";
+import moment from "moment"
 
 prisma;
 
@@ -33,6 +34,7 @@ export default async function handler(
       const addTransaction = await prisma.transaction.create({
         data: {
           date: transaction.date.split("/").reverse().join("-"),
+          // moment(new Date(transaction.date)).format("YYYY-MM-DD"),
           amount: checkAmountType(transaction, category),
           userId: id as string,
           description: transaction.description,

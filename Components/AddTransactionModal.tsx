@@ -19,13 +19,13 @@ type Props = {
   mutate: KeyedMutator<DBTransactions>;
 };
 const fetchCategories = (url: string) => axios.get(url).then((res) => res.data);
-
 const AddTransactionModal = ({
   openModal,
   setOpenModal,
   userId,
   mutate,
 }: Props) => {
+  const today = new Date().toLocaleDateString("en-CA");
   const { data: categories } = useSWR<Categories>(
     `/api/categories`,
     fetchCategories
@@ -49,6 +49,7 @@ const AddTransactionModal = ({
     },
     validationSchema: Yup.object({
       date: Yup.date()
+        .max(new Date(), "max date")
         .transform(function (value, originalValue) {
           if (this.isType(value)) {
             return value;
