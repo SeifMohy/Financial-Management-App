@@ -257,7 +257,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           </div>
 
           <main className="">
-            <div className="max-w-7xl py-5 mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div className="max-w-7xl py-5 mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 h-screen">
               {children}
             </div>
           </main>
