@@ -28,7 +28,7 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
   useEffect(() => {
     const category = determineType(transaction.amount);
     setType(category);
-  }, []);
+  }, [transaction.amount]);
   const [type, setType] = useState("credit");
 
   const [displayedCategory, setdisplayedCategory] = useState<string>(
@@ -72,7 +72,7 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
                 return (
                   <Menu.Item key={category.category}>
                     {({ active }) => (
-                      <a
+                      <button
                         onClick={() =>
                           updateCategory(
                             category.category as string,
@@ -87,7 +87,7 @@ const CategoryDropDown = ({ transaction }: transactionWCategory) => {
                         )}
                       >
                         {category.category}
-                      </a>
+                      </button>
                     )}
                   </Menu.Item>
                 );

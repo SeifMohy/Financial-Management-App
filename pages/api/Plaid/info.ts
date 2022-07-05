@@ -6,7 +6,7 @@ const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || "transactions").split(
   ","
 );
 
-export default async function (
+export default async function info(
   request: NextApiRequest,
   response: NextApiResponse,
   next: ((reason: any) => PromiseLike<never>) | null | undefined

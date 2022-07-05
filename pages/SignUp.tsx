@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { createClient } from "@supabase/supabase-js";
@@ -5,6 +6,7 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import Link from "next/link";
 
 export type SignUpInfo = {
   email: string;
@@ -76,12 +78,11 @@ const SignUp = () => {
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Already have an account{" "}
-                <a
-                  href="/SignIn"
-                  className="font-medium text-cyan-600 hover:text-cyan-500"
-                >
-                  Sign In
-                </a>
+                <Link href="/SignIn">
+                  <a className="font-medium text-cyan-600 hover:text-cyan-500">
+                    Sign In
+                  </a>
+                </Link>
               </p>
             </div>
             <form className="mt-8 space-y-6" action="#" method="POST">

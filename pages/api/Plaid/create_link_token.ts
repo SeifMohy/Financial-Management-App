@@ -46,7 +46,7 @@ const client = new PlaidApi(configuration);
 
 // Create a link token with configs which we can then use to initialize Plaid Link client-side.
 // See https://plaid.com/docs/#create-link-token
-export default async function (
+export default async function createLinkToken(
   request: NextApiRequest,
   response: NextApiResponse,
   next: ((reason: any) => PromiseLike<never>) | null | undefined
