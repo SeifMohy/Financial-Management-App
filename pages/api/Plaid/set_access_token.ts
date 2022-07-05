@@ -26,7 +26,7 @@ const configuration = new Configuration({
 
 const client = new PlaidApi(configuration);
 
-export default async function (
+export default async function setAccessToken(
   request: NextApiRequest,
   response: NextApiResponse,
   next: ((reason: any) => PromiseLike<never>) | null | undefined

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import { createClient } from "@supabase/supabase-js";
 import Context from "../Context";
 import axios from "axios";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "/Dashboard", icon: HomeIcon, current: true },
@@ -33,15 +35,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const layout: React.FC<Props> = ({ children }) => {
-  async function checkAccessToken(userAuth: any) {
-    const userId = userAuth?.currentSession.user.id;
-    const dbUser = await axios.get(`/api/user/${userId}`);
-    const accessToken = dbUser.data.user.accessToken;
-    if (!accessToken) {
-      router.push("/AddingABank");
-    }
-  }
+const Layout: React.FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { dispatch, userInfo } = useContext(Context);
   const router = useRouter();
@@ -55,6 +49,14 @@ const layout: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
+    async function checkAccessToken(userAuth: any) {
+      const userId = userAuth?.currentSession.user.id;
+      const dbUser = await axios.get(`/api/user/${userId}`);
+      const accessToken = dbUser.data.user.accessToken;
+      if (!accessToken) {
+        router.push("/AddingABank");
+      }
+    }
     const userAuth = JSON.parse(
       localStorage.getItem("supabase.auth.token") as string
     );
@@ -67,7 +69,7 @@ const layout: React.FC<Props> = ({ children }) => {
       });
       checkAccessToken(userAuth);
     }
-  }, []);
+  }, [dispatch, router]);
   return (
     <>
       <div>
@@ -133,27 +135,27 @@ const layout: React.FC<Props> = ({ children }) => {
                   <div className="mt-5 flex-1 h-0 overflow-y-auto">
                     <nav className="px-2 space-y-1">
                       {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            router.pathname === `${item.href}`
-                              ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                          )}
-                        >
-                          <item.icon
+                        <Link href={item.href} key={item.name}>
+                          <a
                             className={classNames(
                               router.pathname === `${item.href}`
-                                ? "text-gray-300"
-                                : "text-gray-400 group-hover:text-gray-300",
-                              "mr-3 flex-shrink-0 h-6 w-6"
+                                ? "bg-gray-900 text-white"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                             )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
+                          >
+                            <item.icon
+                              className={classNames(
+                                router.pathname === `${item.href}`
+                                  ? "text-gray-300"
+                                  : "text-gray-400 group-hover:text-gray-300",
+                                "mr-3 flex-shrink-0 h-6 w-6"
+                              )}
+                              aria-hidden="true"
+                            />
+                            {item.name}
+                          </a>
+                        </Link>
                       ))}
                     </nav>
                   </div>
@@ -180,27 +182,27 @@ const layout: React.FC<Props> = ({ children }) => {
             <div className="mt-5 flex-grow flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      router.pathname === `${item.href}`
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                    )}
-                  >
-                    <item.icon
+                  <Link key={item.name} href={item.href}>
+                    <a
                       className={classNames(
                         router.pathname === `${item.href}`
-                          ? "text-gray-300"
-                          : "text-gray-400 group-hover:text-gray-300",
-                        "mr-3 flex-shrink-0 h-6 w-6"
+                          ? "bg-gray-900 text-white"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                       )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
+                    >
+                      <item.icon
+                        className={classNames(
+                          router.pathname === `${item.href}`
+                            ? "text-gray-300"
+                            : "text-gray-400 group-hover:text-gray-300",
+                          "mr-3 flex-shrink-0 h-6 w-6"
+                        )}
+                        aria-hidden="true"
+                      />
+                      {item.name}
+                    </a>
+                  </Link>
                 ))}
               </nav>
             </div>
@@ -255,7 +257,7 @@ const layout: React.FC<Props> = ({ children }) => {
           </div>
 
           <main className="">
-            <div className="max-w-7xl py-5 mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div className="max-w-7xl py-5 mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 h-screen">
               {children}
             </div>
           </main>
@@ -265,4 +267,4 @@ const layout: React.FC<Props> = ({ children }) => {
   );
 };
 
-export default layout;
+export default Layout;
