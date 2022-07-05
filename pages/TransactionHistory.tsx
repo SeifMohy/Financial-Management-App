@@ -34,14 +34,6 @@ const TransactionHistory = () => {
       new Date(a.date!).getTime().valueOf()
   );
 
-  // useEffect(() => {
-  //   if (!userId) {
-  //     console.log("no user");
-  //   }
-  //   const data = [userId, startDate(sortedTransactions)];
-  //   getTransactionData(data);
-  // }, []);
-
   if (!transactions) return <LoadingPage />;
   return (
     <Layout>

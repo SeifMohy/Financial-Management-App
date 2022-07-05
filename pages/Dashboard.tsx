@@ -30,13 +30,6 @@ const Dashboard = () => {
   const sortedTransactions = transactions?.transactions.sort(
     (a: any, b: any) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   );
-  // useEffect(() => {
-  //   if (!userId) {
-  //     console.log("no user");
-  //   }
-  //   const data = [userId, startDate(sortedTransactions)];
-  //   getTransactionData(data);
-  // }, []);
 
   if (!keyFigures || !transactions) return <LoadingPage />;
   const figures = Object.values(keyFigures)[0];
