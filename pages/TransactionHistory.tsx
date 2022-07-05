@@ -7,10 +7,7 @@ import useSWR from "swr";
 import { Category, Transaction } from "@prisma/client";
 import { DBTransactions } from "../Types/index";
 import PeriodDropDown from "../Components/PeriodDropDown";
-import {
-  numberWithCommas,
-  periodOptions,
-} from "../Utils";
+import { numberWithCommas, periodOptions } from "../Utils";
 import AddTransactionModal from "../Components/AddTransactionModal";
 import LoadingPage from "../Components/LoadingPage";
 
@@ -78,7 +75,7 @@ const TransactionHistory = () => {
             )
           )}
         </dl>
-        <div className="mt-1 flex flex-col">
+        <div className="mt-1 flex flex-col m-3">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -120,7 +117,7 @@ const TransactionHistory = () => {
                       ) => (
                         <tr key={transaction.id}>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500 sm:pl-6">
-                            {transaction.date}
+                            {transaction.date?.split("-").reverse().join("-")}
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
                             EGP {numberWithCommas(transaction.amount)}

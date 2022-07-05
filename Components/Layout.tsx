@@ -99,7 +99,7 @@ const layout: React.FC<Props> = ({ children }) => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-white">
+                <Dialog.Panel className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-700">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-300"
@@ -126,7 +126,7 @@ const layout: React.FC<Props> = ({ children }) => {
                   <div className="flex-shrink-0 flex items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
+                      src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
                       alt="Workflow"
                     />
                   </div>
@@ -138,17 +138,17 @@ const layout: React.FC<Props> = ({ children }) => {
                           href={item.href}
                           className={classNames(
                             router.pathname === `${item.href}`
-                              ? "bg-gray-100 text-gray-900"
-                              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                           )}
                         >
                           <item.icon
                             className={classNames(
                               router.pathname === `${item.href}`
-                                ? "text-gray-500"
-                                : "text-gray-400 group-hover:text-gray-500",
-                              "mr-4 flex-shrink-0 h-6 w-6"
+                                ? "text-gray-300"
+                                : "text-gray-400 group-hover:text-gray-300",
+                              "mr-3 flex-shrink-0 h-6 w-6"
                             )}
                             aria-hidden="true"
                           />
@@ -169,11 +169,11 @@ const layout: React.FC<Props> = ({ children }) => {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex flex-col flex-grow border-r border-gray-200 pt-5 bg-white overflow-y-auto">
+          <div className="flex flex-col flex-grow border-r border-gray-200 pt-5 bg-gray-700 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
+                src="https://tailwindui.com/img/logos/easywire-logo-cyan-300-mark-white-text.svg"
                 alt="Workflow"
               />
             </div>
@@ -185,16 +185,16 @@ const layout: React.FC<Props> = ({ children }) => {
                     href={item.href}
                     className={classNames(
                       router.pathname === `${item.href}`
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                     )}
                   >
                     <item.icon
                       className={classNames(
                         router.pathname === `${item.href}`
-                          ? "text-gray-500"
-                          : "text-gray-400 group-hover:text-gray-500",
+                          ? "text-gray-300"
+                          : "text-gray-400 group-hover:text-gray-300",
                         "mr-3 flex-shrink-0 h-6 w-6"
                       )}
                       aria-hidden="true"
@@ -254,11 +254,9 @@ const layout: React.FC<Props> = ({ children }) => {
             </div>
           </div>
 
-          <main className="flex-1">
-            <div className="py-6">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {children}
-              </div>
+          <main className="">
+            <div className="max-w-7xl py-5 mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50">
+              {children}
             </div>
           </main>
         </div>

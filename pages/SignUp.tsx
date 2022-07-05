@@ -47,7 +47,7 @@ const SignUp = () => {
     onSubmit: async (values: SignUpInfo) => {
       console.log(values);
       signUpWithEmail(values);
-      formik.resetForm()
+      formik.resetForm();
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required("*Required"),
@@ -82,9 +82,9 @@ const SignUp = () => {
             </div>
             <form className="mt-8 space-y-6" action="#" method="POST">
               <input type="hidden" name="remember" defaultValue="true" />
-              <div className="rounded-md shadow-sm -space-y-px">
+              <div className="-space-y-px">
                 <div>
-                  <label htmlFor="email-address" className="sr-only">
+                  <label className="block text-sm font-medium text-gray-700 mt-1">
                     Name
                   </label>
                   <input
@@ -93,7 +93,7 @@ const SignUp = () => {
                     type="name"
                     autoComplete="name"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded mt-1 mb-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Name"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -105,8 +105,8 @@ const SignUp = () => {
                   ) : null}
                 </div>
                 <div>
-                  <label htmlFor="email-address" className="sr-only">
-                    Email address
+                  <label className="block text-sm font-medium text-gray-700 mt-1">
+                    Email Address
                   </label>
                   <input
                     id="email-address"
@@ -114,7 +114,7 @@ const SignUp = () => {
                     type="email"
                     autoComplete="email"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded mt-1 mb-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Email address"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -126,7 +126,7 @@ const SignUp = () => {
                   ) : null}
                 </div>
                 <div className="">
-                  <label htmlFor="password" className="sr-only">
+                  <label className="block text-sm font-medium text-gray-700 mt-1">
                     Password
                   </label>
                   <input
@@ -135,7 +135,7 @@ const SignUp = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded mt-1 mb-2 relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 focus:z-10 sm:text-sm"
                     placeholder="Password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
