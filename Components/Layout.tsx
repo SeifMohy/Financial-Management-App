@@ -245,7 +245,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                       <button
                         type="button"
                         onClick={() => signOutNow()}
-                        className="px-4 py-2 text-sm text-gray-700 z-50 w-full"
+                        className="text-left px-4 py-2 text-sm text-gray-700 z-50 w-full"
                       >
                         Logout
                       </button>

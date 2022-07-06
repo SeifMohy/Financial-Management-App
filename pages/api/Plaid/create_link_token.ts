@@ -54,7 +54,7 @@ export default async function createLinkToken(
         products: PLAID_PRODUCTS,
         country_codes: PLAID_COUNTRY_CODES,
         language: "en",
-        webhook:'http://3db5-82-129-239-66.ngrok.io/api/Plaid/webhook'
+        webhook: process.env.WEBHOOK_URL,
       };
       const createTokenResponse = await client.linkTokenCreate(configs); //TODO: type error
       // console.log(createTokenResponse.data)
