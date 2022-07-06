@@ -8,15 +8,6 @@ import {
 } from "plaid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type PlaidConfig = {
-  user: {
-    client_user_id: string;
-  };
-  client_name: string;
-  products: string[];
-  country_codes: string[];
-  language: string;
-};
 const APP_PORT = process.env.APP_PORT || 8000; //step: 3. setting .env variables to consts
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;

@@ -1,12 +1,8 @@
-import { AxiosResponse } from "axios";
-import { includes } from "lodash";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   Configuration,
   PlaidApi,
   PlaidEnvironments,
-  Transaction,
-  TransactionsGetResponse,
 } from "plaid";
 import prisma from "../../../prismaClient";
 import { PlaidGetTransactionWithDate } from "../../../Types/index";
@@ -65,7 +61,6 @@ async function filterTransactionsFromDB(transactions: any, itemId: string) {
       transactionsToAdd.push(transaction);
     }
   }
-  // console.log("transactionstoAdd", transactionsToAdd);
   return transactionsToAdd;
 }
 const client = new PlaidApi(configuration);
