@@ -1,4 +1,4 @@
-import { Prisma, Transaction } from "@prisma/client";
+import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
 import prisma from "../../../prismaClient";

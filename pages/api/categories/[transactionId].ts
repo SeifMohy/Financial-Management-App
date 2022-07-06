@@ -1,6 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import prisma from "../../../prismaClient";
+
+prisma;
 
 type Data = {
   data: Transaction;

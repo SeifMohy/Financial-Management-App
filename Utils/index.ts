@@ -42,7 +42,7 @@ export function transactionStartDate(time: string, pp: number) {
       return sixMonthsFromNow.toLocaleDateString("en-CA");
     default:
       var oneYearFromNow = new Date();
-      oneYearFromNow.setMonth(oneYearFromNow.getMonth() - 12 * pp);
+      oneYearFromNow.setMonth(oneYearFromNow.getMonth() - 24 * pp);
       return oneYearFromNow.toLocaleDateString("en-CA");
   }
 }
