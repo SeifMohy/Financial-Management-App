@@ -49,7 +49,7 @@ const AddTransactionModal = ({
     },
     validationSchema: Yup.object({
       date: Yup.date()
-        .max(new Date(), "max date")
+        .min(10, "*Enter a valid date")
         .transform(function (value, originalValue) {
           if (this.isType(value)) {
             return value;

@@ -32,8 +32,8 @@ const Header = () => {
   }
 
   useEffect(() => {
-    saveAccessToken(sendToSaveToken), [isItemAccess];
-  });
+    saveAccessToken(sendToSaveToken);
+  }, [isItemAccess]);
 
   return (
     <div className={styles.grid}>

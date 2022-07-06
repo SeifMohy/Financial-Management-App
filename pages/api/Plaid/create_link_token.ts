@@ -45,6 +45,7 @@ export default async function createLinkToken(
   //step: 5. creating link with plaid
   Promise.resolve()
     .then(async function () {
+      console.log({WEBHOOK:process.env.WEBHOOK_URL})
       const configs: LinkTokenCreateRequest = {
         user: {
           // This should correspond to a unique id for the current user.

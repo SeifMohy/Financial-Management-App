@@ -8,50 +8,46 @@ import Context from "../Context";
 const Link = () => {
   const router = useRouter();
   const { linkToken, dispatch, userInfo } = useContext(Context);
-  const onSuccess = React.useCallback(
-    (public_token: string) => {
-      //step: 9. taking public token to receive an access token through plaid api
-      // send public_token to server
-      const setToken = async () => {
-        //step: 10. api request for access token
-        const response = await fetch("/api/Plaid/set_access_token", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          },
-          body: `public_token=${public_token}`,
-        });
-        // console.log(response);
-        if (!response.ok) {
-          dispatch({
-            type: "SET_STATE",
-            state: {
-              itemId: `no item_id retrieved`,
-              accessToken: `no access_token retrieved`,
-              isItemAccess: false,
-            },
-          });
-          return;
-        }
-        const data = await response.json();
-        // console.log(data)
-        dispatch({
-          type: "SET_STATE",
-          state: {
-            itemId: data.item_id,
-            accessToken: data.access_token,
-            isItemAccess: true,
-          },
-        });
-        //TODO: add Transactions to db
-        router.push("/Dashboard");
-      };
-      setToken();
-      dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/Dashboard"); 
-    },
-    [dispatch]
-  );
+  const setToken = async (public_token: string) => {
+    //step: 10. api request for access token
+    const response = await fetch("/api/Plaid/set_access_token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: `public_token=${public_token}`,
+    });
+    // console.log(response);
+    if (!response.ok) {
+      dispatch({
+        type: "SET_STATE",
+        state: {
+          itemId: `no item_id retrieved`,
+          accessToken: `no access_token retrieved`,
+          isItemAccess: false,
+        },
+      });
+      return;
+    }
+    const data = await response.json();
+    // console.log(data)
+    dispatch({
+      type: "SET_STATE",
+      state: {
+        itemId: data.item_id,
+        accessToken: data.access_token,
+        isItemAccess: true,
+        linkSuccess: true,
+      },
+    });
+
+    router.push("/Dashboard");
+    //TODO: add Transactions to db
+    // router.push("/Dashboard");
+  };
+  const onSuccess = React.useCallback((public_token: string) => {
+    setToken(public_token);
+  }, []);
 
   let isOauth = false;
   const config: Parameters<typeof usePlaidLink>[0] = {

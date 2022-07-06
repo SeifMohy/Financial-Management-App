@@ -31,7 +31,7 @@ export default async function handler(
         where: { id: userId },
         data: { accessToken: accessToken, itemId: itemId },
       });
-      console.log("updated user successfully",updatedUser )
+      console.log("updated user successfully", updatedUser);
 
       const items = await prisma.userItems.create({
         data: {
