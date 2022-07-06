@@ -2,6 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import _ from "lodash";
 import { calculateTransactions, transactionStartDate } from "../../../Utils";
 import { DoughnutChart } from "../../../Types/index";
+import prisma from "../../../prismaClient";
+
+prisma;
 
 export default async function handler(
   req: NextApiRequest,

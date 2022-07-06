@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import axios from "axios";
@@ -11,6 +11,20 @@ type Props = {
   period: string;
   userId: string;
 };
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    title: {
+      display: false,
+      text: "Growth",
+    },
+  },
+};
+
 function createChartData(data: number[], labels: string[]) {
   return {
     labels: labels,
@@ -48,7 +62,7 @@ const DoughnutChart = ({ period, userId }: Props) => {
             key={chartData.title}
           >
             <p className="text-center text-xl">{chartData.title}</p>
-            <Doughnut data={data} />
+            <Doughnut options={options} data={data} />
           </div>
         );
       })}

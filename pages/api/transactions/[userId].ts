@@ -5,6 +5,9 @@ import {
   numberWithCommas,
   transactionStartDate,
 } from "../../../Utils";
+import prisma from "../../../prismaClient";
+
+prisma;
 
 type Message = {
   msg: string;

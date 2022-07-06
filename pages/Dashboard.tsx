@@ -6,20 +6,18 @@ import LineChart from "../Components/LineChart";
 import LoadingPage from "../Components/LoadingPage";
 import PeriodDropDown from "../Components/PeriodDropDown";
 import Context from "../Context";
-import { DBTransactions, KeyFigures } from "../Types/index";
+import { KeyFigures } from "../Types/index";
 import { periodOptions } from "../Utils";
 import Layout from "../Components/Layout";
 
 const fetchKeyFigures = (url: string, period: string) =>
-  axios.put(url, period).then((res) => res.data);
-const fetchDBTransactions = (url: string, period: string) =>
   axios.put(url, period).then((res) => res.data);
 
 const Dashboard = () => {
   const [period, setPeriod] = useState("3 months");
   const { userInfo } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
-  
+
   const { data: keyFigures } = useSWR<KeyFigures>(
     [`/api/dashboard/${userId}`, period],
     fetchKeyFigures
