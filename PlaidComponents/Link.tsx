@@ -38,12 +38,12 @@ const Link = () => {
         accessToken: data.access_token,
         isItemAccess: true,
         linkSuccess: true,
+        loadingAccessToken: true
       },
     });
 
     router.push("/Dashboard");
-    //TODO: add Transactions to db
-    // router.push("/Dashboard");
+
   };
   const onSuccess = React.useCallback((public_token: string) => {
     setToken(public_token);

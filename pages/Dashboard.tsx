@@ -15,7 +15,7 @@ const fetchKeyFigures = (url: string, period: string) =>
 
 const Dashboard = () => {
   const [period, setPeriod] = useState("3 months");
-  const { userInfo } = useContext(Context);
+  const { userInfo, loadingAccessToken } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
 
   const { data: keyFigures } = useSWR<KeyFigures>(
@@ -25,6 +25,7 @@ const Dashboard = () => {
 
   console.log(keyFigures);
   if (!keyFigures) return <LoadingPage />;
+  // if (loadingAccessToken) return <LoadingPage />; //Adding a bank
   const figures = Object.values(keyFigures)[0];
   return (
     <Layout>

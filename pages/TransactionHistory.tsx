@@ -17,7 +17,7 @@ const fetchDBTransactions = (url: string, period: string) =>
 const TransactionHistory = () => {
   const [openModal, setOpenModal] = useState(false);
   const [period, setPeriod] = useState("3 months");
-  const { userInfo } = useContext(Context);
+  const { userInfo, loadingAccessToken } = useContext(Context);
   const userId = userInfo.currentSession?.user.id;
   const { data: transactions, mutate } = useSWR<DBTransactions>(
     [`/api/transactions/${userId}`, period],
@@ -30,6 +30,7 @@ const TransactionHistory = () => {
   );
 
   if (!transactions) return <LoadingPage />;
+  // if (loadingAccessToken) return <LoadingPage />; //Adding a bank
   return (
     <Layout>
       <div>

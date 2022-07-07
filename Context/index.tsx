@@ -15,6 +15,7 @@ interface QuickstartState {
     error_type: string;
   };
   userInfo: any; //TODO:(token session and everything else)
+  loadingAccessToken: boolean
 }
 
 const initialState: QuickstartState = {
@@ -32,6 +33,7 @@ const initialState: QuickstartState = {
     error_message: "",
   },
   userInfo: {},
+  loadingAccessToken: false
 };
 
 type QuickstartAction = {

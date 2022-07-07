@@ -37,7 +37,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { dispatch, userInfo } = useContext(Context);
+  const { dispatch, userInfo, loadingAccessToken} = useContext(Context);
   const router = useRouter();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || " ",
@@ -53,7 +53,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       const userId = userAuth?.currentSession.user.id;
       const dbUser = await axios.get(`/api/user/${userId}`);
       const accessToken = dbUser.data.user.accessToken;
-      if (!accessToken) {
+      if (!accessToken && !loadingAccessToken) {
         router.push("/AddingABank");
       }
     }
