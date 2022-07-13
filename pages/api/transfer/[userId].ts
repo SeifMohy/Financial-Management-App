@@ -22,7 +22,7 @@ export default async function handler(
     const transaction = req.body;
     console.log(userId);
     console.log(transaction);
-    if (Object.values(userId)[0].length < 10) {
+    if (Object.values(userId).length > 2) {
       console.log("loading");
     } else {
       const senderId = Object.values(userId)[0];

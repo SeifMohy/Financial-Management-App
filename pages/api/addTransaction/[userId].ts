@@ -2,7 +2,7 @@ import { Transaction } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../prismaClient";
 import { checkAmountType } from "../../../Utils";
-import moment from "moment"
+import moment from "moment";
 
 prisma;
 
@@ -23,7 +23,7 @@ export default async function handler(
     const transaction = req.body;
     console.log(userId);
     console.log(transaction);
-    if (Object.values(userId)[0].length < 10) {
+    if (Object.values(userId).length > 2) {
       console.log("loading");
     } else {
       const id = Object.values(userId)[0];
@@ -32,9 +32,8 @@ export default async function handler(
       });
       const addTransaction = await prisma.transaction.create({
         data: {
-          date: 
-          // transaction.date.split("/").reverse().join("-"),
-          moment(transaction.date).format("YYYY-MM-DD"),
+          date: transaction.date.split("/").reverse().join("-"),
+          // moment(transaction.date).format("YYYY-MM-DD"),
           amount: checkAmountType(transaction, category),
           userId: id as string,
           description: transaction.description,
