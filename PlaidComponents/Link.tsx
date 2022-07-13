@@ -41,9 +41,7 @@ const Link = () => {
         loadingAccessToken: true
       },
     });
-
     router.push("/Dashboard");
-
   };
   const onSuccess = React.useCallback((public_token: string) => {
     setToken(public_token);
